@@ -1,4 +1,4 @@
-# Phase 9 SOP — Mobilome Detection
+# Phase 9 SOP: Mobilome Detection
 
 **Sample:** SRR15090802 (Wahida et al. gut virome, VLP-enriched healthy child)
 **Input:** 4 MetaBAT2 bins (`pipeline_run/07_mags/virome/metabat2/bin.{1,2,3,4}.fa`)
@@ -69,10 +69,10 @@ mkdir -p pipeline_run/12_mobilome/virome/{plasmids,isescan,integrons,mobileog}
 
 ---
 
-## Section 3: Plasmid Detection (geNomad — reuse from Phase 7)
+## Section 3: Plasmid Detection (geNomad, reuse from Phase 7)
 
 geNomad was run in Phase 7 on all 20,547 clean contigs. The plasmid summary is directly
-reused — no additional computation required.
+reused; no additional computation required.
 
 ```bash
 cp pipeline_run/08_viral_contigs/virome/genomad/clean_contigs_summary/clean_contigs_plasmid_summary.tsv \
@@ -94,7 +94,7 @@ cp pipeline_run/08_viral_contigs/virome/genomad/clean_contigs_summary/clean_cont
 Notable contigs with conjugation machinery:
 - metaspades_392 (4,429 bp, MOBV)
 - megahit_1934 (3,472 bp, MOBP1)
-- metaspades_103 (9,069 bp, F_traW/U/V/F/H/G — F-type conjugation)
+- metaspades_103 (9,069 bp, F_traW/U/V/F/H/G; F-type conjugation)
 - metaspades_338 (4,838 bp, F_traV/K/E/L)
 
 **Interpretation:** 39 plasmids carry MOB relaxases or F-type tra genes suggesting
@@ -146,10 +146,10 @@ IS family breakdown:
 
 Notable observations:
 - IS elements found on metaviralspades contigs (metaviralspades_16, metaviralspades_46)
-  — possibly bacterial DNA co-assembled with viral sequences
-- IS91 in bin.2 (metaspades_1370): 81% of the 2,003 bp contig is transposase
-  — likely a contig composed almost entirely of a transposase fragment
-- IS630 belongs to the Tc1/mariner superfamily — active in many organisms
+  (possibly bacterial DNA co-assembled with viral sequences)
+- IS91 in bin.2 (metaspades_1370): 81% of the 2,003 bp contig is transposase,
+  likely a contig composed almost entirely of a transposase fragment
+- IS630 belongs to the Tc1/mariner superfamily; active in many organisms
 
 ---
 
@@ -194,8 +194,8 @@ Functional annotation is disabled by default (must explicitly pass `--func-annot
 
 Integron categories:
 - **Complete integron**: has integrase (IntI) + attI site + ≥1 attC site
-- **CALIN**: Class 1 integron fragment — attC sites without adjacent integrase
-- **In0**: degenerate integron — integrase without attC sites
+- **CALIN**: Class 1 integron fragment; attC sites without adjacent integrase
+- **In0**: degenerate integron; integrase without attC sites
 
 ---
 
@@ -284,7 +284,7 @@ blastp \
 ```
 
 For this VLP virome test dataset: no bacteria known to carry cancer-associated MGEs are
-present — this cross-reference would be performed on TCGA/Hartwig tumor WGS MAGs.
+present; this cross-reference would be performed on TCGA/Hartwig tumor WGS MAGs.
 
 ---
 
@@ -296,7 +296,7 @@ present — this cross-reference would be performed on TCGA/Hartwig tumor WGS MA
 
 2. **ISEScan 0-result behaviour:** When no IS elements are found, ISEScan writes no output
    files (only intermediate proteome/ and hmm/ dirs remain). Do not mistake absence of .sum
-   file for a crashed run — check the log for "ISEScan ends at" message.
+   file for a crashed run; check the log for "ISEScan ends at" message.
 
 3. **IntegronFinder `--no-func-annot` does not exist:** The flag in the plan template is wrong.
    Functional annotation is OFF by default; `--func-annot` enables it. Use `--linear` for

@@ -1,8 +1,8 @@
-# Phase 6B SOP — Bacterial MAG Annotation (Bakta)
+# Phase 6B SOP: Bacterial MAG Annotation (Bakta)
 ## CLAUDE Pipeline: Cancer-Linked Analysis of Underlying DNA Elements
 
 **Date created:** 2026-03-02
-**Phase:** 6B of 13 (new phase — inserted between Phase 6 and Phase 7)
+**Phase:** 6B of 13 (new phase; inserted between Phase 6 and Phase 7)
 **SOP version:** 1.0
 
 ---
@@ -19,7 +19,7 @@ Phase 6B takes the bacterial MAGs produced by Phase 6 (MetaBAT2/SemiBin2 binning
 
 **Why this phase is essential:**
 
-DefenseFinder and PADLOC (Phase 11) require annotated protein sequences as input — they cannot run on raw FASTA assemblies. The Acinetobacter pipeline consumed pre-annotated RefSeq genomes. MAGs from metagenomes have no annotations. Bakta bridges this gap.
+DefenseFinder and PADLOC (Phase 11) require annotated protein sequences as input; they cannot run on raw FASTA assemblies. The Acinetobacter pipeline consumed pre-annotated RefSeq genomes. MAGs from metagenomes have no annotations. Bakta bridges this gap.
 
 Bakta also provides virulence factor and AMR gene detection that no other phase in the pipeline currently performs. For CRC metagenomes, this means automated identification of FadA (F. nucleatum), BFT/fragilysin (B. fragilis), colibactin biosynthesis genes (pks island in E. coli), and other cancer-relevant virulence determinants.
 
@@ -28,9 +28,9 @@ Additionally, Bakta's protein predictions (Pyrodigal-based + sORF detection) rep
 **Rationale for placement between Phase 6 and Phase 7:**
 
 Phase 7 (viral identification) operates on the full clean contig set, not on MAG bins. Phase 6B operates specifically on MAG bins. These are independent operations that can run in parallel. However, Phase 6B's output is consumed by:
-- Phase 9 (mobilome detection — uses Bakta FAA instead of Prodigal)
-- Phase 11 (defence system profiling — requires Bakta GFF3/FAA)
-- Phase 10 (integration — merges virulence/AMR/defence data)
+- Phase 9 (mobilome detection; uses Bakta FAA instead of Prodigal)
+- Phase 11 (defence system profiling; requires Bakta GFF3/FAA)
+- Phase 10 (integration; merges virulence/AMR/defence data)
 
 ---
 
@@ -57,7 +57,7 @@ bakta --version
 
 Bakta requires a mandatory annotation database. Two options:
 
-**Full database (~30 GB compressed, ~84 GB unpacked) — RECOMMENDED:**
+**Full database (~30 GB compressed, ~84 GB unpacked, recommended):**
 ```bash
 # Create database directory
 mkdir -p $PROJECT_DIR/databases/bakta
@@ -74,7 +74,7 @@ bakta_db download --output $PROJECT_DIR/databases/bakta --type full
 # - Pfam-A domain models
 ```
 
-**Light database (~1.5 GB compressed, ~3.5 GB unpacked) — FALLBACK:**
+**Light database (~1.5 GB compressed, ~3.5 GB unpacked, fallback option):**
 ```bash
 # Use if storage is severely constrained
 bakta_db download --output $PROJECT_DIR/databases/bakta --type light
@@ -108,9 +108,9 @@ export BAKTA_DB=$PROJECT_DIR/databases/bakta/db
 
 **Which bins to annotate:**
 
-Annotate ALL bins from Phase 6 regardless of CheckM2 quality scores. CheckM2 MIMAG metrics (completeness, contamination) are calibrated for bacteria. For CRC stool metagenomes, even medium-quality MAGs (≥50% completeness, <10% contamination) can contain biologically significant contigs with virulence factors or defence systems. High-quality bins (≥90% completeness, <5% contamination) will produce the most reliable annotations, but we do not discard lower-quality bins at this stage — we flag them in Phase 10 integration.
+Annotate ALL bins from Phase 6 regardless of CheckM2 quality scores. CheckM2 MIMAG metrics (completeness, contamination) are calibrated for bacteria. For CRC stool metagenomes, even medium-quality MAGs (≥50% completeness, <10% contamination) can contain biologically significant contigs with virulence factors or defence systems. High-quality bins (≥90% completeness, <5% contamination) will produce the most reliable annotations, but we do not discard lower-quality bins at this stage; we flag them in Phase 10 integration.
 
-**Exception:** Bins that Phase 6 QC identifies as purely viral (phage-dominated bins from VLP data) should still be annotated — Bakta will produce minimal bacterial gene calls, which is itself informative and confirms the bin's viral nature.
+**Exception:** Bins that Phase 6 QC identifies as purely viral (phage-dominated bins from VLP data) should still be annotated. Bakta will produce minimal bacterial gene calls, which is itself informative and confirms the bin's viral nature.
 
 ---
 
@@ -155,7 +155,7 @@ done
 
 | Parameter | Value | Rationale |
 |-----------|-------|-----------|
-| `--meta` | (flag) | Metagenome mode — uses MetaProdigal for CDS prediction, optimised for fragmented/mixed assemblies |
+| `--meta` | (flag) | Metagenome mode: uses MetaProdigal for CDS prediction, optimised for fragmented/mixed assemblies |
 | `--threads 4` | 4 | Balance between speed and resource usage; adjust based on system |
 | `--min-contig-length 200` | 200 bp | Include short contigs that may carry sORFs or partial genes |
 | `--verbose` | (flag) | Detailed logging for debugging |
@@ -243,7 +243,7 @@ done
 
 ---
 
-## 6. QC Checkpoint — QC-6B
+## 6. QC Checkpoint: QC-6B
 
 ```bash
 SAMPLE="CRC_sample"
@@ -315,14 +315,14 @@ cat ${QC_FILE}
 
 | Metric | PASS | WARN | FAIL |
 |--------|------|------|------|
-| Bins annotated | ≥1 | — | 0 |
+| Bins annotated | ≥1 | n/a | 0 |
 | CDS per bin (stool metagenome) | >100 | 10–100 | <10 |
 | % hypothetical proteins | <60% | 60–80% | >80% |
-| GFF3 + FAA files present | All bins | — | Any missing |
+| GFF3 + FAA files present | All bins | n/a | Any missing |
 
 **Interpreting high hypothetical rates:**
 
-For well-studied organisms (E. coli, B. fragilis), expect <40% hypothetical. For novel/uncultured MAGs, 50–70% is normal. >80% suggests the MAG may be from an organism poorly represented in databases — flag but do not discard.
+For well-studied organisms (E. coli, B. fragilis), expect <40% hypothetical. For novel/uncultured MAGs, 50–70% is normal. >80% suggests the MAG may be from an organism poorly represented in databases; flag but do not discard.
 
 ---
 
@@ -330,11 +330,11 @@ For well-studied organisms (E. coli, B. fragilis), expect <40% hypothetical. For
 
 1. **`--meta` flag is critical for MAGs.** Without it, Bakta uses standard Prodigal mode which assumes a single complete genome. MetaProdigal (enabled by `--meta`) handles mixed/fragmented assemblies correctly.
 
-2. **Bakta requires its own conda environment.** It depends on tRNAscan-SE, Aragorn, Infernal, Pyrodigal, DIAMOND, BLAST+, hmmer, and AMRFinderPlus — version conflicts with `claude_pipeline` are likely.
+2. **Bakta requires its own conda environment.** It depends on tRNAscan-SE, Aragorn, Infernal, Pyrodigal, DIAMOND, BLAST+, hmmer, and AMRFinderPlus; version conflicts with `claude_pipeline` are likely.
 
 3. **AMRFinderPlus database must be initialised.** If Bakta fails with AMRFinder errors, run `amrfinder_update` manually (see Section 2.2).
 
-4. **Database path must be passed explicitly** unless `BAKTA_DB` environment variable is set. `conda run` does not preserve environment variables from the outer shell — either set the variable inside the `conda run` command or use `--db` flag.
+4. **Database path must be passed explicitly** unless `BAKTA_DB` environment variable is set. `conda run` does not preserve environment variables from the outer shell; either set the variable inside the `conda run` command or use `--db` flag.
 
 5. **Large MAGs (>10 MB) may indicate high contamination.** A 10 MB "bacterial" MAG likely contains contigs from multiple organisms. Bakta will annotate everything, but defence system analysis in Phase 11 should interpret results from such bins cautiously.
 

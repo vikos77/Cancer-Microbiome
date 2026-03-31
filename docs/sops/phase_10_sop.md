@@ -1,4 +1,4 @@
-# Phase 10 SOP — Pipeline Integration
+# Phase 10 SOP: Pipeline Integration
 
 **Sample:** SRR15090802 (Wahida et al. gut virome, VLP-enriched healthy child)
 **Input:** All Phase 1–9 outputs
@@ -11,10 +11,10 @@
 
 Phase 10 integrates all upstream results into three deliverables:
 
-1. **`master_viral_table.tsv`** — per-viral-contig summary (119 rows × 43 columns)
-2. **`qc_dashboard.txt`** — aggregated pass/fail status for all QC1–QC12 checkpoints
-3. **`pipeline_summary.md`** — biological narrative tying all findings together
-4. **`mobilome_summary.tsv`** — IS elements + top plasmid contigs
+1. **`master_viral_table.tsv`**: per-viral-contig summary (119 rows × 43 columns)
+2. **`qc_dashboard.txt`**: aggregated pass/fail status for all QC1–QC12 checkpoints
+3. **`pipeline_summary.md`**: biological narrative tying all findings together
+4. **`mobilome_summary.tsv`**: IS elements + top plasmid contigs
 
 All outputs go to `pipeline_run/13_integration/virome/`.
 
@@ -108,7 +108,7 @@ descending within each tier.
 ### Status extraction logic
 The script scans each QC file for a line containing `STATUS` + one of
 `PASS / FAIL / PARTIAL / COMPLETE / WARN`. Two legacy files (QC1, QC2) use
-a box-drawing format without an explicit STATUS line — these are handled by
+a box-drawing format without an explicit STATUS line; these are handled by
 a hardcoded fallback dict (`_IMPLICIT_STATUS`).
 
 ### QC files scanned
@@ -137,7 +137,7 @@ plus the top 20 plasmid contigs by geNomad score.
 Columns: `bin, element_type, contig_id, family, n_copies, pct_genome, bp_covered, contig_len, notes`
 
 **Note on ISEScan .sum paths:** ISEScan writes output under `isescan/<bin>/metabat2/<bin>.fa.sum`
-(it mirrors the input directory structure). bin.3 has 0 IS elements — no .sum file is written.
+(it mirrors the input directory structure). bin.3 has 0 IS elements; no .sum file is written.
 
 ---
 
@@ -159,7 +159,7 @@ Columns: `bin, element_type, contig_id, family, n_copies, pct_genome, bp_covered
 
 ## Section 7: Pending Items
 
-Three tools are pending server/database availability — none block QC-13 PASS:
+Three tools are pending server/database availability; none block QC-13 PASS:
 
 ### PHASTEST (cluster down on 2026-02-26)
 ```bash
@@ -233,7 +233,7 @@ pipeline_run/
    `/usr/bin/python3` (Python 3.12, system pandas has NumPy 2.x conflict).
    Fix: always use explicit path `bin/python3.10` from conda env.
 
-2. **pharokka_cds_functions.tsv format**: Three columns — `Description, Count, contig`
+2. **pharokka_cds_functions.tsv format**: Three columns: `Description, Count, contig`
    (not the standard two-column wide format). The script pivots this table manually
    (defaultdict pivot, not pandas) to avoid the system Python issue.
 
@@ -246,7 +246,7 @@ pipeline_run/
 
 5. **geNomad virus_summary has 269 rows, not 119**: The geNomad summary covers all
    geNomad-called viral contigs (before 2-tool consensus filtering). The 119 consensus
-   contigs are a subset — 21 consensus contigs are DVF-only (not in geNomad summary),
+   contigs are a subset; 21 consensus contigs are DVF-only (not in geNomad summary),
    so `genomad_taxonomy` will be NA for those rows.
 
 ---

@@ -1,10 +1,10 @@
-# Phase 2 SOP — Host Depletion (3-Pass)
+# Phase 2 SOP: Host Depletion (3-Pass)
 ## CLAUDE Pipeline: Cancer-Linked Analysis of Underlying DNA Elements
 
 **Date executed:** 2026-02-24
 **Executed by:** Vicky
 **Pipeline version:** 0.1.0-dev
-**Status:** COMPLETE — QC-2 PASS
+**Status:** COMPLETE (QC-2 PASS)
 
 ---
 
@@ -13,8 +13,8 @@
 1. [Objective](#1-objective)
 2. [Environment & Software](#2-environment--software)
 3. [Database Setup](#3-database-setup)
-4. [3-Pass Strategy — Rationale](#4-3-pass-strategy--rationale)
-5. [Execution — Step by Step](#5-execution--step-by-step)
+4. [3-Pass Strategy: Rationale](#4-3-pass-strategy-rationale)
+5. [Execution: Step by Step](#5-execution-step-by-step)
 6. [Problems Encountered & Troubleshooting](#6-problems-encountered--troubleshooting)
 7. [QC-2 Results](#7-qc-2-results)
 8. [Key Biological Reasoning](#8-key-biological-reasoning)
@@ -44,7 +44,7 @@ driver of the TCGA cancer microbiome controversy (Gihawi et al. 2023).
 **Critical for phage work:** We use the phage-masked Hostile index
 (`human-t2t-hla.rs-viral-202401_ml-phage-202401`), which masks human genomic
 regions with homology to known viral and phage sequences. Without masking, legitimate
-phage reads matching repetitive human elements would be removed — eliminating the
+phage reads matching repetitive human elements would be removed, eliminating the
 very signal we are trying to find.
 
 ---
@@ -80,9 +80,9 @@ mamba install -n claude_pipeline -c bioconda -c conda-forge hostile -y
 
 | Tool | Version | Env | Installed via | Used for |
 |------|---------|-----|--------------|---------|
-| hostile | 2.0.2 | claude_pipeline | mamba (bioconda) | Pass 1 — primary human depletion |
-| bowtie2 | 2.5.4 | claude_pipeline | mamba (bioconda) | Pass 2 — secondary sweep |
-| kraken2 | 2.1.3 | claude_pipeline | mamba (bioconda) | Pass 3 — re-classification check |
+| hostile | 2.0.2 | claude_pipeline | mamba (bioconda) | Pass 1: primary human depletion |
+| bowtie2 | 2.5.4 | claude_pipeline | mamba (bioconda) | Pass 2: secondary sweep |
+| kraken2 | 2.1.3 | claude_pipeline | mamba (bioconda) | Pass 3: re-classification check |
 | Python 3.10 | 3.10.x | claude_pipeline | mamba (base) | extract_nonhuman_kraken.py |
 | samtools | 1.20 | claude_pipeline | mamba (bioconda) | Read counting |
 
@@ -99,7 +99,7 @@ mamba install -n claude_pipeline -c bioconda -c conda-forge hostile -y
 
 ## 3. Database Setup
 
-### 3.1 Hostile Index — human-t2t-hla.rs-viral-202401_ml-phage-202401
+### 3.1 Hostile Index: human-t2t-hla.rs-viral-202401_ml-phage-202401
 
 **Why this index over the originally planned human-t2t-hla-argos985:**
 
@@ -129,7 +129,7 @@ mamba run -n claude_pipeline hostile index fetch \
     --bowtie2
 ```
 
-**Storage:** Hostile 2.x caches indexes at `~/.local/share/hostile/` — there is NO
+**Storage:** Hostile 2.x caches indexes at `~/.local/share/hostile/`. There is NO
 `--destination` flag in v2.x (removed from v1.x API). We symlinked the cache into
 our database directory for reference:
 
@@ -152,7 +152,7 @@ ln -sf ~/.local/share/hostile ${CLAUDE_DB}/hostile/cache
 **Checksum verified** by Hostile during download:
 `d1d5386e65f2e9006c09cfd3f983499e07e968ce3a6332b5d546bbd09088af3e`
 
-### 3.2 Kraken2 Database — k2_standard_08gb (2024-09-04)
+### 3.2 Kraken2 Database: k2_standard_08gb (2024-09-04)
 
 **Why the 8 GB standard database:**
 
@@ -199,7 +199,7 @@ mamba run -n claude_pipeline kraken2-inspect --db ${CLAUDE_DB}/kraken2/ | head -
 # → k = 35, l = 31, 50,084 taxonomy nodes, 1.4B table entries
 ```
 
-### 3.3 HPRC Pangenome — NOT downloaded (Pass 2 proxy used)
+### 3.3 HPRC Pangenome: NOT downloaded (Pass 2 proxy used)
 
 The HPRC pangenome Bowtie2 index for Pass 2 was not downloaded. It requires
 ~100 GB of storage and significant build time. For this test run, Pass 2 was
@@ -214,40 +214,40 @@ mode) as a proxy.
 # Then: bowtie2-build --large-index *.fa hprc_pangenome
 ```
 
-Pass 2 with the T2T proxy removed 0% of reads (expected — Hostile already cleaned
+Pass 2 with the T2T proxy removed 0% of reads (expected, since Hostile already cleaned
 everything alignable to T2T). The HPRC pass would provide additional benefit for
 samples from African, East Asian, or admixed populations not well represented by
 the single T2T-CHM13 haplotype.
 
 ---
 
-## 4. 3-Pass Strategy — Rationale
+## 4. 3-Pass Strategy: Rationale
 
 ### Why three passes instead of one?
 
 Each tool has a different sensitivity/specificity profile and catches different
 categories of residual human reads:
 
-**Pass 1 — Hostile:** Uses Bowtie2 with moderate sensitivity against T2T-CHM13.
-T2T-CHM13 is a single complete human haplotype with no assembly gaps — superior
+**Pass 1 (Hostile):** Uses Bowtie2 with moderate sensitivity against T2T-CHM13.
+T2T-CHM13 is a single complete human haplotype with no assembly gaps, making it superior
 to GRCh38 which has 875 gaps in repetitive regions. The phage masking makes it
 safe for our use case. However, T2T-CHM13 represents ONE haploid genome from ONE
-individual (a hydatidiform mole — nearly homozygous European ancestry). Population-
+individual (a hydatidiform mole, nearly homozygous European ancestry). Population-
 specific variants in African, East Asian, or admixed individuals may not align.
 
-**Pass 2 — Bowtie2/HPRC pangenome:** The HPRC pangenome contains 98 haplotype
+**Pass 2 (Bowtie2/HPRC pangenome):** The HPRC pangenome contains 98 haplotype
 assemblies from 47 diverse individuals. Reads from population-specific variants
 that escaped T2T-CHM13 alignment will be caught here. Forbes et al. (2025, Cell
 Reports Methods) demonstrated that custom pangenome databases provide the best
 balance of accuracy and efficiency for clinical metagenomics. For our test data
-(NA12878, European ancestry), this pass correctly removed 0% — all human reads
+(NA12878, European ancestry), this pass correctly removed 0%, as all human reads
 were already captured by T2T-CHM13.
 
-**Pass 3 — Kraken2:** K-mer based classification rather than alignment. Catches:
+**Pass 3 (Kraken2):** K-mer based classification rather than alignment. Catches:
 - Short reads (<50 bp) that don't align well but contain diagnostic human k-mers
 - Reads from highly divergent regions that Bowtie2 misses at default sensitivity
 - Cross-species reads (e.g., reads from Epstein-Barr virus integrated in human
-  genome — these should NOT be removed, but classification helps flag them)
+  genome; these should NOT be removed, but classification helps flag them)
 
 The 3-pass cascade is conservative by design: each pass is a net over reads that
 slipped through the previous mesh. For tumor WGS, where false positives are
@@ -255,11 +255,11 @@ catastrophic, this over-engineering is intentional.
 
 ---
 
-## 5. Execution — Step by Step
+## 5. Execution: Step by Step
 
 All commands run as: `mamba run -n claude_pipeline <command>`
 
-### Step 1 — Pass 1: Hostile depletion
+### Step 1: Pass 1 (Hostile depletion)
 
 ```bash
 SAMPLE="NA12878_chr22"
@@ -307,7 +307,7 @@ mv ${PROJECT_DIR}/02_host_depleted/pass1/${SAMPLE}_R2.clean_2.fastq.gz \
 
 **Result:** 1,534 pairs in → 398 pairs out (796 reads). 74% removed.
 
-### Step 2 — Pass 2: Bowtie2 sweep
+### Step 2: Pass 2 (Bowtie2 sweep)
 
 ```bash
 # Production command (with HPRC pangenome):
@@ -334,7 +334,7 @@ bowtie2 -x ${HOSTILE_IDX} \
 **Key flags:**
 - `--un-conc-gz` = write concordantly unaligned pairs (= non-human pairs) to output
 - `-S /dev/null` = discard the SAM alignment output (we only want the un-aligned reads)
-- `--sensitive` = `-D 15 -R 2 -N 0 -L 22 -i S,1,1.15` — more thorough than `--fast`
+- `--sensitive` = `-D 15 -R 2 -N 0 -L 22 -i S,1,1.15`; more thorough than `--fast`
   but less risky than `--very-sensitive-local` which can cause 42× more false positives
   (Forbes et al. 2025)
 
@@ -350,7 +350,7 @@ bowtie2 -x ${HOSTILE_IDX} \
 
 **Result:** 398 pairs in → 398 pairs out. 0% removed (expected for test data).
 
-### Step 3 — Pass 3: Kraken2 human re-check
+### Step 3: Pass 3 (Kraken2 human re-check)
 
 ```bash
 mamba run -n claude_pipeline kraken2 \
@@ -371,7 +371,7 @@ mamba run -n claude_pipeline kraken2 \
 - `--confidence 0.1` = require ≥10% of k-mers to agree on a taxon before classifying.
   This reduces false positive classifications while maintaining sensitivity. Without
   this, Kraken2 can classify reads based on a single matching k-mer.
-- `--output` = per-read classification (C/U + taxid per read — input to helper script)
+- `--output` = per-read classification (C/U + taxid per read; input to helper script)
 - `--report` = summary report with clade-level read counts (human-readable QC)
 
 **Kraken2 classification summary:**
@@ -381,14 +381,14 @@ mamba run -n claude_pipeline kraken2 \
   392 sequences unclassified (98.49%)
 ```
 
-**Kraken2 report — top hits (truncated):**
+**Kraken2 report: top hits (truncated):**
 ```
 98.49%  392  392  U  0       unclassified
  1.26%    5    5  S  9606    Homo sapiens
  0.25%    1    1  S  ...     [other]
 ```
 
-### Step 4 — Extract non-human reads (helper script)
+### Step 4: Extract non-human reads (helper script)
 
 The `extract_nonhuman_kraken.py` script was written during this phase and saved to
 `pipeline_run/scripts/`. It parses the Kraken2 per-read output file and filters
@@ -425,7 +425,7 @@ simultaneously using gzip, so memory usage is O(classified reads), not O(total).
 
 ## 6. Problems Encountered & Troubleshooting
 
-### Problem 1 — pip install of hostile blocked by system Python lock (Ubuntu 24.04)
+### Problem 1: pip install of hostile blocked by system Python lock (Ubuntu 24.04)
 
 **What happened:** Attempting `pip install hostile` in both base environment and
 `conda run -n bioinfo pip install hostile` returned:
@@ -455,7 +455,7 @@ $HOME/miniconda3/envs/claude_pipeline/bin/pip install <package>
 
 ---
 
-### Problem 2 — bioinfo environment incompatible with hostile (Python 3.6 vs ≥3.10)
+### Problem 2: bioinfo environment incompatible with hostile (Python 3.6 vs ≥3.10)
 
 **What happened:** Attempting `mamba install -n bioinfo hostile` returned:
 ```
@@ -469,7 +469,7 @@ which is now end-of-life. Hostile 2.x requires Python ≥3.10 for f-strings, typ
 hints, and newer stdlib features.
 
 **Resolution:** Created the `claude_pipeline` environment from scratch with Python
-3.10, as specified in `01_SETUP.md`. This was the right call — running the CLAUDE
+3.10, as specified in `01_SETUP.md`. This was the right call; running the CLAUDE
 pipeline in a dedicated clean environment prevents future dependency conflicts.
 
 **Implication:** Phase 1 was run with `conda run -n bioinfo samtools` but from Phase
@@ -480,7 +480,7 @@ identically.
 
 ---
 
-### Problem 3 — hostile 2.x API breaking changes from 01_SETUP.md
+### Problem 3: hostile 2.x API breaking changes from 01_SETUP.md
 
 **What happened:** Two commands from `01_SETUP.md` failed immediately:
 
@@ -506,7 +506,7 @@ hostile clean ... -o /path/to/output
 
 **(c) Index cache location changed:**
 - v1.x: `--destination` flag allowed custom paths
-- v2.x: Always caches to `~/.local/share/hostile/` — no override available
+- v2.x: Always caches to `~/.local/share/hostile/`; no override available
 
 **Resolution:** Updated `01_SETUP.md` with correct v2.x commands. The `03_HOST_DEPLETION.md`
 documentation also needs updating before Phase 2 is run in production.
@@ -519,7 +519,7 @@ Added a rename step after Pass 1 to match our pipeline convention.
 
 ---
 
-### Problem 4 — `tee -l` is a macOS flag, invalid on Linux
+### Problem 4: `tee -l` is a macOS flag, invalid on Linux
 
 **What happened:** The first `hostile clean` attempt failed immediately:
 ```
@@ -544,13 +544,13 @@ flags. When in doubt, test with `--help` on the actual system.
 
 ---
 
-### Problem 5 — Pass 2 removed 0% reads (initially appeared to be a bug)
+### Problem 5: Pass 2 removed 0% reads (initially appeared to be a bug)
 
 **What happened:** After running Pass 2 (Bowtie2 against T2T proxy), 0% of reads
 were removed, which looked like the step had failed or done nothing useful.
 
 **Root cause:** This is the **expected result** for our test data. Our input reads
-are chimeric pairs from a chr22 alignment — when Hostile (Pass 1) removes a read
+are chimeric pairs from a chr22 alignment; when Hostile (Pass 1) removes a read
 pair, it removes BOTH the human mate AND the non-human mate together (because they
 are pairs). The 398 surviving pairs are ones where the unmapped mate had no human
 sequence AND the mapped mate didn't align to T2T-CHM13.
@@ -590,7 +590,7 @@ Residual human (Kraken Pass3): 1.26%
 | Pass | Tool | In (pairs) | Out (pairs) | Removed | Interpretation |
 |------|------|-----------|------------|---------|----------------|
 | 1 | Hostile | 1,534 | 398 | 74% | Human mates of chimeric pairs stripped correctly |
-| 2 | Bowtie2 | 398 | 398 | 0% | Expected — T2T proxy; HPRC would differ in production |
+| 2 | Bowtie2 | 398 | 398 | 0% | Expected (T2T proxy); HPRC would differ in production |
 | 3 | Kraken2 | 398 | 393 | 2% | 5 additional human reads caught by k-mer method |
 
 ### QC-2 thresholds assessment
@@ -599,15 +599,15 @@ Residual human (Kraken Pass3): 1.26%
 |--------|-------|------|------|------|--------|
 | Residual human after all passes | 1.26% | <2% | 2–5% | >5% | **PASS** |
 | Total depletion | 74% | >60% | 40–60% | <40% | **PASS** |
-| Pass 1 removal | 75% | 60–90% | — | <50% | **PASS** |
-| Pass 2 removal | 0% | — | — | — | **NOTE** (proxy used) |
+| Pass 1 removal | 75% | 60–90% | n/a | <50% | **PASS** |
+| Pass 2 removal | 0% | n/a | n/a | n/a | **NOTE** (proxy used) |
 | Pass 3 removal | 2% | <5% | 5–10% | >10% | **PASS** |
 
 **Overall QC-2 verdict: PASS**
 
 The residual human fraction of 1.26% is within the acceptable range (<2%). In a
 full TCGA BAM with ~500M total reads, an equivalent residual human fraction would
-represent ~1.5M reads — still acceptable for downstream assembly since they will
+represent ~1.5M reads, still acceptable for downstream assembly since they will
 be further diluted and won't form coherent contigs.
 
 **QC-2 checkpoint file:** `pipeline_run/qc_checkpoints/QC2_NA12878_chr22.txt`
@@ -623,13 +623,13 @@ Our test input (1,534 chimeric pairs) consists of:
 - 767 pairs where R2 is unmapped (true microbial) + R1 is mapped to human chr22
 
 Hostile processes paired reads jointly. When R2 aligns to human, the entire pair
-is flagged as human — including R1 even though R1 itself is non-human. This is
+is flagged as human, including R1 even though R1 itself is non-human. This is
 the correct behavior: we want to be conservative. If a read's pair-mate is
 confidently human, there is a risk that the read itself is also human (chimeric
 fragments at insertion sites, vector contamination, etc.).
 
 The 398 surviving pairs (26%) are the ones where NEITHER mate aligned to T2T-CHM13.
-These are the true microbial candidates — sequences with no human homology.
+These are the true microbial candidates: sequences with no human homology.
 
 ### Why does Kraken2 catch reads that Hostile missed?
 
@@ -687,16 +687,16 @@ hostile 2.x syntax and the phage-masked index choice.
 
 | # | Lesson | Impact |
 |---|--------|--------|
-| 1 | Tool versions matter — hostile 2.x is a near-complete API rewrite from 1.x | High — all SOP commands from pre-2.x docs need verification |
-| 2 | Ubuntu 24.04 PEP 668 blocks `pip install` — always use mamba for this project | Medium — operational gotcha on modern Ubuntu |
-| 3 | `bioinfo` env is Python 3.6 — incompatible with modern tools; `claude_pipeline` is our working env from here on | High — all future phases use `claude_pipeline` |
-| 4 | The phage-masked index is not optional for this pipeline — it must be the default | High — without it, phage reads are silently lost |
-| 5 | Hostile caches indexes at a fixed path (~/.local/share/hostile) — symlink into project DB dir for clarity | Low — organizational |
-| 6 | Pass 2 = 0% removal on chimeric test data is expected, not a bug | Medium — would alarm any analyst who didn't know the reasoning |
-| 7 | `extract_nonhuman_kraken.py` works on paired reads using base read name matching — must strip /1 /2 suffixes | Medium — incorrect stripping = missed human reads silently kept |
-| 8 | `tee -l` is macOS-only — use plain `tee` on Linux | Low — immediate error, easy fix |
-| 9 | Kraken2 `--confidence 0.1` is important — without it, too many false positives at k-mer level | High — affects Pass 3 specificity |
-| 10 | The Kraken2 8 GB pre-built DB is adequate for Pass 3 human re-check; no need to build from scratch for this purpose | Medium — saves significant build time |
+| 1 | Tool versions matter. hostile 2.x is a near-complete API rewrite from 1.x | High. All SOP commands from pre-2.x docs need verification |
+| 2 | Ubuntu 24.04 PEP 668 blocks `pip install`. Always use mamba for this project | Medium. Operational gotcha on modern Ubuntu |
+| 3 | `bioinfo` env is Python 3.6, incompatible with modern tools. `claude_pipeline` is our working env from here on | High. All future phases use `claude_pipeline` |
+| 4 | The phage-masked index is not optional for this pipeline; it must be the default | High. Without it, phage reads are silently lost |
+| 5 | Hostile caches indexes at a fixed path (~/.local/share/hostile). Symlink into project DB dir for clarity | Low. Organizational |
+| 6 | Pass 2 = 0% removal on chimeric test data is expected, not a bug | Medium. Would alarm any analyst who didn't know the reasoning |
+| 7 | `extract_nonhuman_kraken.py` works on paired reads using base read name matching; must strip /1 /2 suffixes | Medium. Incorrect stripping = missed human reads silently kept |
+| 8 | `tee -l` is macOS-only. Use plain `tee` on Linux | Low. Immediate error, easy fix |
+| 9 | Kraken2 `--confidence 0.1` is important. Without it, too many false positives at k-mer level | High. Affects Pass 3 specificity |
+| 10 | The Kraken2 8 GB pre-built DB is adequate for Pass 3 human re-check; no need to build from scratch for this purpose | Medium. Saves significant build time |
 
 ---
 
@@ -724,25 +724,25 @@ pipeline_run/
 ```
 
 **What carries forward to Phase 3:**
-- `NA12878_chr22_R1.clean.fastq.gz` and `_R2.clean.fastq.gz` — 393 read pairs,
+- `NA12878_chr22_R1.clean.fastq.gz` and `_R2.clean.fastq.gz`: 393 read pairs,
   verified <2% residual human content, ready for adapter trimming and QC
 
 ---
 
 ## 12. Next Step
 
-**Phase 3 — Read-Level QC & Filtering** (`04_READ_QC_PROFILING.md`)
+**Phase 3: Read-Level QC & Filtering** (`04_READ_QC_PROFILING.md`)
 
 The 393 surviving read pairs need:
-1. Adapter trimming (fastp — installed in `claude_pipeline`)
+1. Adapter trimming (fastp, installed in `claude_pipeline`)
 2. Quality filtering (Phred ≥20, length ≥60 bp)
 3. Low-complexity removal (entropy filter)
 4. PCR duplicate removal
 
 **Tools check for Phase 3:**
-- `fastp` v0.23.4 — installed in `claude_pipeline` ✓
-- `bbduk.sh` (BBMap) — **NOT installed** — needs `mamba install bbmap`
-- `fastqc` — **NOT installed** — needs `mamba install fastqc`
+- `fastp` v0.23.4: installed in `claude_pipeline` ✓
+- `bbduk.sh` (BBMap): **NOT installed**; needs `mamba install bbmap`
+- `fastqc`: **NOT installed**; needs `mamba install fastqc`
 
 These will be checked and installed before Phase 3 execution.
 

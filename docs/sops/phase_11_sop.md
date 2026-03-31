@@ -1,8 +1,8 @@
-# Phase 11 SOP — Bacterial Defence System Profiling
+# Phase 11 SOP: Bacterial Defence System Profiling
 ## CLAUDE Pipeline: Cancer-Linked Analysis of Underlying DNA Elements
 
 **Date created:** 2026-03-02
-**Phase:** 11 of 13 (new phase — inserted between Phase 10 integration draft and final integration)
+**Phase:** 11 of 13 (new phase; inserted between Phase 10 integration draft and final integration)
 **SOP version:** 1.0
 
 ---
@@ -167,7 +167,7 @@ done
 | `*_padloc.csv` | System-level summary (system, type, subtype) |
 | `*_padloc_genes.csv` | Gene-level detail |
 
-### 4.4 Run CRISPRCasFinder on Each MAG (Optional — Detailed Subtyping)
+### 4.4 Run CRISPRCasFinder on Each MAG (Optional: Detailed Subtyping)
 
 CRISPRCasFinder takes nucleotide FASTA as input:
 
@@ -198,9 +198,9 @@ done
 ```
 
 CRISPRCasFinder provides what DefenseFinder/PADLOC do not:
-- **Spacer sequences** — these can be BLASTed against Phase 7 viral contigs to find direct phage-host CRISPR targeting evidence
-- **Repeat consensus sequences** — for CRISPR array classification
-- **Cas protein subtyping** — detailed I-A, I-B, II-A, III-A classification
+- **Spacer sequences**: these can be BLASTed against Phase 7 viral contigs to find direct phage-host CRISPR targeting evidence
+- **Repeat consensus sequences**: for CRISPR array classification
+- **Cas protein subtyping**: detailed I-A, I-B, II-A, III-A classification
 
 ### 4.5 Consolidate Results
 
@@ -297,7 +297,7 @@ A spacer match to a viral contig means: "This bacterium has previously encounter
 
 ---
 
-## 6. QC Checkpoint — QC-14
+## 6. QC Checkpoint: QC-14
 
 ```bash
 SAMPLE="CRC_sample"
@@ -344,7 +344,7 @@ cat ${QC_FILE}
 | CRISPR arrays per MAG | 0–5 | Not all bacteria carry CRISPR |
 | Spacer-viral matches | 0–few | Depends on phage coverage in Phase 7 |
 
-**0 defence systems in a MAG** can mean: (a) sparse/fragmented MAG — defence loci are typically 5–20 kb operons that require contiguous assembly; (b) the organism genuinely has few defences (rare but possible for HGT-permissive organisms); (c) novel/divergent defence systems not in current databases.
+**0 defence systems in a MAG** can mean: (a) sparse/fragmented MAG; defence loci are typically 5–20 kb operons that require contiguous assembly; (b) the organism genuinely has few defences (rare but possible for HGT-permissive organisms); (c) novel/divergent defence systems not in current databases.
 
 ---
 
@@ -354,15 +354,15 @@ For a CRC stool metagenome from the Wirbel cohort (CRC_sample), the expected def
 
 **F. nucleatum MAG (if assembled):**
 - Likely sparse CRISPR-Cas (Fusobacterium genomes typically carry 0–2 CRISPR arrays)
-- R-M systems (Type I or Type II — common in Fusobacteriaceae)
+- R-M systems (Type I or Type II, common in Fusobacteriaceae)
 - Possible abortive infection systems
-- Low overall defence burden — consistent with F. nucleatum's role as a hub organism that acquires diverse MGEs
+- Low overall defence burden; consistent with F. nucleatum's role as a hub organism that acquires diverse MGEs
 
 **E. coli MAG (if assembled):**
 - CRISPR-Cas Type I-E or I-F (common in E. coli)
 - Multiple R-M systems (E. coli carries 2–6 R-M systems typically)
 - Possibly BREX, Gabija, or other recently discovered systems
-- Higher defence burden than F. nucleatum — but pks+ strains specifically may show reduced defences (enabling pks island acquisition)
+- Higher defence burden than F. nucleatum; but pks+ strains specifically may show reduced defences (enabling pks island acquisition)
 
 **B. fragilis MAG (if assembled):**
 - Typically high R-M system diversity
@@ -381,7 +381,7 @@ For a CRC stool metagenome from the Wirbel cohort (CRC_sample), the expected def
 
 2. **PADLOC GFF3 format sensitivity.** PADLOC requires GFF3 files with specific formatting. Bakta's GFF3 output is PADLOC-compatible. If you encounter parsing errors, verify the GFF3 has standard column structure (seqid, source, type, start, end, score, strand, phase, attributes).
 
-3. **DefenseFinder and PADLOC count the same system differently.** DefenseFinder may call "RM_Type_II" while PADLOC calls "restriction_modification_type_II". Reconciliation requires manual mapping — the Acinetobacter pipeline's R script (`defense_distribution.R`) already handles this.
+3. **DefenseFinder and PADLOC count the same system differently.** DefenseFinder may call "RM_Type_II" while PADLOC calls "restriction_modification_type_II". Reconciliation requires manual mapping; the Acinetobacter pipeline's R script (`defense_distribution.R`) already handles this.
 
 4. **CRISPRCasFinder is the most computationally demanding** of the three tools. For large MAGs (>5 MB), expect 10–30 min per bin. If runtime is prohibitive, use Bakta's CRISPR calls as the primary source and reserve CRISPRCasFinder for bins where detailed spacer analysis is needed.
 

@@ -1,4 +1,4 @@
-# Phase 3 SOP — Read-Level QC & Filtering
+# Phase 3 SOP: Read-Level QC & Filtering
 ## CLAUDE Pipeline: Cancer-Linked Analysis of Underlying DNA Elements
 
 **Date executed:** 2026-02-24
@@ -13,13 +13,13 @@
 After host depletion (Phase 2), 393 read pairs remain. Phase 3 applies read-level
 quality control to remove:
 
-1. **Adapter sequences** — Illumina P5/P7 adapters that survive into reads (especially
+1. **Adapter sequences**: Illumina P5/P7 adapters that survive into reads (especially
    short insert-size libraries)
-2. **Low-quality bases** — Phred <20 reads where error rate >1% per base
-3. **Short reads** — Fragments <60 bp that misalign and cause false taxon assignments
-4. **Low-complexity sequences** — Poly-A/T/C/G and near-homopolymer reads that create
+2. **Low-quality bases**: Phred <20 reads where error rate >1% per base
+3. **Short reads**: Fragments <60 bp that misalign and cause false taxon assignments
+4. **Low-complexity sequences**: Poly-A/T/C/G and near-homopolymer reads that create
    false BLAST/alignment hits against both human and microbial genomes (entropy-based filter)
-5. **PCR duplicates** — Identical read pairs from amplification artifacts
+5. **PCR duplicates**: Identical read pairs from amplification artifacts
 
 Two tools are used sequentially:
 - **fastp v0.23.4**: Adapter detection + quality filter + complexity filter + deduplication
@@ -57,7 +57,7 @@ conda run -n claude_pipeline multiqc --version  # multiqc, version 1.33
 
 ---
 
-## 4. Read Quality Investigation — Critical Finding
+## 4. Read Quality Investigation: Critical Finding
 
 ### 4.1 Pre-filter quality check
 
@@ -100,12 +100,12 @@ not a sequencing error:
 |----------|----------|-----------------|
 | 1000G chimeric reads (our test) | ~10% (fake Q2) | 99.5% fail quality filter |
 | Real tumor WGS microbial reads | >85% (genuine) | 70-90% pass quality filter |
-| Real tumor WGS microbial reads | — | Per-base mean Q28-Q35 (Illumina HiSeq/NovaSeq) |
+| Real tumor WGS microbial reads | n/a | Per-base mean Q28-Q35 (Illumina HiSeq/NovaSeq) |
 
 **Decision:** Execute Phase 3 in two modes:
-1. **Strict mode** (protocol settings) — Documents what happens with real data settings.
+1. **Strict mode** (protocol settings): Documents what happens with real data settings.
    Records the 1 surviving pair.
-2. **Test mode** (quality filtering disabled) — Preserves reads for downstream pipeline
+2. **Test mode** (quality filtering disabled): Preserves reads for downstream pipeline
    validation (Phases 4–8). Clearly labeled as test-only.
 
 ---
@@ -118,7 +118,7 @@ not a sequencing error:
 mkdir -p $PROJECT_DIR/pipeline_run/03_qc_filtered
 ```
 
-### Step 2: Run fastp — Strict Mode (Protocol Settings)
+### Step 2: Run fastp (Strict Mode, Protocol Settings)
 
 ```bash
 SAMPLE="NA12878_chr22"
@@ -150,14 +150,14 @@ Read1 before filtering: 393 reads  (Q20=2.52%, Q30=1.21%)
 Read2 before filtering: 393 reads  (Q20=17.27%, Q30=4.59%)
 
 Filtering result:
-  reads passed filter:   2  (1 pair — both mates same read)
+  reads passed filter:   2  (1 pair; both mates same read)
   reads failed low quality: 782
   reads failed too short:    2
   reads failed low complexity: 0
   Duplication rate: 0%
 ```
 
-### Step 3: Run fastp — Test Mode (For Downstream Validation)
+### Step 3: Run fastp (Test Mode, For Downstream Validation)
 
 ```bash
 conda run -n claude_pipeline bash -c "
@@ -179,7 +179,7 @@ fastp \
 **Result:**
 ```
 Passed filter: 784 reads (392 pairs)
-Low complexity removed: 2 reads (1 pair — likely Alu/poly-A remnant)
+Low complexity removed: 2 reads (1 pair; likely Alu/poly-A remnant)
 Adapter trimmed: 6 reads (286 bases)
 ```
 
@@ -205,7 +205,7 @@ bbduk.sh \
 **Result:**
 ```
 Input:                 784 reads (78,898 bases)
-Low entropy discards:    2 reads (0.26%)  — 1 pair removed
+Low entropy discards:    2 reads (0.26%); 1 pair removed
 Result:                782 reads (391 pairs, 78,696 bases)
 ```
 
@@ -274,7 +274,7 @@ FINAL TEST-MODE OUTPUT: 391 pairs
   → Used for downstream Phase 4–8 pipeline validation
 
 ═══════════════════════════════════════════════════════════════
-STATUS: PASS (test-data caveat documented — see Section 4)
+STATUS: PASS (test-data caveat documented; see Section 4)
 ═══════════════════════════════════════════════════════════════
 ```
 
@@ -338,7 +338,7 @@ chimeric reads have quality `#` (Q=2).
 **Fix (test data):** Use `--disable_quality_filtering` and `--disable_length_filtering`
 for test-mode runs to preserve reads for pipeline validation.
 
-**Fix (production):** Not a fix needed — real tumor WGS data retains genuine quality
+**Fix (production):** Not a fix needed. Real tumor WGS data retains genuine quality
 scores. Protocol settings (Q20, len≥60) are correct and appropriate.
 
 **Diagnostic command:**
@@ -373,7 +373,7 @@ the stats file will contain plottable data.
 
 ### Why quality filter before assembly?
 
-Low-quality reads don't just reduce assembly quality — they actively create false
+Low-quality reads don't just reduce assembly quality; they actively create false
 signals in microbiome studies:
 
 - **Poly-A remnants** (often Q=2 from library prep) align to poly-A tails of human
@@ -448,16 +448,16 @@ on test data.
 
 4. **The quality filter is correct for its purpose.** The protocol settings
    (Q20, len≥60) are biologically correct for real tumor data. The test-data failure
-   demonstrates the filter *works* — if applied to real data, it would correctly
+   demonstrates the filter *works*; if applied to real data, it would correctly
    preserve genuine microbial reads with real quality scores.
 
 5. **Two-tool approach catches different artifacts.** fastp's quality window catches
    read-degradation patterns; bbduk's entropy filter catches sequence complexity
-   patterns. Running both sequential is not redundant — they address different
+   patterns. Running both sequential is not redundant; they address different
    failure modes.
 
 6. **MultiQC bbduk module requires contamination stats.** For entropy-only bbduk
-   runs, expect MultiQC to skip the stats file. This is not an error — it simply
+   runs, expect MultiQC to skip the stats file. This is not an error; it simply
    means you rely on the log file for bbduk metrics.
 
 7. **Adapter detection in fastp works without a reference.** fastp uses paired-end
@@ -465,7 +465,7 @@ on test data.
    is implied. For single-end data, provide `--adapter_sequence` explicitly.
 
 8. **Insert size peak diagnostic.** fastp reports insert size peak of 47 bp for our
-   test data. This is a symptom of chimeric reads with short overlaps — not a real
+   test data. This is a symptom of chimeric reads with short overlaps, not a real
    library size. In real tumor WGS data, expect insert size peaks of 150–400 bp for
    Illumina paired-end libraries.
 
@@ -539,6 +539,6 @@ tool chain.)
 
 ---
 
-*Phase 3 SOP completed — all tools executed successfully, QC checkpoint written.*
+*Phase 3 SOP completed. All tools executed successfully, QC checkpoint written.*
 *Test-data artifact documented and handled with explicit test-mode runs.*
 *391 read pairs proceed to Phase 4.*

@@ -1,10 +1,10 @@
-# Phase 1 SOP — Data Acquisition
+# Phase 1 SOP: Data Acquisition
 ## CLAUDE Pipeline: Cancer-Linked Analysis of Underlying DNA Elements
 
 **Date executed:** 2026-02-24
 **Executed by:** Vicky
 **Pipeline version:** 0.1.0-dev
-**Status:** COMPLETE — QC-1 WARN (expected for test data; see notes)
+**Status:** COMPLETE (QC-1 WARN; expected for test data, see notes)
 
 ---
 
@@ -14,7 +14,7 @@
 2. [Environment & Software](#2-environment--software)
 3. [Project Directory Structure](#3-project-directory-structure)
 4. [Test Data Selection](#4-test-data-selection)
-5. [Execution — Step by Step](#5-execution--step-by-step)
+5. [Execution: Step by Step](#5-execution-step-by-step)
 6. [Problems Encountered & Troubleshooting](#6-problems-encountered--troubleshooting)
 7. [QC-1 Results](#7-qc-1-results)
 8. [Key Biological Reasoning](#8-key-biological-reasoning)
@@ -34,10 +34,10 @@ capture three categories:
 | Category | SAM Flags | Biological meaning |
 |----------|-----------|-------------------|
 | Both mates unmapped | FLAG 12 (4+8), exclude 256 | Reads from microbes with no human homology |
-| R1 unmapped, R2 mapped | FLAG 4, exclude 264 | Chimeric pairs — microbial R1 adjacent to mapped human R2 |
-| R2 unmapped, R1 mapped | FLAG 8, exclude 260 | Chimeric pairs — microbial R2 adjacent to mapped human R1 |
+| R1 unmapped, R2 mapped | FLAG 4, exclude 264 | Chimeric pairs; microbial R1 adjacent to mapped human R2 |
+| R2 unmapped, R1 mapped | FLAG 8, exclude 260 | Chimeric pairs; microbial R2 adjacent to mapped human R1 |
 
-Capturing chimeric pairs is critical — pipelines that only extract FLAG 12 reads
+Capturing chimeric pairs is critical. Pipelines that only extract FLAG 12 reads
 miss a substantial fraction of microbial signal.
 
 ---
@@ -129,7 +129,7 @@ with known read counts). The reasoning against this:
 - A synthetic BAM would use idealized flag combinations that may not reflect what
   real aligners (BWA-MEM, used by TCGA) actually write
 - Real BAMs have edge cases: secondary/supplementary flags, mate-rescue flags,
-  unusual CIGAR strings — synthetic data masks these
+  unusual CIGAR strings; synthetic data masks these
 - If something breaks on synthetic data, it may not break on real data (and vice versa)
 - We want QC-1 thresholds (unmapped fraction 0.1–3%) validated against realistic data
   from day one
@@ -140,7 +140,7 @@ with known read counts). The reasoning against this:
 
 | Field | Value |
 |-------|-------|
-| Sample | NA12878 (HG001) — Genome in a Bottle reference sample |
+| Sample | NA12878 (HG001), Genome in a Bottle reference sample |
 | Project | 1000 Genomes Project Phase 3 |
 | Sequencing | Illumina, low-coverage (~4×) |
 | Aligner | BWA |
@@ -175,11 +175,11 @@ samtools view -H file.bam | grep "^@SQ" | head -3
 
 ---
 
-## 5. Execution — Step by Step
+## 5. Execution: Step by Step
 
 All commands run as: `conda run -n bioinfo <command>`
 
-### Step 1 — Index the input BAM
+### Step 1: Index the input BAM
 
 ```bash
 samtools index ${PROJECT_DIR}/00_raw/NA12878_chr22.bam
@@ -187,7 +187,7 @@ samtools index ${PROJECT_DIR}/00_raw/NA12878_chr22.bam
 
 Required for random-access queries. Produces `.bam.bai` file.
 
-### Step 2 — Extract both-unmapped pairs (FLAG 12)
+### Step 2: Extract both-unmapped pairs (FLAG 12)
 
 ```bash
 samtools view -b -f 12 -F 256 ${INPUT_BAM} \
@@ -195,14 +195,14 @@ samtools view -b -f 12 -F 256 ${INPUT_BAM} \
 ```
 
 **Flag logic:**
-- `-f 12` = require bits 4 (read unmapped) AND 8 (mate unmapped) — both mates unmapped
-- `-F 256` = exclude bit 256 (not primary alignment) — avoid duplicates from secondary alignments
+- `-f 12` = require bits 4 (read unmapped) AND 8 (mate unmapped); both mates unmapped
+- `-F 256` = exclude bit 256 (not primary alignment); avoids duplicates from secondary alignments
 
-**Result for test data:** 0 reads — expected. Coordinate-sorted BAMs store fully
+**Result for test data:** 0 reads (expected). Coordinate-sorted BAMs store fully
 unmapped pairs under the `*` pseudo-chromosome at the end of the file, not within
 the streamed chromosome region. See Section 6 for full troubleshooting of this.
 
-### Step 3 — Extract chimeric R1-unmapped reads (FLAG 4, exclude 264)
+### Step 3: Extract chimeric R1-unmapped reads (FLAG 4, exclude 264)
 
 ```bash
 samtools view -b -f 4 -F 264 ${INPUT_BAM} -@ 4 \
@@ -217,7 +217,7 @@ samtools view -b -f 4 -F 264 ${INPUT_BAM} -@ 4 \
 
 **Result:** 1,534 reads
 
-### Step 4 — Extract chimeric R2-unmapped reads (FLAG 8, exclude 260)
+### Step 4: Extract chimeric R2-unmapped reads (FLAG 8, exclude 260)
 
 ```bash
 samtools view -b -f 8 -F 260 ${INPUT_BAM} -@ 4 \
@@ -228,11 +228,11 @@ samtools view -b -f 8 -F 260 ${INPUT_BAM} -@ 4 \
 - `-f 8` = require bit 8 (mate unmapped)
 - `-F 260` = exclude bit 4 (read unmapped) AND bit 256 (not primary)
   - Keeps reads where the MATE is unmapped but the READ IS mapped
-  - Complements Step 3 — captures the other end of chimeric pairs
+  - Complements Step 3; captures the other end of chimeric pairs
 
 **Result:** 1,534 reads (symmetric with Step 3, as expected for paired data)
 
-### Step 5 — Merge all unmapped BAMs
+### Step 5: Merge all unmapped BAMs
 
 ```bash
 samtools merge -@ 4 ${PROJECT_DIR}/01_fastq/${SAMPLE}.all_unmapped.bam \
@@ -241,7 +241,7 @@ samtools merge -@ 4 ${PROJECT_DIR}/01_fastq/${SAMPLE}.all_unmapped.bam \
     ${PROJECT_DIR}/01_fastq/${SAMPLE}.mate_unmapped_R2.bam
 ```
 
-### Step 6 — Sort by read name
+### Step 6: Sort by read name
 
 ```bash
 samtools sort -n -@ 4 \
@@ -253,7 +253,7 @@ samtools sort -n -@ 4 \
 to correctly assign R1 and R2. Coordinate-sorted BAMs separate pairs across
 chromosomes. Name-sorting guarantees `read_001/1` and `read_001/2` are adjacent.
 
-### Step 7 — Convert to paired FASTQ
+### Step 7: Convert to paired FASTQ
 
 ```bash
 samtools fastq -@ 4 \
@@ -265,11 +265,11 @@ samtools fastq -@ 4 \
 ```
 
 Output:
-- `_R1.fastq.gz` / `_R2.fastq.gz` — the paired reads for downstream processing
-- `_other.fastq.gz` — unpaired/non-standard (0 reads in our case, expected)
-- `_singleton.fastq.gz` — reads whose mate was lost during extraction (0 reads, expected)
+- `_R1.fastq.gz` / `_R2.fastq.gz`: the paired reads for downstream processing
+- `_other.fastq.gz`: unpaired/non-standard (0 reads in our case, expected)
+- `_singleton.fastq.gz`: reads whose mate was lost during extraction (0 reads, expected)
 
-### Step 8 — Clean up intermediates
+### Step 8: Clean up intermediates
 
 ```bash
 rm ${PROJECT_DIR}/01_fastq/${SAMPLE}.unmapped.bam \
@@ -286,10 +286,10 @@ disk than necessary.
 
 ## 6. Problems Encountered & Troubleshooting
 
-### Problem 1 — No pysam available for synthetic BAM approach
+### Problem 1: No pysam available for synthetic BAM approach
 
 **What happened:** We initially considered writing a synthetic BAM using Python.
-Checked for pysam in `base`, `bioinfo`, and `bioinfo_python` environments — not found.
+Checked for pysam in `base`, `bioinfo`, and `bioinfo_python` environments; not found.
 
 **Resolution:** Moved to real public data (1000 Genomes). Better outcome than synthetic
 data anyway (see Section 4.1).
@@ -302,7 +302,7 @@ conda run -n bioinfo python -c "import pysam; print(pysam.__version__)"  # → n
 
 ---
 
-### Problem 2 — Fully unmapped pairs (FLAG 12) returned 0 reads from chr22 slice
+### Problem 2: Fully unmapped pairs (FLAG 12) returned 0 reads from chr22 slice
 
 **What happened:** After running `samtools view -f 12` on our chr22 region BAM,
 the count was 0. Initially this looked like a bug in the flag logic.
@@ -310,7 +310,7 @@ the count was 0. Initially this looked like a bug in the flag logic.
 **Root cause:** In coordinate-sorted BAMs, reads where **both mates are unmapped**
 (FLAG 12) have no chromosomal coordinate. Samtools stores them at the very end of
 the file under the pseudo-chromosome `*`. When we streamed only `22:16050000-17500000`,
-we captured reads *positioned* in that region — fully unmapped reads have no position
+we captured reads *positioned* in that region; fully unmapped reads have no position
 there and are excluded.
 
 **Visual illustration:**
@@ -333,7 +333,7 @@ Coordinate-sorted BAM layout:
 **Resolution:** Proceeded with chimeric reads only (1,534 per direction). This is
 a valid test because:
 - The flag extraction logic is identical for FLAG 12 and chimeric reads
-- Chimeric reads are the *harder and more biologically important* category — they
+- Chimeric reads are the *harder and more biologically important* category; they
   require precise flag masking to avoid double-counting
 - For full TCGA BAMs (coordinate-sorted with index), FLAG 12 reads ARE accessible
   via `samtools view -f 12 file.bam` (no region query needed, samtools seeks to `*`)
@@ -348,7 +348,7 @@ samtools view -b -f 12 -F 256 ${INPUT_BAM} \
 
 ---
 
-### Problem 3 — samtools command chaining via conda run
+### Problem 3: samtools command chaining via conda run
 
 **What happened:** Some compound commands (`conda run -n bioinfo CMD1; CMD2`) failed
 with `Exit code 1` or `BrokenPipeError` when piping between commands.
@@ -368,7 +368,7 @@ conda run -n bioinfo bash -c "samtools view -h file.bam | samtools view -bS -o o
 
 ---
 
-### Problem 4 — QC-1 unmapped fraction in WARN zone (3.44%)
+### Problem 4: QC-1 unmapped fraction in WARN zone (3.44%)
 
 **What happened:** QC-1 reports unmapped fraction of 3.44%, which falls in the
 WARN range (3–5%) in our thresholds table.
@@ -378,7 +378,7 @@ full-genome BAM. The denominator (total reads = 88,944) is the chr22 region coun
 while in a full-genome BAM it would be ~1.5 billion reads for 4× coverage, making
 the unmapped fraction drop to ~0.2–0.3%.
 
-**Not a bug — expected behaviour for test data.**
+**Not a bug. Expected behaviour for test data.**
 
 For real TCGA samples, expect:
 - Full BAM total reads: 300M–2B reads
@@ -402,11 +402,11 @@ Pairs balanced:      YES
 
 | Metric | Value | Threshold | Status | Notes |
 |--------|-------|-----------|--------|-------|
-| Unmapped fraction | 3.44% | PASS: 0.1–3%, WARN: 3–5% | **WARN** | Expected — chr22 slice only |
+| Unmapped fraction | 3.44% | PASS: 0.1–3%, WARN: 3–5% | **WARN** | Expected; chr22 slice only |
 | R1 = R2 | YES | Must be YES | **PASS** | Pairs correctly balanced |
 | R1 count | 1,534 | >0 | **PASS** | Real chimeric reads recovered |
 
-**QC-1 verdict for test run:** WARN (acceptable — artifact of test data design, not
+**QC-1 verdict for test run:** WARN (acceptable; artifact of test data design, not
 pipeline logic). Production runs on full WGS BAMs expected to PASS.
 
 **QC-1 checkpoint file location:**
@@ -431,7 +431,7 @@ In practice, chimeric reads may represent:
 - Transposable element / mobile element boundaries
 
 For phage detection from tumor WGS, missing chimeric reads means missing prophage
-integration junctions — exactly the most biologically interesting signal.
+integration junctions, which are exactly the most biologically interesting signal.
 
 ### Why include secondary alignments in the exclusion (-F 256)?
 
@@ -455,12 +455,12 @@ enabling correct `-1` / `-2` assignment.
 
 | # | Lesson | Impact |
 |---|--------|--------|
-| 1 | FLAG 12 reads are NOT in chromosome region queries — they're under `*` | Medium — must run without region argument on production BAMs |
-| 2 | `conda run` + pipes requires `bash -c` wrapper | Low — operational gotcha |
-| 3 | Chromosome naming varies (1000G: `22`; TCGA GRCh38: `chr22`) — always check headers | High — wrong name = silent 0 reads |
-| 4 | GRCh37 vs GRCh38 in TCGA — many older samples use GRCh37; record which reference was used | High — affects downstream decontamination reference choice |
-| 5 | Byte-cutting BAM binary format corrupts the file — always work in SAM text or use samtools natively | Medium — common mistake when trying to limit streaming output |
-| 6 | Real data validated chimeric read symmetry (R1 = R2 = 1,534) — flag logic is correct | Confidence boost — not a textbook result, a real-data validation |
+| 1 | FLAG 12 reads are NOT in chromosome region queries; they're under `*` | Medium. Must run without region argument on production BAMs |
+| 2 | `conda run` + pipes requires `bash -c` wrapper | Low; operational gotcha |
+| 3 | Chromosome naming varies (1000G: `22`; TCGA GRCh38: `chr22`). Always check headers | High. Wrong name = silent 0 reads |
+| 4 | GRCh37 vs GRCh38 in TCGA. Many older samples use GRCh37; record which reference was used | High. Affects downstream decontamination reference choice |
+| 5 | Byte-cutting BAM binary format corrupts the file. Always work in SAM text or use samtools natively | Medium. Common mistake when trying to limit streaming output |
+| 6 | Real data validated chimeric read symmetry (R1 = R2 = 1,534); flag logic is correct | Confidence boost. Not a textbook result, a real-data validation |
 
 ---
 
@@ -488,17 +488,17 @@ pipeline_run/
 
 ## 11. Next Step
 
-**Phase 2 — Host Depletion** (`03_HOST_DEPLETION.md`)
+**Phase 2: Host Depletion** (`03_HOST_DEPLETION.md`)
 
-The 1,534 read pairs now in `01_fastq/` contain chimeric reads — one mate maps to
+The 1,534 read pairs now in `01_fastq/` contain chimeric reads; one mate maps to
 human chr22, the other does not. Phase 2 will aggressively re-filter these for
 residual human signal using Hostile (T2T-CHM13), HPRC pangenome (Bowtie2), and
 Kraken2 before we consider them "microbial."
 
 **Tools required for Phase 2 (to check availability):**
-- `hostile` — pip install in claude_pipeline env
-- `bowtie2` — not found in bioinfo env yet
-- `kraken2` — not found in bioinfo env yet
+- `hostile`: pip install in claude_pipeline env
+- `bowtie2`: not found in bioinfo env yet
+- `kraken2`: not found in bioinfo env yet
 
 We will check tool availability and install what is missing before executing Phase 2.
 

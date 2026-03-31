@@ -1,4 +1,4 @@
-# Phase 6 SOP — Contig Decontamination + MAG Binning
+# Phase 6 SOP: Contig Decontamination + MAG Binning
 ## CLAUDE Pipeline: Cancer-Linked Analysis of Underlying DNA Elements
 
 **Date executed:** 2026-02-25
@@ -13,11 +13,11 @@
 Phase 6 takes the merged, deduplicated contig set from Phase 5 and performs two
 independent but complementary operations:
 
-**6A — Contig Decontamination:** Removes contigs that are of human origin (missed by
+**6A: Contig Decontamination.** Removes contigs that are of human origin (missed by
 read-level host depletion) or that are laboratory vector/adapter contamination. This
 is a second-pass safety net at the assembly level.
 
-**6B — MAG Binning:** Groups contigs into Metagenome-Assembled Genomes (MAGs) using
+**6B: MAG Binning.** Groups contigs into Metagenome-Assembled Genomes (MAGs) using
 abundance (coverage depth) and sequence composition (tetranucleotide frequency). MAGs
 are the bacterial genome reconstructions; viral genome bins (vMAGs) are assessed in
 Phase 7 using viral-specific tools.
@@ -295,7 +295,7 @@ come from very low-coverage phages whose k-mers appear in too few reads to assem
 ### Step 5: Coverage depth profiling
 
 MetaBAT2's `jgi_summarize_bam_contig_depths` calculates the average depth and
-depth variance for each contig — the two key inputs for MetaBAT2 binning.
+depth variance for each contig, the two key inputs for MetaBAT2 binning.
 
 ```bash
 conda run -n claude_pipeline bash -c "
@@ -436,9 +436,9 @@ bin.4   3.28%        0.00%          65%   212 KB   Low (LQ)
 |----------|-------------|---------------|
 | High-quality (HQ) | ≥ 90% | ≤ 5% |
 | Medium-quality (MQ) | ≥ 50% | ≤ 10% |
-| Low-quality (LQ) | < 50% | — |
+| Low-quality (LQ) | < 50% | n/a |
 
-No HQ MAGs. This is **expected for a VLP-enriched virome** — see Biology section below.
+No HQ MAGs. This is **expected for a VLP-enriched virome** (see Biology section below).
 
 ---
 
@@ -622,7 +622,7 @@ fully analysed in Phase 7 (viral ID) and Phase 8 (prophage annotation).
 The CLAUDE pipeline uses T2T-CHM13v2.0 rather than GRCh38 because:
 - T2T-CHM13v2.0 is the first complete, gap-free assembly of the human genome (2022)
 - GRCh38 has 151 Mb of unknown sequence ('N' gaps), primarily in centromeres and
-  telomeres — regions that T2T filled in
+  telomeres, regions that T2T filled in
 - The telomeric/centromeric sequences filled by T2T are precisely the regions most
   likely to generate false-positive microbial matches (high repeat content, GC-neutral)
 - Ge et al. (2025) showed T2T-based decontamination removed 12–35% more spurious
@@ -766,7 +766,7 @@ maintaining sensitivity.
 
 ---
 
-*Phase 6 SOP complete — contig decontamination and MAG binning executed and validated.*
+*Phase 6 SOP complete. Contig decontamination and MAG binning executed and validated.*
 *0 human contigs, 1 vector contig removed. 4 MetaBAT2 bins produced, CheckM2 complete.*
 *Low MIMAG scores expected for phage-dominated virome. QC-6: PASS.*
 *Pipeline ready for Phase 7 viral identification.*

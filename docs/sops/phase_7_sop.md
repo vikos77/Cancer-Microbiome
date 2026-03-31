@@ -1,9 +1,9 @@
-# Phase 7 SOP — Viral Identification
+# Phase 7 SOP: Viral Identification
 
 **Sample:** SRR15090802 (Wahida et al. gut virome, VLP-enriched healthy child)
 **Input:** 20,547 clean contigs (`pipeline_run/06_decontam_contigs/virome/clean_contigs.fasta`)
 **Completed:** 2026-02-26
-**Status:** COMPLETE (2-tool consensus — see VS2 Runtime Decision below)
+**Status:** COMPLETE (2-tool consensus; see VS2 Runtime Decision below)
 
 ---
 
@@ -23,7 +23,7 @@ calling a contig viral. This prevents false positives from any single tool's bia
 
 ---
 
-## VS2 Runtime Decision — Why 2-Tool Consensus Was Used as Final Result
+## VS2 Runtime Decision: Why 2-Tool Consensus Was Used as Final Result
 
 ### What happened
 
@@ -37,13 +37,13 @@ preprocessing (Step 1) and GFF feature extraction (Step 2). However, the Viruses
 - Elapsed time at termination: ~2 hours 5 min, 8.7% of profiles scanned
 - Estimated total time to complete: **~24 hours** (at 2 threads on this hardware)
 - Additionally: a zombie hmmsearch process from a previous failed VS2 attempt was also
-  consuming 2 cores writing to a deleted file — killed before termination decision
+  consuming 2 cores writing to a deleted file; killed before termination decision
 
 ### Why we proceeded with 2-tool consensus
 
 1. **Scientific value is low for this specific dataset.** SRR15090802 is VLP-enriched (virus-like
    particle isolation by ultracentrifugation). Bacterial contamination is minimal, so VS2's primary
-   unique contribution — provirus detection within bacterial contigs — is largely irrelevant here.
+   unique contribution (provirus detection within bacterial contigs) is largely irrelevant here.
    geNomad and DVF cover all other viral detection modalities (marker genes + sequence composition).
 
 2. **The 2-tool consensus is valid.** CLAUDE Principle 2 requires ≥2 independent tools to agree.
@@ -152,7 +152,7 @@ git clone https://github.com/jessieren/DeepVirFinder.git \
 
 ---
 
-## Section 2: Tool 1 — geNomad
+## Section 2: Tool 1 (geNomad)
 
 ### 2.1 Overview
 
@@ -212,7 +212,7 @@ Columns: `seq_name`, `length`, `topology`, `coordinates`, `n_genes`, `genetic_co
 
 ---
 
-## Section 3: Tool 2 — DeepVirFinder (DVF)
+## Section 3: Tool 2 (DeepVirFinder / DVF)
 
 ### 3.1 Overview
 
@@ -284,7 +284,7 @@ python $PROJECT_DIR/pipeline_run/scripts/DeepVirFinder/dvf.py \
 |-----------|------|-------|
 | score ≥ 0.9, pval ≤ 0.05 | 1,520 | Used for consensus (high specificity) |
 | score ≥ 0.7, pval ≤ 0.05 | 2,344 | More sensitive but lower precision |
-| score ≥ 0.5, pval ≤ 0.05 | 2,552 | Not recommended — high FPR |
+| score ≥ 0.5, pval ≤ 0.05 | 2,552 | Not recommended; high FPR |
 
 **Threshold rationale:** score ≥ 0.9 with p-value ≤ 0.05 is the recommended threshold
 from the DVF paper for low-biomass / virome samples. The high DVF hit count (7.4%) is
@@ -294,7 +294,7 @@ expected for a VLP-enriched virome dataset.
 
 ---
 
-## Section 4: Tool 3 — VirSorter2
+## Section 4: Tool 3 (VirSorter2)
 
 ### 4.1 Overview
 
@@ -314,7 +314,7 @@ Multiple VS2 parsing scripts expect the standard Prodigal format and fail with
 
 **Files patched** (in `virsorter2_env`):
 
-**File 1:** `.../virsorter/utils.py` — `parse_gff()` function (lines 220–248):
+**File 1:** `.../virsorter/utils.py`, `parse_gff()` function (lines 220–248):
 ```python
 # OLD (fails):
 sub_items = OrderedDict(i.strip().split('=') for i in last.rstrip(';').split(';'))
@@ -405,7 +405,7 @@ Columns: `seqname`, `dsDNAphage`, `NCLDV`, `RNA`, `ssDNA`, `lavidaviridae`,
 
 ---
 
-## Section 5: Consensus Calling — `viral_consensus.py`
+## Section 5: Consensus Calling (`viral_consensus.py`)
 
 ### 5.1 Script Overview
 
@@ -509,19 +509,19 @@ checkv end_to_end \
 
 | Contig | Length | Quality | Completeness | Notes |
 |--------|--------|---------|--------------|-------|
-| metaspades_1 | 101,130 bp | High-quality | **100%** | Complete phage genome (likely large dsDNA phage — Herelleviridae or similar) |
+| metaspades_1 | 101,130 bp | High-quality | **100%** | Complete phage genome (likely large dsDNA phage, Herelleviridae or similar) |
 | metaspades_28 | 17,149 bp | Medium-quality | 86.3% | Near-complete phage |
 
 **Proviruses identified:** 1
 **Completeness methods:** AAI-based high-confidence (74 contigs), AAI-based medium-confidence (16), HMM-based lower-bound (7), not determined (22)
 
 **Interpretation:**
-- 95/119 contigs (80%) are low-quality by CheckV — expected for a virome: most phage contigs
+- 95/119 contigs (80%) are low-quality by CheckV, expected for a virome: most phage contigs
   are assembled as partial genomes due to fragmented assembly
-- The 100% complete metaspades_1 at 101 kb is exceptional — this is a complete phage genome
+- The 100% complete metaspades_1 at 101 kb is exceptional; this is a complete phage genome
   assembled in a single contig (likely aided by high-coverage of this phage in the sample)
 - Not-determined (22) contigs are typically very short (<5 kb) or highly divergent from CheckV's
-  reference database — they are still real viruses, just without close references
+  reference database; they are still real viruses, just without close references
 
 ---
 
@@ -569,7 +569,7 @@ Threshold for PASS: ≥50 viral contigs with ≥2 tool agreement.
    in the same environment causes unsolvable dependency conflicts.
 
 8. **mkdir -p before conda run**: Never combine `mkdir -p /path && conda run -n env cmd`
-   in a single shell line — the `-n` flag can be picked up by `mkdir`. Always run `mkdir -p`
+   in a single shell line; the `-n` flag can be picked up by `mkdir`. Always run `mkdir -p`
    as a separate command first.
 
 ---

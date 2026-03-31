@@ -1,4 +1,4 @@
-# Phase 5 SOP — Metagenomic Assembly
+# Phase 5 SOP: Metagenomic Assembly
 ## CLAUDE Pipeline: Cancer-Linked Analysis of Underlying DNA Elements
 
 **Date executed:** 2026-02-25
@@ -259,7 +259,7 @@ megahit ... -o pipeline_run/05_assembly/megahit
 
 ---
 
-### Problem 3: metaSPAdes warning — "None of paired reads aligned properly"
+### Problem 3: metaSPAdes warning: "None of paired reads aligned properly"
 
 **Symptom:**
 ```
@@ -276,7 +276,7 @@ sequences but no insert size signal because:
 1. One mate was originally mapped to human chr22, the other never aligned
 2. The paired orientation (FR / RF / FF) cannot be estimated from reads where one
    mate has no alignment history
-3. SPAdes needs proper insert size to perform repeat resolution — without it, the
+3. SPAdes needs proper insert size to perform repeat resolution; without it, the
    de Bruijn graph is not resolved
 
 **In real data:** Genuine microbial read pairs with proper Illumina paired-end
@@ -305,7 +305,7 @@ coverage = (total_bp × 2) / genome_size
 
 Even the smallest known free-living organism (*Mycoplasma genitalium*, ~580,000 bp)
 would require at least 580,000 bp of sequence at 1× coverage to assemble. Our 78,696
-bp is ~0.014× — every k-mer appears in exactly 1 read, so nothing passes the
+bp is ~0.014× coverage; every k-mer appears in exactly 1 read, so nothing passes the
 coverage filter and the graph has no edges.
 
 **Production context:** A typical tumor WGS run (~1 billion paired reads, 300 GB)
@@ -358,7 +358,7 @@ setting the SPAdes minimum to 200 bp then filtering later in Phase 6.
 4. **Assembly is the first phase where test data completely fails to produce output.**
    Phases 1–4 always produced some output (even if just residual human reads).
    Phase 5 produces zero contigs. This is the correct outcome and demonstrates
-   the assembly threshold — a minimum microbial read count is required.
+   the assembly threshold; a minimum microbial read count is required.
 
 5. **The `--memory` flag is critical on laptops.** metaSPAdes defaults to 250 GB
    RAM; without `--memory 32`, it would attempt to allocate more than available
@@ -448,13 +448,13 @@ Phase 6 will validate tool installation and correct directory/file handling.
 
 ---
 
-## 12. Virome Dataset Execution — SRR15090802 (Wahida et al. Gut Phageome)
+## 12. Virome Dataset Execution: SRR15090802 (Wahida et al. Gut Phageome)
 
 After validating the pipeline architecture with the NA12878 test data, Phase 5 was
 executed on a real VLP-enriched gut virome dataset to confirm end-to-end functionality
 and obtain assemblies for downstream Phase 6–9 processing.
 
-**Sample:** SRR15090802 — childhood gut phageome, VLP-enriched, Wahida et al.
+**Sample:** SRR15090802, childhood gut phageome, VLP-enriched, Wahida et al.
 **Input:** `pipeline_run/03_qc_filtered/virome/SRR15090802_R{1,2}.final.fastq.gz`
 **Pairs:** 1,545,806 (3,091,612 reads)
 **Total bp:** ~309 MB of sequence
@@ -598,7 +598,7 @@ conda run -n claude_pipeline bash -c "
 **Key cd-hit-est flags:**
 - `-c 0.99`: 99% nucleotide identity threshold (captures near-identical contigs from different assemblers)
 - `-aS 0.85`: align ≥85% of the shorter sequence (prevents spurious merging of nested contigs)
-- `-G 0`: use local alignment mode (not global) — required for `-aS` to work properly
+- `-G 0`: use local alignment mode (not global); required for `-aS` to work properly
 - `-n 8`: word length 8 (appropriate for ≥99% identity threshold, per cd-hit-est guidelines)
 - `-d 0`: output full sequence IDs (not truncated at 20 characters)
 
@@ -608,7 +608,7 @@ conda run -n claude_pipeline bash -c "
  33,682 → 20,548: 39.0% redundancy removed
 ```
 
-### QC-5 Results — Virome
+### QC-5 Results: Virome
 
 ```
 ═══════════════════════════════════════════════════════════════
@@ -680,7 +680,7 @@ pipeline_run/
 
 ---
 
-*Phase 5 SOP complete — three assemblers installed, configured, and executed.*
+*Phase 5 SOP complete. Three assemblers installed, configured, and executed.*
 *NA12878 test data: all produced empty output as expected (QC-5: PASS).*
 *SRR15090802 virome: 20,548 contigs, 22.2 MB, N50=1,110 bp, max=101 kb (QC-5: PASS).*
 *Pipeline ready for Phase 6 contig decontamination and MAG binning.*

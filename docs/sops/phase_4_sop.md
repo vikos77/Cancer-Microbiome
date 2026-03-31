@@ -1,4 +1,4 @@
-# Phase 4 SOP — Read-Based Taxonomic Profiling
+# Phase 4 SOP: Read-Based Taxonomic Profiling
 ## CLAUDE Pipeline: Cancer-Linked Analysis of Underlying DNA Elements
 
 **Date executed:** 2026-02-25
@@ -18,7 +18,7 @@ content of host-depleted, quality-filtered reads:
    missed by Phase 2, and provides species-level abundance estimates via Bracken.
 
 2. **KrakenUniq**: Viral-specific classification against RefSeq complete viral
-   genomes only. The critical addition is unique k-mer counting per taxon — a
+   genomes only. The critical addition is unique k-mer counting per taxon; a
    read with only 2–5 matching k-mers is flagged as a false positive, whereas
    Kraken2 would call it a confident hit. This directly implements the Ge et al.
    2025 recommendation for low-biomass metagenomics.
@@ -106,7 +106,7 @@ Build produces 6 sequential steps:
 | Step | Output file | Description |
 |------|-------------|-------------|
 | 1 | database.jdb (4 GB) | Jellyfish k-mer count hash |
-| 2 | (skipped — no size reduction needed) | |
+| 2 | (skipped; no size reduction needed) | |
 | 3 | database0.kdb (4 GB) + database.idx (8.1 GB) | Sorted k-mer DB + position index |
 | 4 | seqid2taxid.map | Sequence ID to taxon ID mapping |
 | 5 | taxDB (132 MB) | Taxonomy database |
@@ -224,15 +224,15 @@ conda run -n claude_pipeline bash -c "
 Two reads classified as Homo sapiens (taxid 9606). These are **residual human reads**
 that survived Phase 2 host depletion. Root cause analysis:
 
-**Read 1 — SRR622461.68752106:**
-- Phase 2 Kraken2: `U` (unclassified) — 3 human k-mers out of 67 total = **4.5%**, below 10% confidence threshold
-- Phase 4 Kraken2: `C` 9606 — same 3 k-mers, but read trimmed to 55 bp in Phase 3 = **3/21 = 14.3%**, above 10% threshold
+**Read 1 (SRR622461.68752106):**
+- Phase 2 Kraken2: `U` (unclassified); 3 human k-mers out of 67 total = **4.5%**, below 10% confidence threshold
+- Phase 4 Kraken2: `C` 9606; same 3 k-mers, but read trimmed to 55 bp in Phase 3 = **3/21 = 14.3%**, above 10% threshold
 - Lesson: **Adapter trimming increases Kraken2 classification confidence.** A borderline read becomes unambiguous after the read is shortened.
 
-**Read 2 — SRR622461.77007588:**
-- Phase 2 Kraken2: `C` **taxid 1 (root)** — k-mers split between human (9606) and other sequences, LCA resolves to root
+**Read 2 (SRR622461.77007588):**
+- Phase 2 Kraken2: `C` **taxid 1 (root)**; k-mers split between human (9606) and other sequences, LCA resolves to root
 - `extract_nonhuman_kraken.py` filtered only exact `taxid == 9606` hits → this read passed through
-- Phase 4 Kraken2: `C` 9606 — after trimming, unambiguously human
+- Phase 4 Kraken2: `C` 9606; after trimming, unambiguously human
 - Lesson: **extract_nonhuman_kraken.py must also filter ancestor taxids** (Homo=9605, Hominidae=9604, etc.) to catch LCA-resolved reads.
 
 **Production fix for extract_nonhuman_kraken.py:**
@@ -255,9 +255,9 @@ Three viral hits, all evaluated against production thresholds
 
 | Taxon | Reads | Unique k-mers | Coverage | Verdict |
 |-------|-------|--------------|----------|---------|
-| Human endogenous retrovirus K113 | 1 | 27 | 0.003 | FALSE POSITIVE — HERV, part of human genome |
-| Ictalurid herpesvirus 1 (fish) | 1 | 4 | 3.5e-05 | FALSE POSITIVE — <50 unique k-mers |
-| Pandoravirus macleodensis (amoeba) | 1 | 2 | 1.1e-06 | FALSE POSITIVE — <50 unique k-mers |
+| Human endogenous retrovirus K113 | 1 | 27 | 0.003 | FALSE POSITIVE; HERV, part of human genome |
+| Ictalurid herpesvirus 1 (fish) | 1 | 4 | 3.5e-05 | FALSE POSITIVE; <50 unique k-mers |
+| Pandoravirus macleodensis (amoeba) | 1 | 2 | 1.1e-06 | FALSE POSITIVE; <50 unique k-mers |
 
 **All three hits fail the minimum unique k-mers filter → 0 viral taxa pass.**
 
@@ -308,7 +308,7 @@ jellyfish k-mer counting and db_sort steps. ACPI critical temperature trip point
 
 **Contributing factors:**
 - AMD Ryzen 5 3550H laptop CPU
-- `thermald` service failed to start ("Unsupported cpu model or platform") — thermal
+- `thermald` service failed to start ("Unsupported cpu model or platform"); the thermal
   throttling daemon was not running
 - jellyfish count with `--threads 8` = 100% CPU utilization on all 8 threads
   sustained for multiple minutes
@@ -405,7 +405,7 @@ confidence = (k-mers matching classified taxon) / (total k-mers in read)
 After fastp trims 46 bp of adapter/low-quality bases from a 101 bp read (→ 55 bp):
 - The numerator (matching k-mers) stays the same (those k-mers are still present)
 - The denominator (total k-mers) drops from ~67 to ~21
-- A read at 4.5% confidence (101 bp) becomes 14.3% (55 bp) — crosses the 10% threshold
+- A read at 4.5% confidence (101 bp) becomes 14.3% (55 bp); it crosses the 10% threshold
 
 **Implication for pipeline design:** Trimming should always precede Kraken2
 classification. Doing depletion on raw reads (as done in Phase 2) risks under-removing
@@ -426,7 +426,7 @@ This creates a dual problem:
 - **False positives:** HERV reads from tumor WGS hit the viral database
 - **False negatives:** Reads from genuine exogenous retroviruses may be mistakenly
   discarded as "human" by the host depletion step (especially with the phage-masked
-  Hostile index, which was chosen to protect phage signals — same principle applies)
+  Hostile index, which was chosen to protect phage signals; the same principle applies)
 
 **Production solution:** Maintain an HERV exclusion list for the KrakenUniq viral
 database, and in Phase 8 (prophage annotation), HERV-K loci must be explicitly
@@ -437,10 +437,10 @@ absence of bacterial genes, retroviral integrase structure).
 
 | Scenario | Reads | Unique k-mers | Coverage | Interpretation |
 |----------|-------|--------------|----------|----------------|
-| Genuine viral infection | 50–500 | 500–5000 | >0.1% | Real — reads distributed across genome |
-| k-mer cross-contamination | 1–3 | 2–10 | <0.001% | False positive — same few k-mers hit repeatedly |
-| HERV hit | 2–20 | 15–100 | 0.003% | Borderline — requires genomic context to resolve |
-| Sequencing artifact | 1 | 1–3 | <0.0001% | False positive — likely repetitive element |
+| Genuine viral infection | 50–500 | 500–5000 | >0.1% | Real; reads distributed across genome |
+| k-mer cross-contamination | 1–3 | 2–10 | <0.001% | False positive; same few k-mers hit repeatedly |
+| HERV hit | 2–20 | 15–100 | 0.003% | Borderline; requires genomic context to resolve |
+| Sequencing artifact | 1 | 1–3 | <0.0001% | False positive; likely repetitive element |
 
 The minimum thresholds used in CLAUDE pipeline (production):
 - **≥50 unique k-mers per taxon** (Ge et al. 2025 recommendation)
@@ -467,7 +467,7 @@ The minimum thresholds used in CLAUDE pipeline (production):
 
 5. **KrakenUniq database build can resume from step 3.** If the jellyfish step
    (step 1) completed but db_sort was interrupted, deleting only `database.idx`
-   and re-running resumes from db_sort — saves ~2 minutes of re-computation.
+   and re-running resumes from db_sort, saving ~2 minutes of re-computation.
 
 6. **Laptop thermal management matters.** `thermald` was not working for this AMD
    CPU. `nice -n 19 --threads 1` is required for any multi-minute CPU-intensive
@@ -520,11 +520,11 @@ databases/
 |--------|------|------|------|
 | Residual human (Kraken2) | <1% | 1–5% | >5% |
 | KrakenUniq hits passing filter | N/A | N/A | N/A |
-| Known microbial taxa (real data) | >0 expected | — | 0 (genuine metagenome) |
-| HERV hits excluded | Yes | — | — |
-| Minimum unique k-mers for viral call | ≥50 | — | <50 |
+| Known microbial taxa (real data) | >0 expected | n/a | 0 (genuine metagenome) |
+| HERV hits excluded | Yes | n/a | n/a |
+| Minimum unique k-mers for viral call | ≥50 | n/a | <50 |
 
-**QC-4 status: PASS** — No genuine microbial signal. Expected for test data.
+**QC-4 status: PASS.** No genuine microbial signal. Expected for test data.
 
 ---
 
@@ -539,7 +539,7 @@ complete set of human lineage taxids to exclude.
 
 ## 14. Next Step
 
-Phase 5: Assembly — metaSPAdes + MEGAHIT + metaviralSPAdes
+Phase 5: Assembly (metaSPAdes + MEGAHIT + metaviralSPAdes)
 
 **Input:** `pipeline_run/03_qc_filtered/NA12878_chr22_R1.final.fastq.gz` (391 pairs)
 
@@ -551,7 +551,7 @@ production.
 
 ---
 
-*Phase 4 SOP completed — KrakenUniq viral DB built and all three tools executed.*
+*Phase 4 SOP completed. KrakenUniq viral DB built and all three tools executed.*
 *QC-4: PASS. No genuine microbial taxa detected (expected for test data).*
 *Two critical lessons documented: trimming affects Kraken2 confidence, and*
 *extract_nonhuman_kraken.py requires ancestor taxid filtering.*

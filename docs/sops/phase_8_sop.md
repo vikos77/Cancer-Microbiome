@@ -1,9 +1,9 @@
-# Phase 8 SOP — Phage Annotation
+# Phase 8 SOP: Phage Annotation
 
 **Sample:** SRR15090802 (Wahida et al. gut virome, VLP-enriched healthy child)
 **Input:** 119 consensus viral contigs (`pipeline_run/08_viral_contigs/virome/consensus_viral_contigs_2tool.fasta`)
 **Completed:** 2026-02-28
-**Status:** COMPLETE (Pharokka ✅ | PropagAtE ✅ | PHASTEST ✅ submitted, cluster down | iPHoP ✅ DONE — test DB, 5/119 predicted)
+**Status:** COMPLETE (Pharokka ✅ | PropagAtE ✅ | PHASTEST ✅ submitted, cluster down | iPHoP ✅ DONE; test DB, 5/119 predicted)
 
 ---
 
@@ -12,19 +12,19 @@
 Phase 8 performs functional annotation, prophage characterisation, and host prediction on the
 119 viral contigs identified in Phase 7. The full tool suite per the pipeline specification:
 
-1. **Pharokka 1.9.1** — PHROG functional annotation of all 119 viral contigs
-2. **PropagAtE 1.1.0** — Prophage activity estimation for the geNomad-identified provirus
-3. **PHASTEST** — Prophage detection in the 4 MetaBAT2 bins (web service; cluster unavailable)
-4. **iPHoP 1.4.2** — Host prediction for the 119 viral contigs (DB downloading: ~280 GB)
+1. **Pharokka 1.9.1**: PHROG functional annotation of all 119 viral contigs
+2. **PropagAtE 1.1.0**: Prophage activity estimation for the geNomad-identified provirus
+3. **PHASTEST**: Prophage detection in the 4 MetaBAT2 bins (web service; cluster unavailable)
+4. **iPHoP 1.4.2**: Host prediction for the 119 viral contigs (DB downloading: ~280 GB)
 
 **Context for VLP-enriched virome vs. bacterial metagenomes:**
 
 | Tool | Purpose | This sample | Action |
 |------|---------|-------------|--------|
 | Pharokka (PHROG) | Gene function annotation | All viral contigs | ✅ Run |
-| PropagAtE | Prophage activity (dormant vs. active) | 1 geNomad provirus | ✅ Run — DORMANT |
+| PropagAtE | Prophage activity (dormant vs. active) | 1 geNomad provirus | ✅ Run (DORMANT) |
 | PHASTEST | Prophage detection in bacterial assemblies | 4 MetaBAT2 bins | ✅ Submitted (BB IDs saved) |
-| iPHoP | Host genus prediction | 119 viral contigs | ✅ COMPLETE — 5/119 predicted (test DB; production DB needs server) |
+| iPHoP | Host genus prediction | 119 viral contigs | ✅ COMPLETE; 5/119 predicted (test DB; production DB needs server) |
 
 ---
 
@@ -41,11 +41,11 @@ Environment includes: Pharokka 1.9.1, Pyrodigal-gv 0.3.2, MMseqs2, PyHMMER, MinC
 Aragorn, tRNA-scan-SE, Mash 2.3, Dnaapler 1.3.0.
 
 Database at: `$PROJECT_DIR/databases/pharokka/`
-- `phrogs_profile_db` — PHROGs v4 HMM profiles
-- `phrog_annot_v4.tsv` — PHROG functional annotations
-- `CARD/` — antibiotic resistance database
-- `vfdb/` — Virulence Factor DataBase
-- `9Aug2025_genomes.fa.msh` — INPHARED Mash sketches (Aug 2025)
+- `phrogs_profile_db`: PHROGs v4 HMM profiles
+- `phrog_annot_v4.tsv`: PHROG functional annotations
+- `CARD/`: antibiotic resistance database
+- `vfdb/`: Virulence Factor DataBase
+- `9Aug2025_genomes.fa.msh`: INPHARED Mash sketches (Aug 2025)
 
 ### 1.2 PropagAtE installation
 
@@ -85,7 +85,7 @@ The full iPHoP database is required for production cancer microbiome analysis. T
 database is distributed as 28 × ~10 GB gzipped chunks from NERSC.
 
 **Why the full database?** Cancer WGS tumor samples contain bacteria from diverse body sites
-(gut, oral, lung, skin). The medium database lacks rare genera — missing them means missed host
+(gut, oral, lung, skin). The medium database lacks rare genera; missing them means missed host
 predictions for phages from uncommon tumor-associated bacteria.
 
 ```bash
@@ -108,7 +108,7 @@ iphop download \
 space at chunk 17. The failed 175 GB partial archive was deleted to reclaim space.
 Uncompressed database requires ~350–500 GB (BLAST binary databases have low compression
 ratio), exceeding the laptop's 207 GB free space. The 28 chunks remain intact at
-`databases/iphop/` — extract on a server with ≥500 GB free.
+`databases/iphop/`; extract on a server with ≥500 GB free.
 
 **Test database (used for validation):** `iPHoP_db_rw_1.4_for-test` (9.5 GB compressed,
 ~19 GB extracted). Downloaded and used for this validation run:
@@ -161,7 +161,7 @@ pharokka.py \
 ```
 
 **Parameters:**
-- `-m` / `--meta`: metagenome mode — uses Pyrodigal-gv; mandatory for fragmented contigs
+- `-m` / `--meta`: metagenome mode; uses Pyrodigal-gv, mandatory for fragmented contigs
 - `--meta_hmm`: runs both MMseqs2 AND PyHMMER (better sensitivity for divergent proteins)
 - `-t 4`: 4 threads
 - `-f`: force overwrite
@@ -199,7 +199,7 @@ pharokka.py \
 
 **Antibiotic resistance (CARD):** 0 hits
 **Virulence factors (VFDB):** 0 hits
-**Terminase large subunit:** Detected (multiple phages) — confirms dsDNA identity
+**Terminase large subunit:** Detected (multiple phages); confirms dsDNA identity
 
 **Mash genome comparison (INPHARED Aug 2025):**
 
@@ -214,7 +214,7 @@ metaspades_28 is an **exact match** to a known phage in INPHARED.
 
 ---
 
-## Section 3: PropagAtE — Prophage Activity
+## Section 3: PropagAtE (Prophage Activity)
 
 ### 3.1 Overview
 
@@ -289,15 +289,15 @@ Output: `pipeline_run/10_prophages/virome/propagate_results/propagate_results.ts
 | metaspades_100_provirus_3_3958 | metaspades_100 | **dormant** | 0.062 | 1.032 | 0.229 |
 
 **Interpretation:**
-- `active = dormant` — prophage is not currently replicating
-- `CohenD = 0.062` — negligible effect size (< 0.2 = trivial)
-- `ratio = 1.032` — prophage and host DNA at virtually identical coverage depth (~7× both)
+- `active = dormant`: prophage is not currently replicating
+- `CohenD = 0.062`: negligible effect size (< 0.2 = trivial)
+- `ratio = 1.032`: prophage and host DNA at virtually identical coverage depth (~7× both)
 - This is fully expected for a VLP-enriched sample: the host bacteria from which this
   provirus was derived is not actively inducing phage replication in this sample
 
 ---
 
-## Section 4: PHASTEST — Prophage Detection in MAG Bins
+## Section 4: PHASTEST (Prophage Detection in MAG Bins)
 
 ### 4.1 Overview
 
@@ -375,7 +375,7 @@ python3 pipeline_run/scripts/phastest_submit.py \
 
 ---
 
-## Section 5: iPHoP — Host Prediction
+## Section 5: iPHoP (Host Prediction)
 
 ### 5.1 Overview
 
@@ -395,7 +395,7 @@ Typical coverage on a full database: 40–60% of gut phages at <10% FDR.
 7–9. Aggregate → TensorFlow + RF classifiers → final output
 
 Each step writes its parsed CSV to `Wdir/`. If a parsed CSV already exists, iPHoP
-skips that step automatically — enabling clean restarts after crashes.
+skips that step automatically, enabling clean restarts after crashes.
 
 ### 5.2 Installation
 
@@ -452,7 +452,7 @@ iphop predict \
 "
 ```
 
-iPHoP will print warnings about RaFAH having no data — these are expected. Output
+iPHoP will print warnings about RaFAH having no data; these are expected. Output
 files are valid and use 5/6 tools.
 
 **For production (server with ≥64 GB RAM):** Do NOT use the stub. Run normally
@@ -460,9 +460,9 @@ with the Jun25 database; all 6 methods including RaFAH will run.
 
 **Wdir crash recovery:** Steps 1–5 each write a parsed CSV. If the system crashes
 mid-run (e.g., during RaFAH), the earlier CSVs survive. Simply add the stub and
-re-run — iPHoP will skip all completed steps and proceed from where it left off.
+re-run; iPHoP will skip all completed steps and proceed from where it left off.
 
-### 5.5 Results (validation run — test database, 2026-02-28)
+### 5.5 Results (validation run, test database, 2026-02-28)
 
 **Database:** `iPHoP_db_rw_1.4_for-test` (9.5 GB compressed, ~19 GB extracted)
 **Method:** 5/6 tools (RaFAH skipped via stub); diamond AAI ran normally
@@ -521,14 +521,14 @@ Do NOT use the RaFAH stub on a properly-resourced server.
 |--------|------|----------|--------|---------|-------|
 | Phase 7 geNomad | geNomad | metaspades_100\|provirus_3_3958 | 3,956 bp | N/A | Not in 2-tool consensus (DVF score 0.10) |
 | Phase 7 CheckV | CheckV | metaspades_415 | 4,284 bp | Low-quality | 14.4% contamination, 3.35% completeness |
-| Phase 8 PropagAtE | PropagAtE | metaspades_100_provirus_3_3958 | — | DORMANT | CohenD=0.062, ratio=1.032 |
+| Phase 8 PropagAtE | PropagAtE | metaspades_100_provirus_3_3958 | n/a | DORMANT | CohenD=0.062, ratio=1.032 |
 
 geNomad DTR (circular phage genomes):
-- metaspades_3: 43,886 bp (DTR, 7 hallmarks) — same phage as megahit_14910 (assembled twice)
+- metaspades_3: 43,886 bp (DTR, 7 hallmarks); same phage as megahit_14910 (assembled twice)
 - megahit_14910: 43,954 bp (DTR, 8 hallmarks)
 
 **Provirus activity:** The single geNomad provirus in metaspades_100 is DORMANT per PropagAtE
-(coverage ratio 1.032 — virtually identical to host flanking DNA). Expected for VLP-enriched
+(coverage ratio 1.032, virtually identical to host flanking DNA). Expected for VLP-enriched
 data where phage induction is not occurring in the sequencing sample.
 
 **Low provirus count (2 in 20,547 contigs = 0.01%)** is expected for VLP-enriched data:
@@ -578,7 +578,7 @@ See: `pipeline_run/qc_checkpoints/QC11_virome_SRR15090802.txt`
 ## Section 8: Key Gotchas
 
 1. **Pharokka meta mode (`-m`)**: Changes gene predictor from Phanotate to Pyrodigal-gv.
-   Mandatory for metagenome input — Phanotate requires complete phage genomes.
+   Mandatory for metagenome input; Phanotate requires complete phage genomes.
 
 2. **`--meta_hmm` adds PyHMMER**: Default meta mode uses only MMseqs2. `--meta_hmm` adds
    HMM search, improving sensitivity for divergent proteins. Doubles runtime.
@@ -612,7 +612,7 @@ See: `pipeline_run/qc_checkpoints/QC11_virome_SRR15090802.txt`
 
 10. **iPHoP Wdir is crash-safe**: Each step writes a parsed CSV. Completed steps are
     automatically skipped on re-run if their CSV exists. After a crash, only add the RaFAH
-    stub and re-run — you do not need to start from scratch.
+    stub and re-run; you do not need to start from scratch.
 
 11. **iPHoP test DB name**: Must be `iPHoP_db_rw_1.4_for-test` (not `iPHoP_db_for-test`).
     Wrong name → 404 on the md5 check step.
@@ -621,11 +621,11 @@ See: `pipeline_run/qc_checkpoints/QC11_virome_SRR15090802.txt`
    Successful POST redirects to `/batches/BB_<hex>`, NOT `/submissions/<id>`.
    Empty 22-byte ZIP = results not ready; non-empty ZIP = complete.
 
-9. **PHASTEST 10-sequence batch limit**: Multi-FASTA with >10 sequences — only first 10 processed.
+9. **PHASTEST 10-sequence batch limit**: Multi-FASTA with >10 sequences; only first 10 processed.
    For complete coverage of large bins, submit individual sequences or multiple small FASTAs.
 
 10. **PHASTEST cluster availability**: The PHASTEST HPC backend can be temporarily unavailable
-    ("Problem connecting to backend computing cluster!"). Batch IDs are persistent — retry later.
+    ("Problem connecting to backend computing cluster!"). Batch IDs are persistent; retry later.
 
 ---
 
