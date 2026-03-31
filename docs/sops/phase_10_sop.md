@@ -16,7 +16,7 @@ Phase 10 integrates all upstream results into three deliverables:
 3. **`pipeline_summary.md`**: biological narrative tying all findings together
 4. **`mobilome_summary.tsv`**: IS elements + top plasmid contigs
 
-All outputs go to `pipeline_run/13_integration/virome/`.
+All outputs go to `pipeline_run/integration/virome_validation/`.
 
 ---
 
@@ -39,7 +39,7 @@ conda run -n claude_pipeline \
     $HOME/miniconda3/envs/claude_pipeline/bin/python3.10 \
     pipeline_run/scripts/integrate_pipeline.py \
     --base_dir $PROJECT_DIR \
-    --out_dir pipeline_run/13_integration/virome \
+    --out_dir pipeline_run/integration/virome_validation \
     2>&1 | tee pipeline_run/logs/integration_virome.log
 ```
 
@@ -214,7 +214,7 @@ After results: update QC-12 from COMPLETE to COMPLETE ✅.
 
 ```
 pipeline_run/
-├── 13_integration/virome/
+├── integration/virome_validation/
 │   ├── master_viral_table.tsv      119 rows × 43 cols (all viral contig annotations)
 │   ├── qc_dashboard.txt            QC1–QC12 status dashboard
 │   ├── mobilome_summary.tsv        IS elements + top plasmids

@@ -6,7 +6,7 @@
 abundance in the cohort (MetaPhlAn2 profiling); control selected as the closest depth-matched
 healthy sample to enable a direct comparison.
 
-All phases completed on both samples. QC checkpoints are in `pipeline_run/qc_checkpoints_public/`.
+All phases completed on both samples. QC checkpoints are in `pipeline_run/qc_checkpoints/`.
 
 ---
 
@@ -176,14 +176,14 @@ a genuine reduction in phage immunity capacity in the CRC microbiome.
 ## QC Dashboard
 
 All 23 QC checkpoints passed for both samples. Full QC reports are in
-`pipeline_run/qc_checkpoints_public/`.
+`pipeline_run/qc_checkpoints/`.
 
 ---
 
 ## Integration
 
 All results from Phases 4-12 are consolidated into a master table at
-`pipeline_run/13_integration/Wirbel_CRC/` with the following outputs:
+`pipeline_run/integration/Wirbel_CRC/` with the following outputs:
 
 * `master_viral_table_CRC_sample.tsv` — 335 rows × 43 columns
 * `master_viral_table_control_sample.tsv` — 542 rows × 43 columns

@@ -207,7 +207,7 @@ mkdir -p ${PROJECT_DIR}/{
     10_prophages,
     11_phage_annotation,
     12_mobilome,
-    13_integration,
+    integration,
     14_defence_systems,
     qc_checkpoints,
     logs,
@@ -243,7 +243,7 @@ conda run -n claude_pipeline bash -c "
 
 ## Validation
 
-The pipeline was validated end-to-end on a VLP-enriched gut virome dataset and on a pair of stool metagenomes from the Wirbel et al. 2019 Nature Medicine CRC cohort: one stage III CRC patient and one healthy control. QC checkpoints for both validation runs are in `pipeline_run/qc_checkpoints_public/`. Sample accession numbers have been replaced with aliases (CRC_sample and control_sample) in all public-facing files.
+The pipeline was validated end-to-end on a VLP-enriched gut virome dataset and on a pair of stool metagenomes from the Wirbel et al. 2019 Nature Medicine CRC cohort: one stage III CRC patient and one healthy control. QC checkpoints for both validation runs are in `pipeline_run/qc_checkpoints/`. Sample accession numbers have been replaced with aliases (CRC_sample and control_sample) in all public-facing files.
 
 Key validation results:
 
@@ -252,7 +252,7 @@ Key validation results:
 * Phase 11 defence profiling: 208 defence systems across 30 CRC MAGs vs 371 across 92 control MAGs
 * Primary biological finding: 6 Fusobacterium-associated phages exclusive to the CRC sample
 
-Full results are in `pipeline_run/13_integration/Wirbel_CRC_public/`.
+Full results are in `pipeline_run/integration/Wirbel_CRC/`.
 
 ---
 

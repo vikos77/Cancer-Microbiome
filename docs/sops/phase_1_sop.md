@@ -108,7 +108,7 @@ mkdir -p ${PROJECT_DIR}/{
     10_prophages,
     11_phage_annotation,
     12_mobilome,
-    13_integration,
+    integration,
     qc_checkpoints,
     logs,
     scripts

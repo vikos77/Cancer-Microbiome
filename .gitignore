@@ -114,20 +114,18 @@ __pycache__/
 .ipynb_checkpoints/
 *.ipynb
 
-# Large result files — keep summaries, not raw outputs
-pipeline_run/13_integration/**/*.tsv
-pipeline_run/13_integration/**/*.csv
-pipeline_run/qc_checkpoints/
+# Integration outputs — only include anonymised subdirs
+pipeline_run/integration/**/*.tsv
+pipeline_run/integration/**/*.csv
+pipeline_run/integration/*
+!pipeline_run/integration/Wirbel_CRC/
+!pipeline_run/integration/Wirbel_CRC/**
+!pipeline_run/integration/virome_validation/
+!pipeline_run/integration/virome_validation/**
 
-# Integration outputs — only include anonymised public subdirs
-pipeline_run/13_integration/*
-!pipeline_run/13_integration/Wirbel_CRC_public/
-!pipeline_run/13_integration/Wirbel_CRC_public/**
-!pipeline_run/13_integration/virome_public/
-!pipeline_run/13_integration/virome_public/**
-
-# QC checkpoints — use anonymised public copies only
-pipeline_run/qc_checkpoints/
-!pipeline_run/qc_checkpoints_public/
+# Local private copies (real sample IDs, not committed)
+pipeline_run/integration/Wirbel_CRC_private/
+pipeline_run/integration/virome/
+pipeline_run/qc_checkpoints_private/
 pipeline_run/scripts/DeepVirFinder/
 pipeline_run/scripts/PropagAtE/
