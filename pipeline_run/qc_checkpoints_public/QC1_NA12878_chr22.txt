@@ -1,0 +1,8 @@
+SAMPLE: NA12878_chr22
+═══════════════════════════════════════════════
+Total reads in BAM:  88944
+R1 extracted:        1534
+R2 extracted:        1534
+Unmapped fraction:   .0344
+Pairs balanced:      YES
+═══════════════════════════════════════════════

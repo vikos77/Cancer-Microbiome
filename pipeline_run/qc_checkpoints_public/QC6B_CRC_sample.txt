@@ -1,0 +1,81 @@
+QC6B — Bacterial MAG Annotation (Bakta) — CRC_sample
+==========================================================
+Date: 2026-03-09
+Tool: Bakta 1.12.0, DB v6.0 full
+Sample: CRC_sample (30 MAG bins)
+Status: PASS
+
+THRESHOLDS:
+  - >=1 bin annotated: PASS (30/30)
+  - CDS per bin > 100: PASS (min=246 for bin.25, max=29,932 for bin.19)
+  - Hypothetical protein fraction < 60%: PASS (5.3%)
+  - GFF3 + FAA present for each bin: PASS
+
+ANNOTATION SUMMARY:
+  Bins complete:        30 / 30
+  Total CDS:            141,148
+  Hypothetical CDS:     7,525 (5.3%)
+  Known-function CDS:   133,623 (94.7%)
+  tRNA:                 2,000
+  rRNA:                 38
+  tmRNA:                21
+  ncRNA:                336
+  ncRNA-region:         674
+  sORF:                 48
+  CRISPR arrays:        16
+  CRISPR spacers:       218
+  CRISPR repeats:       218
+  oriC:                 5
+
+MOBILEOG (Bakta FAA):
+  Input proteins:       78,228
+  MGE proteins (hits):  4,980 (6.4%)
+  Categories (best hit):
+    replication/recombination/repair: 1,502
+    transfer (conjugation):           928
+    integration/excision:             612
+    phage:                            460
+    stability/transfer/defense:       283
+  Hit file: pipeline_run/12_mobilome/CRC_sample/mobileog/mobileog_bakta_hits.tsv
+  Annotated file: pipeline_run/12_mobilome/CRC_sample/mobileog/mobileog_bakta_annotated.tsv
+
+HQ BINS:
+  bin.12: 98.67% complete, 1.50% contam (1,990 CDS, 56% GC)
+  bin.22: 95.49% complete, 0.07% contam (1,331 CDS, 37% GC)
+
+KEY OBSERVATIONS:
+  - 94.7% known-function rate (Bakta vs Prodigal = better annotation coverage)
+  - 5 oriC detected across bins (possible replication origins)
+  - 218 CRISPR spacers (bacterial immune memory of phages)
+  - 6.4% of proteins are MGE-associated (consistent with active HGT in CRC microbiome)
+  - mobileOG re-run with Bakta FAA (vs Prodigal in Phase 9) provides higher-quality MGE protein calls
+
+OUTPUT FILES:
+  pipeline_run/07b_bakta_annotation/CRC_sample/bin.*/
+    bin.N.gff3  — genome annotation (GFF3)
+    bin.N.faa   — protein sequences (FAA)
+    bin.N.ffn   — nucleotide gene sequences (FFN)
+    bin.N.tsv   — feature table
+    bin.N.gbff  — GenBank format
+    bin.N.txt   — summary statistics
+  pipeline_run/12_mobilome/CRC_sample/mobileog/
+    all_bins_bakta.faa         — concatenated Bakta proteins (78,228 seqs)
+    mobileog_bakta_hits.tsv    — DIAMOND raw hits (101,741 lines)
+    mobileog_bakta_annotated.tsv — annotated best hits (4,980 unique proteins)
+
+PHASTEST STATUS:
+  HQ bins prepared for submission:
+    CRC_bin12 (2.15 MB, 52 contigs, min 3,552 bp)
+    CRC_bin22 (1.44 MB, 37 contigs, min 2,404 bp)
+  Files: pipeline_run/10_prophages/phastest_hq_bins/
+  PHASTEST server: HTTP 500 on all endpoints (backend cluster outage as of 2026-03-09)
+  Action: retry submission when server recovers using URL API:
+    wget --post-file CRC_bin12.fa "https://phastest.ca/phastest_api?contigs=1" -O CRC_bin12_job.json
+
+PENDING:
+  - Control Bakta (36/92 complete; M4 Max finishing bins 7-9, 40-92)
+  - rsync results back: rsync -avz --progress M4_MAX_IP:~/bakta_results/control_control_sample/ \
+      /home/vicky/Microbiome_cancer/pipeline_run/07b_bakta_annotation/control_control_sample/
+  - mobileOG re-run for control with Bakta FAA (after rsync)
+  - QC6B_control_control_sample.txt (after rsync)
+  - PHASTEST ctrl_bin2 and ctrl_bin66 (when server recovers)

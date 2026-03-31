@@ -1,0 +1,55 @@
+QC-2 Host Depletion Checkpoint
+Sample: control_sample
+Date: 2026-02-28
+Tool versions: hostile 2.0.2, bowtie2 2.5.4, kraken2 2.1.3
+Index: human-t2t-hla.rs-viral-202401_ml-phage-202401 (phage-masked T2T+HLA)
+Kraken2 DB: k2_standard_08gb (2024-09-04)
+═══════════════════════════════════════════════════════════
+Input read pairs:         24,540,272
+After Pass 1 (Hostile):   24,539,838  (0.00% removed, 434 pairs)
+After Pass 2 (Bowtie2):   24,539,838  (0.00% removed, 0 pairs)
+After Pass 3 (Kraken2):   24,539,793  (0.00% removed, 45 pairs)
+───────────────────────────────────────────────────────────
+Total depletion:          0.00%
+Residual human (Kraken):  0.00% (45/24,539,838 pairs, taxid 9606)
+─────────────────────────────────────────────
+Pass 1 Hostile JSON:
+  reads_in:              49,080,544
+  reads_out:             49,079,676
+  reads_removed:         868
+  reads_removed_prop:    2e-05 (0.002%)
+
+Pass 2 Bowtie2 summary:
+  24,539,838 paired input reads
+  24,539,838 aligned concordantly 0 times (= kept)
+  0 aligned concordantly (= removed)
+  1 discordant alignment (counted in unaligned pairs; not removed)
+  0.00% overall alignment rate
+
+Pass 3 Kraken2 summary:
+  24,539,838 sequences processed
+  3,884,327 classified (15.83%)
+  20,655,511 unclassified (84.17%)
+  Homo sapiens (taxid 9606): 45 reads (0.00%)
+
+Extract script output:
+  Pairs written (non-human): 24,539,793
+  Pairs removed (human):     45
+─────────────────────────────────────────────
+QC-2 STATUS: PASS
+  Residual human 0.00% < 2% threshold
+  Note: Extremely low human content (0.002% in Pass 1) is expected for a healthy
+  control stool metagenome. Non-invasive stool sampling captures primarily microbial
+  DNA; the low host fraction confirms appropriate sample type and library prep.
+═══════════════════════════════════════════════════════════
+OUTPUT FILES:
+  Final clean R1: pipeline_run/02_host_depleted/control_sample/control_sample_R1.clean.fastq.gz (1.1 GB)
+  Final clean R2: pipeline_run/02_host_depleted/control_sample/control_sample_R2.clean.fastq.gz (1.1 GB)
+  Kraken2 output: pipeline_run/02_host_depleted/control_sample/control_sample_kraken2_pass3.out
+  Kraken2 report: pipeline_run/02_host_depleted/control_sample/control_sample_kraken2_pass3.report
+LOGS:
+  pipeline_run/logs/hostile_control_sample.log
+  pipeline_run/logs/bowtie2_pass2_control_sample.log
+  pipeline_run/logs/kraken2_pass3_control_sample.log
+  pipeline_run/logs/kraken2_extract_control_sample.log
+═══════════════════════════════════════════════════════════

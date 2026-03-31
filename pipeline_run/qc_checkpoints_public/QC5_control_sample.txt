@@ -1,0 +1,68 @@
+═══════════════════════════════════════════════════════════════
+SAMPLE: control control_sample (Wirbel et al. 2019, healthy control)
+PHASE 5 QC — Metagenomic Assembly Statistics
+Date: 2026-03-03
+═══════════════════════════════════════════════════════════════
+
+INPUT
+─────────────────────────────────────────────────────
+R1: pipeline_run/03_qc_filtered/control_sample/control_sample_R1.final.fastq.gz (1.4 GB)
+R2: pipeline_run/03_qc_filtered/control_sample/control_sample_R2.final.fastq.gz (1.5 GB)
+Pairs: ~22,000,000 (healthy stool metagenome)
+
+ASSEMBLER RESULTS
+─────────────────────────────────────────────────────
+Assembler              Contigs(all)  Contigs(≥500bp)  Sum_len(bp)    N50      Max_len   Status
+──────────────────────────────────────────────────────────────────────────────────────────
+metaSPAdes (all)         331,810       102,987       279,883,411    1,963    388,921   PASS
+metaSPAdes (≥500bp)      102,987       102,987       215,265,396    4,340    388,921   PASS
+MEGAHIT (≥500bp)         101,109       101,109       211,349,721    4,683    447,918   PASS
+metaviralSPAdes              82            82         2,328,955    73,032    189,333   PASS
+──────────────────────────────────────────────────────────────────────────────────────────
+Pre-dedup merged total:  204,178       204,178        ~423 MB
+Post-dedup (CD-HIT-EST):  128,703      128,703       280,451,923    5,186    447,918   PASS
+  Deduplication rate: 37.0% removed (204,178 → 128,703)
+
+RUNTIMES
+─────────────────────────────────────────────────────
+metaviralSPAdes: 2 hours 3 minutes 44 seconds (4 threads, --memory 28, K21/K33/K55/K77)
+CD-HIT-EST dedup: ~29 minutes (4 threads, -M 16000, -c 0.99 -aS 0.85 -n 10)
+
+KEY METRICS
+─────────────────────────────────────────────────────
+Final deduplicated assembly:
+  Contigs ≥500bp:  128,703
+  Total length:    280,451,923 bp (~280 MB)
+  N50:             5,186 bp
+  Max contig:      447,918 bp (~448 kb, likely bacterial chromosome fragment)
+  Avg length:      2,179 bp
+
+metaviralSPAdes highlights:
+  82 contigs, N50=73,032 bp, max=189,333 bp (~189 kb)
+  Min contig: 1,102 bp (all large; expected for viral-specific assembler)
+  These represent near-complete or complete viral/phage genomes
+
+QC THRESHOLDS (production)
+─────────────────────────────────────────────────────
+  Total assembled bp  >1 MB:    280 MB  PASS
+  N50 >2 kb:                    5,186   PASS
+  Contig count >50:             128,703 PASS
+  Largest contig >5 kb:         448 kb  PASS
+  All 3 assemblers produced output:      PASS
+
+═══════════════════════════════════════════════════════════════
+STATUS: PASS
+═══════════════════════════════════════════════════════════════
+
+OUTPUT FILES
+─────────────────────────────────────────────────────
+pipeline_run/05_assembly/control_sample/
+  metaspades/contigs.fasta               284 MB (331,810 contigs, all lengths)
+  megahit/final.contigs.fa               206 MB (101,109 contigs, ≥500bp)
+  metaviralspades/contigs.fasta          2.3 MB (82 contigs, all ≥1102bp)
+  merged/all_contigs.fasta               423 MB (204,178 contigs pre-dedup)
+  merged/all_contigs_dedup.fasta         276 MB (128,703 contigs post-dedup)
+
+NEXT STEP: Phase 6 — Contig Decontamination + MAG Binning
+  Input: pipeline_run/05_assembly/control_sample/merged/all_contigs_dedup.fasta
+  Steps: BLASTn vs T2T-CHM13 (human removal) → UniVec (vector removal) → MetaBAT2 binning

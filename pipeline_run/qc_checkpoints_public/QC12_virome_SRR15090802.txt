@@ -1,0 +1,123 @@
+QC-12 CHECKPOINT — Mobilome Detection
+Sample: SRR15090802 (Wahida et al. gut virome, VLP-enriched healthy child)
+Date: 2026-02-26
+
+=== INPUT ===
+MAG bins: 4 MetaBAT2 bins (pipeline_run/07_mags/virome/metabat2/bin.{1,2,3,4}.fa)
+  bin.1: 497 contigs, 3.3 MB
+  bin.2: 276 contigs, 805 KB
+  bin.3:  66 contigs, 226 KB
+  bin.4:  68 contigs, 212 KB
+
+=== PLASMIDS — geNomad (from Phase 7) ===
+Tool: geNomad 1.9.7 (run in Phase 7 on all 20,547 clean contigs)
+Output: pipeline_run/12_mobilome/virome/plasmids/clean_contigs_plasmid_summary.tsv
+
+Total plasmid contigs detected:     124
+  With conjugation genes:            39  (MOBV, MOBP1, MOBB, F_traW/U/V etc.)
+  With AMR genes (geNomad AMR):       0
+  DTR (circular) topology:            5
+  Size range:                     514 – 29,043 bp
+
+Notable plasmid contigs (top by score):
+  metaspades_392:  4,429 bp  score=0.9958  conjugation=MOBV
+  metaspades_165:  7,266 bp  score=0.9956  conjugation=NA
+  megahit_1934:    3,472 bp  score=0.9953  conjugation=MOBP1
+  metaspades_103:  9,069 bp  score=0.9945  conjugation=F_traW;F_traU;F_trbC;F_traF;F_traH;F_traG
+  metaspades_338:  4,838 bp  score=0.9942  conjugation=F_traV;F_traK;F_traE;F_traL
+
+Interpretation: 39 plasmid contigs carry conjugation machinery (MOB relaxases or F-type
+tra genes), suggesting mobile plasmids capable of conjugative transfer. This is
+biologically plausible — even VLP-enriched samples can contain small circular DNAs
+co-purified with phage particles. No AMR genes detected.
+
+=== INSERTION SEQUENCES — ISEScan 1.7.2.3 ===
+Input: 4 MetaBAT2 bins (all contigs)
+Output: pipeline_run/12_mobilome/virome/isescan/
+
+IS elements detected per bin:
+  bin.1:  9 IS elements  (IS256 ×3, IS3 ×3, IS110 ×1, IS30 ×1, IS481 ×1)
+  bin.2:  3 IS elements  (IS4 ×2, IS91 ×1)
+  bin.3:  0 IS elements
+  bin.4:  4 IS elements  (IS630 ×2, IS481 ×1, IS256 ×1)
+  TOTAL: 16 IS elements across 4 bins
+
+IS families detected:
+  IS256:  4 copies  (transposase of IS256 superfamily)
+  IS3:    3 copies  (DDE transposase, type 3)
+  IS4:    2 copies  (DDE transposase, type 4)
+  IS630:  2 copies  (Tc1/mariner superfamily)
+  IS481:  2 copies  (IS481 family)
+  IS110:  1 copy   (serine recombinase family)
+  IS30:   1 copy   (DDE transposase, IS30 family)
+  IS91:   1 copy   (ISCR/rolling-circle transposase)
+
+Notable: IS elements are found on phage contigs (metaviralspades_16, metaviralspades_46),
+which may represent co-packaged bacterial DNA or genuine phage-IS associations.
+IS91 (metaspades_1370, 81% of contig is IS element) suggests very short contig
+composed almost entirely of a transposase — likely a transposase fragment.
+
+Gotcha: ISEScan requires explicit Python 3.10 path (PATH order issue on Ubuntu 24.04):
+  /home/vicky/miniconda3/envs/claude_pipeline/bin/python3.10 isescan.py
+  + LD_LIBRARY_PATH=/home/vicky/miniconda3/envs/claude_pipeline/lib:$LD_LIBRARY_PATH
+
+=== INTEGRONS — IntegronFinder 2.0.5 ===
+Input: 4 MetaBAT2 bins
+Output: pipeline_run/12_mobilome/virome/integrons/
+
+  bin.1:  0 complete | 0 CALIN | 0 In0
+  bin.2:  0 complete | 0 CALIN | 0 In0
+  bin.3:  0 complete | 0 CALIN | 0 In0
+  bin.4:  0 complete | 0 CALIN | 0 In0
+  TOTAL:  0 integrons detected
+
+Interpretation: No integrons found. Expected for VLP-enriched data — integrons
+are predominantly bacterial MGEs for gene cassette capture. Their absence from
+phage-dominated bins is the expected result.
+
+=== mobileOG-db — DIAMOND BLASTP ===
+Status: PENDING — mobileOG-db server (mobileogdb.flsi.cloud.vt.edu) returning
+504 Gateway Timeout on 2026-02-26. GitHub releases contain no FAA assets.
+
+Proteins predicted from bins (ready for mobileOG-db when available):
+  4,848 proteins (Prodigal meta mode) in:
+  pipeline_run/12_mobilome/virome/mobileog/all_bin_proteins.faa
+
+Run when mobileOG-db becomes available:
+  wget https://mobileogdb.flsi.cloud.vt.edu/entries/mobileOG-db_beatrix-1.6.All.faa \
+    -P databases/mobileog/
+  diamond makedb --in databases/mobileog/mobileOG-db_beatrix-1.6.All.faa \
+    --db databases/mobileog/mobileOG-db
+  diamond blastp \
+    --query pipeline_run/12_mobilome/virome/mobileog/all_bin_proteins.faa \
+    --db databases/mobileog/mobileOG-db \
+    --out pipeline_run/12_mobilome/virome/mobileog/mobileog_all_hits.tsv \
+    --outfmt 6 --evalue 1e-10 \
+    --query-cover 60 --subject-cover 60 \
+    --threads 4
+
+=== OVERALL MOBILOME SUMMARY ===
+  Plasmid contigs (geNomad):     124  (from 20,547 clean contigs)
+  Insertion sequences (ISEScan):  16  (from 4 MetaBAT2 bins)
+  Integrons (IntegronFinder):      0  (from 4 MetaBAT2 bins)
+  mobileOG-db hits:          PENDING  (server unavailable)
+
+=== BIOLOGICAL INTERPRETATION ===
+The mobilome profile is consistent with a VLP-enriched sample:
+1. The 124 plasmid contigs are likely small circular DNAs co-purified with VLPs
+   (plasmids <10 kb are often mistaken for or co-pellet with phage particles)
+2. The 16 IS elements are distributed across bins that also contain metaviralspades
+   contigs — most likely representing bacterial DNA co-assembled with phage
+3. Zero integrons confirms the phage-dominated nature of these bins
+4. The mobilome from actual bacterial metagenome MAGs (TCGA/Hartwig tumor WGS)
+   would be expected to show substantially higher IS, integron, and ICE content,
+   particularly for known oncogenic bacteria (H. pylori, E. coli B2)
+
+=== QC THRESHOLDS ===
+No strict pass/fail (mobilome counts depend on which bacteria are present).
+Validation: detect known cancer-MGEs when their host bacteria are present
+  (cag PAI in H. pylori MAGs, pks island in E. coli B2 MAGs)
+This test dataset has no bacteria known to carry cancer-associated MGEs.
+
+=== STATUS: COMPLETE (mobileOG-db pending server recovery) ===
+All available tools run. Results consistent with VLP-enriched, phage-dominated dataset.

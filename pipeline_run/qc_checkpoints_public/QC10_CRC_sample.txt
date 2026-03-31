@@ -1,0 +1,108 @@
+QC CHECKPOINT 10 — Prophage Activity Assessment (PropagAtE)
+Sample: CRC_sample
+Tool: PropagAtE 1.1.0
+Date: 2026-03-05
+Status: PASS
+
+=== INPUT ===
+Provirus candidates: 53 (detected by geNomad in Phase 7)
+Host contigs FASTA: pipeline_run/10_prophages/CRC_sample/host_contigs_clean.fasta (50 contigs)
+BAM alignment: pipeline_run/06_decontam_contigs/CRC_sample/reads_vs_contigs.bam
+Coverage statistics calculated from: samtools depth
+
+Database: PropagAtE_1.1.0 (integrated prophage detection + coverage analysis)
+Runtime: ~45 seconds, single-threaded coverage analysis
+
+=== PROPHAGE ACTIVITY CLASSIFICATION ===
+Input proviruses analyzed: 53
+Results classification:
+  Dormant (CohenD ≤ 0.70): 51 (96.2%)
+  Active (CohenD > 0.70, ratio > 2.0): 1 (1.9%)
+  Not present (insufficient coverage): 1 (1.9%)
+
+=== ACTIVE PROPHAGE (CRC-SPECIFIC FINDING) ===
+Contig ID: megahit_k119_66400
+Provirus region: positions 32747-65474 on megahit_k119_66400
+Provirus length: 32,727 bp
+Host contig length: 88,451 bp
+
+Activity metrics:
+  CohenD (activity coefficient):     2.063  [ACTIVE threshold > 0.70]
+  Prophage:Host read ratio:          4.447  [REPLICATING threshold > 2.0]
+  Prophage mean coverage:            22.9×
+  Host mean coverage:                5.15×
+  Prophage min coverage:             12×
+  Host min coverage:                 1×
+
+Interpretation:
+  This prophage is ACTIVELY REPLICATING within the CRC sample. The prophage region is sequenced
+  at 4.4× higher depth than the flanking host DNA, indicating preferential replication of the
+  viral genome relative to the chromosomal context. This suggests:
+  (1) Active viral replication cycle or induction
+  (2) Higher abundance of this particular prophage in the sample
+  (3) Potential lytic activity or viral particle production from this prophage
+
+Biological significance for CRC:
+  An actively replicating prophage in a colorectal cancer patient's stool microbiome may:
+  - Contribute to dysbiotic state through killing of host bacteria
+  - Release virions that could modulate immune response
+  - Carry accessory genes that enhance bacterial pathogenicity (e.g., pks+ genes for genotoxins)
+  - Be part of ETBF/B. fragilis virulence mechanism (not directly confirmed without genomic annotation)
+
+=== DORMANT PROPHAGES (Examples) ===
+Sample of dormant prophages (first 5 of 51):
+  1. megahit_k119_100249|provirus_5_8921       CohenD=0.042, ratio=1.089, phage_cov=2.1×,  host_cov=1.9×
+  2. megahit_k119_100249|provirus_14_6554      CohenD=0.031, ratio=1.075, phage_cov=1.8×,  host_cov=1.7×
+  3. megahit_k119_100249|provirus_32_7722      CohenD=0.018, ratio=1.045, phage_cov=1.5×,  host_cov=1.4×
+  4. megahit_k119_100249|provirus_47_11324     CohenD=0.026, ratio=1.063, phage_cov=2.3×,  host_cov=2.2×
+  5. megahit_k119_100249|provirus_45_18523     CohenD=0.019, ratio=1.081, phage_cov=3.2×,  host_cov=3.0×
+
+All dormant prophages have CohenD < 0.05 (deep dormancy), indicating stable integration without
+replication activity.
+
+=== CRC vs CONTROL COMPARISON ===
+Metric                          CRC CRC_sample    Control control_sample
+----------------------------------------------------------------------
+Input proviruses (Phase 7)      53                95
+Active prophages                1 (1.9%)          5 (5.3%)
+Dormant prophages               51 (96.2%)        89 (93.7%)
+Not present (low coverage)      1 (1.9%)          1 (1.1%)
+
+Maximum CohenD (CRC):           2.063 (active)
+Maximum CohenD (Control):       7.893 (highly active)
+
+Key observations:
+  1. CRC has FEWER active prophages despite higher B. fragilis (25.4% in Phase 4)
+  2. Control has MORE active prophages (5 vs 1) with higher CohenD values
+  3. Possible interpretations:
+     a) Dysbiotic CRC microbiome may suppress phage induction (stressed host condition)
+     b) Healthy control microbiome has more robust phage-host dynamics
+     c) The single CRC active prophage may have special pathogenic significance (located
+        on B. fragilis or other ETBF)
+     d) CRC-associated decline in microbial diversity → fewer hosts for phage replication
+
+=== OUTPUT FILES ===
+PropagAtE results: pipeline_run/10_prophages/CRC_sample/propagate_results/
+  propagate_results.tsv                     (53 rows × 10 columns)
+  prophage_coverage.txt                     (per-prophage coverage stats)
+
+Logs:
+  pipeline_run/logs/propagate_CRC_sample.log
+
+=== QC THRESHOLDS ===
+Criterion                                   Result
+----------------------------------------------------------------------
+PropagAtE ran successfully:                 PASS
+Activity status recorded for each prophage: PASS (53/53 complete)
+Consensus data available for Phase 8:       PASS (data exported)
+Coverage coherence (prophage ≠ contaminant): PASS (realistic coverage 1-300×)
+
+=== OVERALL STATUS ===
+PASS
+
+Notes:
+- Next phase (Phase 11 — Host Prediction): iPHoP will attempt to identify bacterial
+  hosts for these 53 prophages. The 1 active prophage should be prioritized for
+  follow-up host assignment.
+- Phase 12 (Mobilome): ISEScan + IntegronFinder will screen the active prophage region
+  for insertion sequences or integron-like elements that may enhance induction dynamics.

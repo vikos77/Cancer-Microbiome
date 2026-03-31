@@ -1,0 +1,70 @@
+SAMPLE: NA12878_chr22
+═══════════════════════════════════════════════════════════════
+PHASE 4 QC — Read-Based Taxonomic Profiling
+═══════════════════════════════════════════════════════════════
+
+INPUT (from Phase 3): 391 pairs (782 reads), test-mode QC-filtered
+
+────────────────────────────────────────────
+TOOL 1: Kraken2 (k2_standard_08gb, --confidence 0.1)
+────────────────────────────────────────────
+Classified:     2 reads (0.51%)  → Homo sapiens (taxid 9606)
+Unclassified: 389 reads (99.49%)
+
+NOTE: 2 residual human reads caught that Phase 2 missed:
+  - SRR622461.68752106: classified as UNCLASSIFIED in Phase 2 (3/67
+    k-mers = 4.5% human, below 10% threshold). After fastp trimming
+    (101→55 bp), now 3/21 k-mers = 14.3% → correctly classified.
+  - SRR622461.77007588: classified as taxid=1 (root) in Phase 2 due to
+    k-mer split between human and other. extract_nonhuman_kraken.py
+    only filtered taxid=9606 exactly — did not catch root-level LCA.
+    After trimming, unambiguously classified as Homo sapiens.
+
+LESSON: extract_nonhuman_kraken.py should also filter taxids that are
+  ancestors of 9606 (Homo, Hominidae, Primates, etc.) in production.
+  Multi-pass approach catches these: Phase 4 profiling reveals any
+  residual human the Phase 2 Kraken2 pass missed.
+
+────────────────────────────────────────────
+TOOL 2: Bracken (species level, 100-mer distribution)
+────────────────────────────────────────────
+Species detected (reads > threshold=1): 1
+  Homo sapiens: 2 reads (100% of classified)
+Microbial taxa detected: 0
+
+────────────────────────────────────────────
+TOOL 3: KrakenUniq (RefSeq viral complete genomes)
+────────────────────────────────────────────
+DB: 14,596 complete viral RefSeq genomes, k=31
+Classified: 3 reads (0.77%) — ALL FAIL quality filter:
+
+  1. Human endogenous retrovirus K113 (HERV-K)
+     reads=1, unique_kmers=27, cov=0.003141
+     STATUS: EXPECTED FALSE POSITIVE — HERV-K is integrated
+     into human genome; present in any human WGS sample.
+     Must be explicitly excluded in production pipeline.
+
+  2. Ictalurid herpesvirus 1 (fish herpesvirus)
+     reads=1, unique_kmers=4, cov=3.5e-05
+     STATUS: FALSE POSITIVE — only 4 unique k-mers, coverage ~0.
+     KrakenUniq filter: minimum 50 unique k-mers → REJECTED.
+
+  3. Pandoravirus macleodensis (giant amoeba virus)
+     reads=1, unique_kmers=2, cov=1.1e-06
+     STATUS: FALSE POSITIVE — only 2 unique k-mers, coverage ~0.
+     KrakenUniq filter: minimum 50 unique k-mers → REJECTED.
+
+KrakenUniq filter applied (production thresholds):
+  - Minimum unique k-mers: 50
+  - Minimum reads: 2
+  - Results passing filter: 0
+
+Microbial taxa passing all filters: ZERO (expected for test data)
+
+═══════════════════════════════════════════════════════════════
+STATUS: PASS
+QC-4 VERDICT: No genuine microbial signal detected.
+  All classified reads are either residual human (Kraken2) or
+  known false positives (KrakenUniq viral DB). This is the
+  expected outcome for chimeric human WGS reads used as test data.
+═══════════════════════════════════════════════════════════════

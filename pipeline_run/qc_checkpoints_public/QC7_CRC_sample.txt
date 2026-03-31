@@ -1,0 +1,32 @@
+=== QC-7: Viral Identification — CRC CRC_sample ===
+Date: 2026-03-04
+Sample: CRC CRC_sample (Stage III colorectal cancer)
+
+TOOL RESULTS
+  geNomad 1.9.7:     1,025 viral contigs
+  DVF (score≥0.9, pval≤0.05): 4,041 viral contigs
+  2-tool consensus (≥2/2):    313 contigs
+  metaviralSPAdes added:       22 contigs (high-confidence, no overlap)
+  TOTAL viral contigs:        335
+
+CHECKV QUALITY (v1.0.3, 335 contigs input)
+  Complete:          1  (metaspades_NODE_51, 108,262 bp)
+  High-quality:      0
+  Medium-quality:    3
+  Low-quality:      254
+  Not-determined:    77
+
+KEY FILES
+  Consensus FASTA:  pipeline_run/08_viral_contigs/CRC_sample/consensus_viral_contigs_2tool_mvsp.fasta
+  Consensus table:  pipeline_run/08_viral_contigs/CRC_sample/consensus_viral_table.tsv
+  CheckV summary:   pipeline_run/08_viral_contigs/CRC_sample/checkv/quality_summary.tsv
+
+BIOLOGICAL NOTES
+  - 1 complete genome (108 kb) — large phage, likely Caudoviricetes
+  - Low complete/HQ ratio expected for stool metagenome (fragmented assembly)
+  - metaviralSPAdes contigs (N50=34 kb) are high-priority Phase 8 targets
+  - F. nucleatum prophage signal expected to emerge in Phase 8 (Pharokka + PropagAtE)
+
+QC-7 VERDICT: PASS
+  ≥1 consensus viral contig: YES (335)
+  ≥1 CheckV complete/HQ genome: YES (1 complete)

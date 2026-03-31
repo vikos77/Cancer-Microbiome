@@ -1,0 +1,108 @@
+═══════════════════════════════════════════════════════════════════
+SAMPLE: CRC CRC_sample (Wirbel et al. 2019, Stage III CRC)
+PHASE 6 QC — Contig Decontamination + MAG Binning
+DATE: 2026-03-04
+═══════════════════════════════════════════════════════════════════
+
+DECONTAMINATION
+  Input contigs:          72,778  (Phase 5 merged/dedup)
+  T2T BLAST hits:             20  (raw hits; 0 pass ≥500 bp filter)
+  T2T contigs removed:         0  (all alignments < 500 bp)
+  UniVec BLAST hits:        1128  (raw hits across multiple contigs)
+  UniVec contigs removed:     82  (≥100 bp aln, ≥95% pident filter applied)
+  TOTAL removed:              82  (0.11% of input)
+  Clean contigs:          72,696  → pipeline_run/06_decontam_contigs/CRC_sample/clean_contigs.fasta
+
+  Note on T2T hits: 20 raw BLAST hits across 10 unique contigs, all short alignments
+  (34–71 bp). None pass the ≥500 bp minimum alignment length threshold. No human
+  contigs in the CRC metagenome — consistent with 3-pass host depletion in Phase 2.
+
+  Note on UniVec hits: 82 contigs removed. Several have large alignments (>700 bp)
+  matching transposons/cloning vectors (J02459.1, FJ160466.1). These appear to be
+  genuine vector contamination in sequencing library preparation.
+
+COVERAGE MAPPING (bowtie2 → samtools sort → BAM index)
+  Reads input:          7,795,800 pairs (QC-filtered Phase 3)
+  Overall alignment:       84.52%
+  Concordant unique:       53.61%  (4,179,165 pairs)
+  Concordant multi:        26.03%  (2,028,887 pairs — shared regions across strains)
+  Discordant:               2.08%  (162,516 pairs)
+  Unaligned pairs:         20.37%  (1,587,748 pairs — from low-coverage genomes)
+  Well-mapped reads:       97.48%  (13,177,947 reads processed by jgi_depth)
+  BAM file:  pipeline_run/06_decontam_contigs/CRC_sample/reads_vs_contigs.bam (505 MB)
+
+BINNING (MetaBAT2 2.17 — minContig 2000, minS 60, minClsSize 200000)
+  Bins produced:              30
+  Total binned sequence:  84.2 MB  (53.5% of assembled 157.3 MB)
+  Contig depth file:  pipeline_run/07_mags/CRC_sample/metabat2/contig_depths.txt
+
+CHECKM2 QUALITY ASSESSMENT (CheckM2 1.0.2, uniref100.KO.1.dmnd)
+  Bin        Completeness  Contamination  GC%   Size      N50        Contigs  MIMAG_Quality
+  ─────────────────────────────────────────────────────────────────────────────────────────
+  bin.1       49.49%        11.71%        47%   1.03 MB   174,397    10       LQ (high contam)
+  bin.2       87.86%         5.06%        43%   2.94 MB    28,223   176       MQ
+  bin.3       29.67%        27.38%        44%   1.31 MB   230,991     7       LQ (high contam)
+  bin.4       62.93%        54.40%        49%   2.04 MB   747,104     4       LQ (high contam)
+  bin.5       52.26%        12.34%        43%   3.29 MB   260,846    37       LQ (high contam)
+  bin.6       52.79%        21.44%        61%   1.68 MB    11,646   179       LQ (high contam)
+  bin.7       68.61%         1.19%        42%   1.96 MB   110,068    25       MQ
+  bin.8       84.30%        10.72%        42%   2.42 MB    17,270   202       MQ (borderline contam)
+  bin.9       60.43%         5.33%        45%   1.88 MB     6,822   333       MQ
+  bin.10      74.64%         0.00%        49%   1.53 MB   147,273    11       MQ
+  bin.11      85.29%        16.25%        49%   2.80 MB    27,941   151       MQ (high contam)
+  bin.12      98.67%         1.50%        56%   2.15 MB    70,223    52       HQ
+  bin.13      58.12%         0.14%        44%   2.83 MB   301,371    21       MQ
+  bin.14      55.04%         1.86%        47%   2.82 MB    63,754    62       MQ
+  bin.15      49.57%        21.97%        47%   3.05 MB    62,666    87       LQ (high contam)
+  bin.16      18.11%         3.46%        43%   459 KB     23,639    48       LQ
+  bin.17      30.74%         0.06%        38%   688 KB      3,363   210       LQ
+  bin.18       6.61%         6.33%        39%   234 KB    113,623     3       LQ
+  bin.19      84.63%       102.74%        42%  37.44 MB    17,490  3581       LQ (chimeric bin)
+  bin.20       5.46%         1.46%        44%   218 KB    109,991     2       LQ
+  bin.21      45.24%         1.25%        59%   987 KB     17,515    72       LQ
+  bin.22      95.49%         0.07%        37%   1.44 MB    61,063    37       HQ
+  bin.23      34.95%         2.53%        30%   733 KB      3,137   234       LQ
+  bin.24      95.97%        69.42%        29%   4.46 MB     4,426  1062       LQ (chimeric bin)
+  bin.25       4.74%         0.89%        40%   237 KB    124,196     3       LQ
+  bin.26      13.65%         0.00%        48%   235 KB      3,167    75       LQ
+  bin.27       5.06%         0.05%        50%   240 KB     62,888     5       LQ
+  bin.28      65.59%         2.09%        29%   1.12 MB    28,695    65       MQ
+  bin.29      59.86%         8.36%        43%   1.33 MB     4,784   308       MQ
+  bin.30      41.85%         0.11%        49%   609 KB    441,557     2       LQ
+
+SUMMARY BY MIMAG TIER
+  HQ MAGs (≥90% complete, ≤5% contam):    2  (bin.12: 98.67%/1.50%, bin.22: 95.49%/0.07%)
+  MQ MAGs (≥50% complete, ≤10% contam):   8  (bin.2, bin.7, bin.8, bin.9, bin.10, bin.13, bin.14, bin.28)
+  LQ MAGs (<50% complete):                14
+  Chimeric/high contam (>50% contam):      3  (bin.4, bin.19, bin.24 — likely multi-species merges)
+  TOTAL bins:                             30
+
+NOTABLE BINS
+  bin.12: 98.67% complete, 1.5% contam, GC=56%, 2.1 MB — excellent HQ MAG; high GC
+           suggests Actinobacteriota or Bacteroidota
+  bin.22: 95.49% complete, 0.07% contam, GC=37%, 1.4 MB — excellent HQ MAG; low GC
+           and low contamination — likely a Firmicutes (Clostridia/Ruminococcaceae)
+  bin.19: 37.4 MB, 3,581 contigs, 102.7% contam — chimeric mega-bin (multiple species);
+           MetaBAT2 misclustered due to shared abundance signatures
+  bin.4:  62.9% complete, 54.4% contam, N50=747 kb — ultra-long contig (788 kb);
+           likely chimeric or carries a very large mobile element
+
+QC FILES
+  BLAST T2T results:  pipeline_run/06_decontam_contigs/CRC_sample/blast_vs_t2t.tsv
+  BLAST UniVec:       pipeline_run/06_decontam_contigs/CRC_sample/blast_vs_univec.tsv
+  Removed contigs:    pipeline_run/06_decontam_contigs/CRC_sample/removed_contigs.txt
+  Clean contigs:      pipeline_run/06_decontam_contigs/CRC_sample/clean_contigs.fasta
+  BAM:                pipeline_run/06_decontam_contigs/CRC_sample/reads_vs_contigs.bam
+  Contig depths:      pipeline_run/07_mags/CRC_sample/metabat2/contig_depths.txt
+  MetaBAT2 bins:      pipeline_run/07_mags/CRC_sample/metabat2/bin.*.fa (30 bins)
+  CheckM2 report:     pipeline_run/07_mags/CRC_sample/checkm2/quality_report.tsv
+
+═══════════════════════════════════════════════════════════════════
+STATUS: PASS
+0 human contigs (T2T). 82 vector contigs removed (0.11%).
+84.52% read re-mapping rate — excellent for gut metagenome.
+30 MetaBAT2 bins: 2 HQ + 8 MQ = 10 high-confidence MAGs.
+HQ bins: bin.12 (Actinobacteriota/Bacteroidota, 98.7%) and bin.22 (Firmicutes, 95.5%).
+3 chimeric bins (bin.4, bin.19, bin.24) excluded from downstream MAG-level analyses.
+Phase 7 (Viral ID) proceeds with clean_contigs.fasta (72,696 contigs).
+═══════════════════════════════════════════════════════════════════

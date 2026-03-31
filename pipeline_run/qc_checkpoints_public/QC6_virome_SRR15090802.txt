@@ -1,0 +1,79 @@
+QC-6: Contig Decontamination + MAG Binning — SRR15090802 (Gut Virome)
+======================================================================
+Date: 2026-02-25
+Input: pipeline_run/05_assembly/virome/merged/all_contigs.fasta (20,548 contigs)
+
+STEP 1: CONTIG DECONTAMINATION
+-------------------------------
+BLASTn vs T2T-CHM13v2.0 (≥90% identity, ≥500 bp alignment):
+  Hits:      0
+  Removed:   0
+  Expected: 0 — VLP-enriched data, 3-pass host depleted, no human contigs expected
+
+UniVec screen (≥95% identity, ≥100 bp alignment):
+  Hits:      1  (megahit_6922, pGEX-vector U09365.1, 99.6%, 242 bp / 11.7% of contig)
+  Removed:   1
+
+Short UniVec matches (< 100 bp, likely primer traces — NOT removed):
+  Contigs affected: 4 (metaspades_4971, metaspades_87, metaspades_392, metaspades_11499)
+  Reason: Short matches <33-49 bp to Illumina primer sequences at contig ends
+
+Clean contigs:        20,547 (20,548 - 1 removed)
+Output: pipeline_run/06_decontam_contigs/virome/clean_contigs.fasta
+
+STEP 2: COVERAGE PROFILING
+----------------------------
+Reads mapped (bowtie2):
+  1,545,806 pairs input
+  65.82% overall alignment rate
+  56.83% concordant unique
+  5.38% concordant multi-mapper
+BAM: pipeline_run/06_decontam_contigs/virome/reads_vs_contigs.bam
+
+STEP 3: MetaBAT2 BINNING
+--------------------------
+Parameters: --minContig 2000, --minS 60, --minClsSize 200000
+Bins produced: 4
+Total binned: 4,587,351 bp (22.3% of all assembled sequence)
+
+Bin summary:
+  bin.1: 497 contigs, 3.34 MB, N50=8,010 bp
+  bin.2: 276 contigs, 805 kb, N50=2,842 bp
+  bin.3:  66 contigs, 226 kb, N50=3,301 bp
+  bin.4:  68 contigs, 212 kb, N50=3,159 bp
+
+STEP 4: CheckM2 QUALITY ASSESSMENT (v1.0.2)
+--------------------------------------------
+Database: uniref100.KO.1.dmnd
+
+Bin            Completeness  Contamination  GC%   Size     MIMAG_Quality
+─────────────────────────────────────────────────────────────────────────
+bin.1          78.68%        6.50%          73%   3.34 MB  Medium (MQ)
+bin.2          28.19%        0.46%          41%   805 KB   Low (LQ)
+bin.3           7.36%        0.02%          48%   226 KB   Low (LQ)
+bin.4           3.28%        0.00%          65%   212 KB   Low (LQ)
+
+MIMAG standards: HQ = ≥90% complete + ≤5% contamination
+               MQ = ≥50% complete + ≤10% contamination
+               LQ = <50% complete
+
+High-quality (HQ) MAGs: 0
+Medium-quality (MQ) MAGs: 1 (bin.1 — but likely a phage cluster, see note)
+Low-quality (LQ) MAGs: 3
+
+NOTE: This is a VLP-enriched virome dataset — CheckM2 completeness scores are
+calibrated for bacterial genomes and are NOT reliable for phage bins. bin.1's
+GC content (73%) is characteristic of high-GC bacteriophages (e.g., *Streptomyces*
+phages, T4-like phages), not bacteria. All 4 bins will be passed to Phase 7
+(viral ID) for CheckV assessment, which is the appropriate quality tool for
+phage genomes.
+
+STATUS: PASS
+  [x] Contig decontamination completed (0 human, 1 vector removed)
+  [x] Coverage profiling completed (65.82% alignment)
+  [x] MetaBAT2 binning completed (4 bins)
+  [x] CheckM2 quality assessment completed
+  [x] Pipeline tool chain validated end-to-end
+
+Next: Phase 7 — Viral Identification (geNomad + DVF + VirSorter2)
+Input: pipeline_run/06_decontam_contigs/virome/clean_contigs.fasta (20,547 contigs)

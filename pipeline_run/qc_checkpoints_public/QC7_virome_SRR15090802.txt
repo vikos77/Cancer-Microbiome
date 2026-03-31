@@ -1,0 +1,50 @@
+QC-7 CHECKPOINT — Viral Identification
+Sample: SRR15090802 (Wahida et al. gut virome, VLP-enriched healthy child)
+Date: 2026-02-26
+
+=== INPUT ===
+Clean contigs: pipeline_run/06_decontam_contigs/virome/clean_contigs.fasta
+Total contigs: 20,547
+Contig length range: 500 bp – 101,130 bp
+
+=== TOOL RESULTS ===
+geNomad 1.9.7        : 269 viral contigs (score >= 0.7)
+  Taxonomy: 258 Caudoviricetes, 6 Unclassified, 3 Nucleocytoviricota, 2 Phixviricota
+  Plasmids also found: 124
+DeepVirFinder (DVF)  : 1,520 viral contigs (score >= 0.9, p-value <= 0.05)
+VirSorter2 2.2.4     : PENDING (HMM scan in progress, estimated completion 4-8h from start)
+
+=== CONSENSUS (2-TOOL INTERIM) ===
+geNomad + DVF, min-votes=2 (both must agree):
+  Consensus viral contigs: 119
+  geNomad only: 149 contigs (not confirmed by DVF)
+  DVF only: 1,401 contigs (not confirmed by geNomad)
+
+=== CHECKV QUALITY (2-TOOL CONSENSUS, 119 CONTIGS) ===
+High-quality (>=90% complete): 1
+  - metaspades_1: 101,130 bp, 100.0% complete [COMPLETE PHAGE GENOME]
+Medium-quality (50-89%): 1
+  - metaspades_28: 17,149 bp, 86.26% complete
+Low-quality (<50%): 95
+Not-determined: 22
+Proviruses: 1
+Total viral genome content: 476,900 bp
+
+=== QC THRESHOLDS ===
+PASS: >= 50 viral contigs with >=2 tool agreement
+WARN: 10 - 49 viral contigs
+FAIL: < 10 viral contigs
+
+=== STATUS: PASS ===
+119 consensus viral contigs (both geNomad AND DVF)
+1 complete phage genome (metaspades_1, 101,130 bp, 100% complete)
+Expected for VLP-enriched virome: high absolute viral contig count, low CheckV completeness
+(most phage genomes assembled as fragments; 100% complete contig is notable)
+
+VS2 DECISION: Terminated. VS2 ran without errors but the Viruses HMM scan (84,390 profiles,
+8.3 GB database) required ~24h at 2 threads on laptop hardware. Proceeding with 2-tool consensus.
+Scientific justification: VLP-enriched data has minimal bacterial hosts (reducing VS2's unique
+value for provirus detection); geNomad+DVF are orthogonal and sufficient for this dataset.
+FUTURE RECOMMENDATION: Use --config HMMSEARCH_THREADS=8 -j 8 on server hardware (~6h runtime).
+
+FINAL RESULT: 2-tool consensus (geNomad + DVF) = 119 viral contigs. STATUS: PASS.

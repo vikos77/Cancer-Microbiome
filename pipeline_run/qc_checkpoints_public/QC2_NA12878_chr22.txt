@@ -1,0 +1,10 @@
+SAMPLE: NA12878_chr22
+═══════════════════════════════════════════════
+Input reads (per mate):       1534
+After Pass 1 (Hostile):       398   (removed: 75.00%)
+After Pass 2 (Bowtie2/T2T):  398   (removed: 0%)
+After Pass 3 (Kraken2):       393   (removed: 2.00%)
+───────────────────────────────────────────────
+Total host depletion:         75.00%
+Residual human (Kraken Pass3): 1.26%
+═══════════════════════════════════════════════

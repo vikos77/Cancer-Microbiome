@@ -1,0 +1,87 @@
+QC-12 CHECKPOINT — Mobilome Detection
+Sample: CRC_sample (Wirbel CRC, Stage III, AJCC III)
+Date: 2026-03-06
+Status: COMPLETE
+
+=== INPUT ===
+MAG bins: 30 MetaBAT2 bins (pipeline_run/07_mags/CRC_sample/metabat2/bin.{1-30}.fa)
+Total proteins (Prodigal): 74,944 (pipeline_run/12_mobilome/CRC_sample/mobileog/all_bin_proteins.faa)
+
+=== PLASMIDS — geNomad (reused from Phase 7) ===
+Tool: geNomad 1.9.7 (run in Phase 7 on 72,696 clean contigs)
+Output: pipeline_run/12_mobilome/CRC_sample/plasmids/clean_contigs_plasmid_summary.tsv
+
+Total plasmid contigs detected:     607
+  With conjugation genes:           165  (MOBQ:40, MOBP1:31, MOBV:26, MOBB:24, MOBF:16, etc.)
+  With AMR genes (geNomad AMR):      14  (NF000145×3, NF000402×4, NF040806×2, others)
+  DTR (circular) topology:           17
+  Size range:                    503 – 97,402 bp
+
+Top plasmid contigs by score:
+  metaspades_NODE_9366: 2,086 bp  score=0.9966  conjugation=MOBP1
+  metaspades_NODE_2281: 7,290 bp  score=0.9962  conjugation=NA
+  megahit_k119_53884:   8,085 bp  score=0.9955  conjugation=MOBB
+  metaviral_NODE_4 (circular): 7,609 bp  score=0.9953  conjugation=MOBP1
+  metaspades_NODE_1886: 8,744 bp  score=0.9952  conjugation=MOBB
+
+=== INSERTION SEQUENCES — ISEScan 1.7.2.3 ===
+Output: pipeline_run/12_mobilome/CRC_sample/isescan/bin.{N}/metabat2/bin.{N}.fa.sum
+
+Bins processed:          30 / 30
+Bins with IS elements:   20 / 30
+Bins without IS:         10 / 30 (0 IS confirmed or 0-output)
+Total IS elements:       140
+
+IS family breakdown:
+  IS21:         24   (DDE transposases, active in Proteobacteria)
+  IS3:          18   (common in E. coli, Bacteroides)
+  IS200/IS605:  14   (Y1 transposases, Helicobacter/gut bacteria)
+  IS1182:       13   (widespread in Firmicutes)
+  IS110:        11   (serine recombinases)
+  IS66:         10   (compound-structure IS)
+  IS256:         9   (Firmicutes, Staphylococcus)
+  IS30:          7   (DNA-binding transposases)
+  ISL3:          6   (Firmicutes gut bacteria)
+  IS4:           5   (Enterobacteriaceae)
+  IS5:           4   (E. coli, Fusobacterium)
+  IS982/IS1634/IS701/IS607:  3 each
+  Other (IS630/ISL3/ISAS1/IS481/IS91/IS6/ISNCY/IS1380):  1 each
+
+Top bins by IS count:
+  bin.24: 22  bin.2: 17  bin.12: 14  bin.22: 13  bin.21: 8  bin.7: 9
+
+=== INTEGRONS — IntegronFinder 2.0.5 ===
+Output: pipeline_run/12_mobilome/CRC_sample/integrons/bin.{N}/Results_Integron_Finder_*/
+
+Complete integrons:   0
+CALIN:                1  (bin.19 — attC sites without adjacent integrase)
+In0 (degenerate):     0
+
+=== MOBILE ELEMENT PROTEINS — mobileOG-db beatrix-1.6 + DIAMOND ===
+Database: 394,550 proteins (databases/mobileog/mobileOG-db.dmnd)
+Output: pipeline_run/12_mobilome/CRC_sample/mobileog/mobileog_all_hits.tsv
+
+Total DIAMOND hits:           122,320
+Unique query proteins w/ hit:   5,985 / 74,944 (8.0%)
+
+Category breakdown (by unique first-hit protein):
+  replication/recombination/repair:   2,164  (36%)
+  transfer:                           1,808  (30%)
+  integration/excision:                 901  (15%)
+  phage:                                653  (11%)
+  stability/transfer/defense:           459   (8%)
+
+=== CANCER-RELEVANT MGE MARKERS ===
+AMR plasmids: 14 contigs with AMR gene markers (NF family)
+IS elements near virulence loci: manual curation needed
+Colibactin (pks island): detected separately in Phase 7 (metaviral contigs); cross-reference pending
+F. nucleatum FadA: present in Phase 4 taxa; plasmid/MGE association needs separate BLAST
+
+=== QC STATUS ===
+PASS criteria:
+  [x] ≥1 plasmid detected (607 plasmids) ✓
+  [x] ≥1 IS element detected (140 IS elements) ✓
+  [x] mobileOG-db search completed (5,985 unique hits) ✓
+  [x] All 4 tools ran successfully ✓
+
+QC-12 STATUS: PASS

@@ -1,0 +1,56 @@
+QC-4 Taxonomic Profiling Checkpoint
+Sample: CRC_sample
+Date: 2026-03-01
+Tools: Kraken2 2.1.3 (k2_standard_08gb), Bracken 2.9 (r=150 S), KrakenUniq 1.0.4 (krakenuniq_viral)
+Input: 7,795,800 pairs from Phase 3
+═══════════════════════════════════════════════════════════
+
+--- Kraken2 (--confidence 0.1) ---
+Classified:                      2,023,765 reads  (25.96%)
+Unclassified:                    5,772,035 reads  (74.04%)
+Residual human (taxid 9606):                 0  (0.00%) → PASS (<1% threshold)
+
+--- Bracken (species level, r=150) ---
+Species detected:                          358
+Reads redistributed to species:      1,041,245
+
+Top 10 species (by estimated reads):
+  1. Bacteroides fragilis               514,717  (25.43%)  [ETBF CRC-associated]
+  2. Prevotella nigrescens               319,300  (15.78%)
+  3. Bacteroides uniformis               119,402   (5.90%)
+  4. Bacteroides thetaiotaomicron        100,625   (4.97%)
+  5. Bacteroides caccae                   92,097   (4.55%)
+  6. Phocaeicola vulgatus                 80,461   (3.98%)
+  7. Bacteroides xylanisolvens            63,372   (3.13%)
+  8. Bacteroides nordii                   50,912   (2.52%)
+  9. Mediterraneibacter gnavus            43,093   (2.13%)
+ 10. Bacteroides ovatus                   42,681   (2.11%)
+  ...
+ 13. Parvimonas micra                     34,720   (1.72%)  [CRC-associated]
+ 17. Fusobacterium varium                 27,847   (1.38%)
+     Fusobacterium nucleatum                  92   (0.005%) [flagged — see note]
+
+--- KrakenUniq viral (≥2 reads AND ≥50 unique k-mers) ---
+Total reads classified (viral DB):          12,336  (0.16%)
+GENUINE VIRAL HITS (passing production filter):
+  Species                                      Reads   Unique-kmers  Cov%
+  Delmidovirus intestinihominis (crAss cr110)  1,002       19,054   0.294%  GENUINE
+  Delmidovirus splanchnicus (crAss cr11)         520       12,497   0.166%  GENUINE
+  Aceathervirus RM10 (Ruminococcus phage)        278        1,698   0.046%  GENUINE
+  Caudoviricetes unclassified                    764      118,498      NA   GENUINE
+Rejected (≥2 reads but <50 unique k-mers at species level): see full report
+
+NOTE: F. nucleatum - only 92 reads (0.005%) detected by Kraken2 despite 2.30%
+MetaPhlAn2 signal. Likely due to: (1) k-mer DB coverage, (2) ENA pre-filtering
+bias, (3) Fn high-GC content (27%) affecting short-read classification efficiency.
+Fn prophage signal should emerge in Phase 7 (assembly-based viral ID).
+
+QC-4 STATUS: PASS
+  - Residual human: 0.00% [PASS <1%]
+  - Microbial taxa detected: 358 species [confirms real metagenome]
+  - Viral signal: 4 genuine bacteriophage taxa (CrAssphage-type + Ruminococcus phage)
+═══════════════════════════════════════════════════════════
+OUTPUT FILES:
+  pipeline_run/04_read_profiles/CRC_sample/CRC_sample_kraken2.report
+  pipeline_run/04_read_profiles/CRC_sample/CRC_sample_bracken_S.txt
+  pipeline_run/04_read_profiles/CRC_sample/CRC_sample_krakenuniq.report

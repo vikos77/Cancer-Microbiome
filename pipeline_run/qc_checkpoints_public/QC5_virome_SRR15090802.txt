@@ -1,0 +1,56 @@
+QC-5: Assembly — SRR15090802 (Gut Virome, Wahida et al.)
+=========================================================
+Date: 2026-02-25
+Input: pipeline_run/03_qc_filtered/virome/SRR15090802_R{1,2}.final.fastq.gz
+Input reads: 1,545,806 pairs (3,091,612 reads)
+
+ASSEMBLER RESULTS
+-----------------
+metaSPAdes (≥500bp):
+  Contigs: 18,361
+  Sum:     19,831,390 bp (~19.8 MB)
+  N50:     1,110 bp
+  Max:     101,130 bp
+
+MEGAHIT:
+  Contigs: 15,239
+  Sum:     17,224,456 bp (~17.2 MB)
+  N50:     1,206 bp
+  Max:     101,130 bp
+
+metaviralSPAdes:
+  Contigs: 82
+  Sum:     1,363,885 bp (~1.36 MB)
+  N50:     17,355 bp
+  Min:     1,116 bp  (all contigs long — viral topology optimization)
+  Max:     101,130 bp
+  GC:      65.44%
+
+MERGE + DEDUPLICATION (cd-hit-est, 99% ANI, aS=0.85)
+------------------------------------------------------
+Pre-dedup:  33,682 contigs
+Post-dedup: 20,548 contigs  (39.0% redundancy removed)
+Sum:        22,180,406 bp (~22.2 MB)
+N50:        1,110 bp
+N50_num:    2,081
+Min:        500 bp
+Max:        101,130 bp
+GC:         53.14%
+
+Output: pipeline_run/05_assembly/virome/merged/all_contigs.fasta
+
+STATUS: PASS
+Criteria met:
+  [x] ≥1 contig assembled (20,548 >> 1)
+  [x] Max contig >10 kb (max=101 kb — large phage genome assembly)
+  [x] N50 >1 kb (N50=1,110 bp)
+  [x] All three assemblers produced output
+  [x] metaviralSPAdes contigs have viral-consistent GC (65.44%) and length profile
+  [x] cd-hit-est deduplication completed without errors
+
+NOTES:
+  - metaviralSPAdes 82 contigs all >1 kb; N50=17.4 kb suggests near-complete phage genomes
+  - MEGAHIT max contig = 101,130 bp (consistent across assemblers — same region)
+  - 39% redundancy between assemblers is expected (same data, different k-mer paths)
+  - Source labels in merged file: metaspades_*, megahit_*, metaviralspades_*
+  - Next: Phase 6 — contig decontamination + MAG binning

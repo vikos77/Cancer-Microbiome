@@ -1,0 +1,72 @@
+QC6B — Bacterial MAG Annotation (Bakta) — control_sample
+=============================================================
+Date: 2026-03-09
+Tool: Bakta 1.12.0, DB v6.0 full
+Sample: control_sample (92 MAG bins)
+Status: PASS
+
+THRESHOLDS:
+  - >=1 bin annotated: PASS (92/92)
+  - CDS per bin > 100: PASS (all bins pass)
+  - Hypothetical protein fraction < 60%: PASS (6.7%)
+  - GFF3 + FAA present for each bin: PASS
+
+ANNOTATION SUMMARY:
+  Bins complete:        92 / 92
+  Total CDS:            242,796
+  Hypothetical CDS:     16,275 (6.7%)
+  Known-function CDS:   226,521 (93.3%)
+  tRNA:                 4,284
+  rRNA:                 146
+  tmRNA:                31
+  ncRNA:                724
+  ncRNA-region:         1,436
+  sORF:                 54
+  CRISPR arrays:        41
+  CRISPR spacers:       528
+  CRISPR repeats:       528
+  oriC:                 9
+
+MOBILEOG (Bakta FAA):
+  Input proteins:       137,884
+  MGE proteins (hits):  9,615 (7.0%)
+  Categories (best hit):
+    replication/recombination/repair: 3,294
+    transfer (conjugation):           1,827
+    phage:                            1,043
+    integration/excision:             998
+    stability/transfer/defense:       678
+  Hit file: pipeline_run/12_mobilome/control_sample/mobileog/mobileog_bakta_hits.tsv
+  Annotated file: pipeline_run/12_mobilome/control_sample/mobileog/mobileog_bakta_annotated.tsv
+
+HQ BINS:
+  bin.2:  99.36% complete, 2.49% contam — likely Faecalibacterium prausnitzii
+  bin.66: 94.50% complete, 0.19% contam — likely Ruminococcaceae
+
+KEY OBSERVATIONS:
+  - Control has 1.7× more CDS than CRC (242,796 vs 141,148), consistent with 3× more bins (92 vs 30)
+  - Hypothetical fraction comparable: 6.7% control vs 5.3% CRC — both excellent
+  - 9 oriC vs 5 in CRC — more complete genomes in control (healthy microbiome more diverse)
+  - 528 CRISPR spacers (control) vs 218 (CRC) — control has richer phage immunity memory
+    consistent with more diverse phage exposure in healthy gut
+  - 9,615 MGE proteins (6.4% per protein) vs 4,980 in CRC (6.4%) — similar MGE density per genome
+  - Control has 1.9× more MGE proteins (absolute), proportional to bin count difference
+
+CRC vs CONTROL COMPARISON (mobileOG Bakta):
+  | Category                        | CRC   | Control | Ratio |
+  |---------------------------------|-------|---------|-------|
+  | MGE proteins (unique)           | 4,980 |  9,615  | 1.93× |
+  | replication/recombination/repair| 1,502 |  3,294  | 2.19× |
+  | transfer (conjugation)          |   928 |  1,827  | 1.97× |
+  | integration/excision            |   612 |    998  | 1.63× |
+  | phage-associated                |   460 |  1,043  | 2.27× |
+
+OUTPUT FILES:
+  pipeline_run/07b_bakta_annotation/control_sample/bin.*/
+    bin.N.gff3  — genome annotation (GFF3)
+    bin.N.faa   — protein sequences (FAA)
+    bin.N.tsv   — feature table
+  pipeline_run/12_mobilome/control_sample/mobileog/
+    all_bins_bakta.faa           — concatenated Bakta proteins (137,884 seqs)
+    mobileog_bakta_hits.tsv      — DIAMOND raw hits (199,428 lines)
+    mobileog_bakta_annotated.tsv — annotated best hits (9,615 unique proteins)

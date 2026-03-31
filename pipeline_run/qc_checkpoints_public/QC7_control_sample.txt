@@ -1,0 +1,39 @@
+=== QC-7: Viral Identification — Control control_sample ===
+Date: 2026-03-05
+Sample: Control control_sample (healthy control)
+
+TOOL RESULTS
+  geNomad 1.9.7:     1,802 viral contigs
+  DVF (score≥0.9, pval≤0.05): 5,737 viral contigs
+  2-tool consensus (≥2/2):    460 contigs
+  metaviralSPAdes added:       82 contigs (high-confidence, no overlap)
+  TOTAL viral contigs:        542
+
+CHECKV QUALITY (v1.0.3, 542 contigs input)
+  Complete:         17  (12 unique sizes; some metaSPAdes/metaviralSPAdes duplicates)
+  High-quality:      9
+  Medium-quality:    6
+  Low-quality:     400
+  Not-determined:  110
+
+COMPLETE GENOMES (unique by size)
+  metaspades_NODE_99:    96,098 bp
+  metaspades_NODE_134:   83,696 bp
+  metaspades_NODE_385:   45,435 bp
+  + 9 circular metaviralSPAdes contigs (39–99 kb)
+
+KEY FILES
+  Consensus FASTA:  pipeline_run/08_viral_contigs/control_sample/consensus_viral_contigs_2tool_mvsp.fasta
+  Consensus table:  pipeline_run/08_viral_contigs/control_sample/consensus_viral_table.tsv
+  CheckV summary:   pipeline_run/08_viral_contigs/control_sample/checkv/quality_summary.tsv
+
+BIOLOGICAL NOTES
+  - Control has 1.6x more consensus viral contigs than CRC (542 vs 335)
+  - 17 complete vs 1 complete in CRC — dramatic difference in phage completeness
+  - High-coverage circular contigs (metaviral_NODE_1-5, cov 7-29x) = abundant phages
+  - Consistent with Phase 4: control has 15.8x more CrAssphage reads than CRC
+  - CRC viral dysbiosis: fewer, less complete phages → reduced anti-bacterial phage predation?
+
+QC-7 VERDICT: PASS
+  ≥1 consensus viral contig: YES (542)
+  ≥1 CheckV complete/HQ genome: YES (17 complete + 9 HQ)

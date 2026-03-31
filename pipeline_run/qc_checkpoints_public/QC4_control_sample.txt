@@ -1,0 +1,50 @@
+QC-4 Taxonomic Profiling Checkpoint
+Sample: control_sample
+Date: 2026-03-01
+Tools: Kraken2 2.1.3 (k2_standard_08gb), Bracken 2.9 (r=150 S), KrakenUniq 1.0.4 (krakenuniq_viral)
+Input: 22,244,507 pairs from Phase 3
+═══════════════════════════════════════════════════════════
+
+--- Kraken2 (--confidence 0.1) ---
+Classified:                    3,510,005 reads  (15.78%)
+Unclassified:                 18,734,502 reads  (84.22%)
+Residual human (taxid 9606):              0  (0.00%) -> PASS (<1% threshold)
+
+--- Bracken (species level, r=150) ---
+Species detected:                        421
+Reads redistributed to species:    1,113,282
+
+Top 10 species (by estimated reads):
+  1. Bacteroides uniformis              535,440  (15.26%)  [common healthy gut]
+  2. Faecalibacterium prausnitzii       481,837  (13.73%)  [anti-inflammatory; LOW in CRC]
+  3. Agathobacter rectalis (E. rectale) 449,555  (12.81%)  [healthy gut marker]
+  4. Phocaeicola vulgatus               274,425   (7.82%)
+  5. Phocaeicola dorei                  220,220   (6.27%)
+  6. Coprococcus sp. ART55/1            175,090   (4.99%)
+  7. Bacteroides xylanisolvens          102,103   (2.91%)
+  8. Faecalibacterium duncaniae          76,853   (2.19%)
+  9. Ruminococcus bicirculans            61,646   (1.76%)
+ 10. Parabacteroides merdae              60,697   (1.73%)
+No Fusobacterium detected (as expected for healthy control)
+
+--- KrakenUniq viral (>=2 reads AND >=50 unique k-mers) ---
+Total reads classified (viral DB):         194,862  (0.88%)
+GENUINE VIRAL HITS (passing production filter):
+  Species                                        Reads   Unique-kmers  Cov%
+  Carjivirus communis (CrAssphage NC_067194)    94,162       35,593   0.493%  GENUINE
+  Carjivirus hominis (phage cr99_1)             27,447       10,543   0.144%  GENUINE
+  Aurodevirus hiberniae (phage cr23_1)          23,075       59,194   0.635%  GENUINE
+  Caudoviricetes unclassified                   24,866      190,162   0.127%  GENUINE
+COMPARISON NOTE: Control has 15.8x more viral reads than CRC (0.88% vs 0.16%)
+  - CrAssphage family dominates both — consistent with Bacteroides-phage ecology
+  - Higher viral load in healthy control suggests CRC dysbiosis may reduce phage diversity
+
+QC-4 STATUS: PASS
+  - Residual human: 0.00% [PASS <1%]
+  - Microbial taxa detected: 421 species [confirms real metagenome]
+  - Viral signal: 4 genuine bacteriophage taxa (all CrAssphage/Caudoviricetes)
+═══════════════════════════════════════════════════════════
+OUTPUT FILES:
+  pipeline_run/04_read_profiles/control_sample/control_sample_kraken2.report
+  pipeline_run/04_read_profiles/control_sample/control_sample_bracken_S.txt
+  pipeline_run/04_read_profiles/control_sample/control_sample_krakenuniq.report

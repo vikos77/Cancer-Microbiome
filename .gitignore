@@ -128,3 +128,5 @@ pipeline_run/qc_checkpoints/
 # QC checkpoints — use anonymised public copies only
 pipeline_run/qc_checkpoints/
 !pipeline_run/qc_checkpoints_public/
+pipeline_run/scripts/DeepVirFinder/
+pipeline_run/scripts/PropagAtE/

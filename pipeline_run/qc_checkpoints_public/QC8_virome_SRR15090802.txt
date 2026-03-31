@@ -1,0 +1,72 @@
+QC-8 CHECKPOINT — Phage Annotation
+Sample: SRR15090802 (Wahida et al. gut virome, VLP-enriched healthy child)
+Date: 2026-02-26
+
+=== INPUT ===
+Consensus viral contigs: pipeline_run/08_viral_contigs/virome/consensus_viral_contigs_2tool.fasta
+Total contigs annotated: 119
+Total contig length: 476,900 bp
+
+=== PHAROKKA 1.9.1 ANNOTATION ===
+Mode: meta (-m --meta_hmm) | Gene predictor: Pyrodigal-gv
+Database: PHROG v4, CARD, VFDB, INPHARED (Aug 2025)
+Runtime: 585 seconds (~9.75 minutes)
+
+Gene prediction:
+  CDS predicted:          674  (avg 5.7 per contig)
+  tRNAs detected:          35  (tRNA-scan-SE + Aragorn in final GFF)
+  tmRNAs detected:          0
+  CRISPR arrays:            0
+
+PHROG functional categories (total CDS):
+  Unknown function:       458  (67.9%)
+  DNA/RNA/nucleotide:      72  (10.7%)  [DNA replication, repair, nucleases]
+  Head and packaging:      58   (8.6%)  [capsid, terminase, portal]
+  Other:                   23   (3.4%)
+  Tail:                    22   (3.3%)  [tail fiber, baseplate, spike]
+  Lysis:                   12   (1.8%)  [endolysin, holin, spanin]
+  Connector:               11   (1.6%)  [neck, adaptor]
+  Moron/AMG/host takeover:  7   (1.0%)  [auxiliary metabolic genes]
+  Integration/excision:     6   (0.9%)  [integrase, recombinase]
+  Transcription regulation: 5   (0.7%)
+  Known function total:   216  (32.1%)
+
+Antibiotic resistance (CARD): 0 ARG hits
+Virulence factors (VFDB):     0 virulence hits
+Terminase large subunit:      Detected (>1 CDS — multiple phages in dataset)
+
+Mash genome comparison (INPHARED Aug 2025):
+  Notable hits:
+  - metaspades_1 (101,130 bp): closest to MT835473, mash_dist=0.0046 (very similar)
+  - metaspades_28 (17,149 bp): EXACT MATCH to MT835826, dist=0.0, 1000/1000 hashes
+
+=== PROPHAGE EVIDENCE (from Phase 7 results) ===
+geNomad provirus calls (all 20,547 contigs):
+  1 provirus: metaspades_100|provirus_3_3958 (3,956 bp, Caudoviricetes, NOT in 2-tool consensus)
+
+geNomad DTR (circular phage genomes, among 269 geNomad viral hits):
+  metaspades_3:  43,886 bp (DTR, 7 hallmarks, score 0.982) — not in 2-tool consensus
+  megahit_14910: 43,954 bp (DTR, 8 hallmarks, score 0.981) — likely same phage as above
+
+CheckV provirus (among 119 consensus contigs):
+  1 provirus: metaspades_415 (4,284 bp, proviral_length=3,668 bp, LQ, contamination=14.4%)
+
+=== HOST PREDICTION ===
+iPHoP: NOT RUN — database ~100 GB, impractical on laptop
+Proxy from geNomad taxonomy: 258/269 geNomad viral hits = Caudoviricetes (dsDNA tailed phages)
+Likely hosts: Bacteroidetes, Firmicutes (common gut phage hosts from literature)
+
+=== QC THRESHOLDS ===
+PASS: >= 50% of contigs with >= 1 known PHROG-annotated gene
+WARN: 25 - 49% annotated
+FAIL: < 25% annotated
+
+=== STATUS: PASS ===
+98/119 contigs (82.4%) have >=1 gene with known PHROG function
+216/674 CDS (32.1%) annotated to known PHROG functional categories
+0 antibiotic resistance genes detected (no ARG concern)
+0 virulence factors detected
+Key functional modules represented: head/packaging, tail, lysis, DNA metabolism
+
+tRNA note: 35 phage-encoded tRNAs detected — consistent with large Caudoviricetes phages
+that encode tRNAs for host codon usage optimisation.

@@ -1,0 +1,31 @@
+QC-3 Read-Level QC Checkpoint
+Sample: control_sample
+Date: 2026-03-01
+Tools: fastp 0.23.4, bbduk (system), FastQC 0.12.1
+Input files: control_sample_R1/R2.clean.fastq.gz
+═══════════════════════════════════════════════════════════
+INPUT (from Phase 2):             24,539,793 pairs
+
+--- fastp (Q20, len>=60, dedup, complexity>=30) ---
+Passed filter:                    22,508,558 pairs  (91.7%)
+Low quality removed:                       0 (0.0%)
+Too short removed:                 2,030,953 (8.3%)
+Low complexity removed:                  282 (0.0%)
+Duplication rate:                     1.091%
+Q20 rate (post-filter):               100.0%
+Q30 rate (post-filter):                98.6%
+
+--- bbduk (entropy>=0.5, window=50bp) ---
+Input:                            22,244,582 pairs
+Low entropy removed:                      75 (0.000%)
+Output (FINAL):                   22,244,507 pairs
+
+FINAL OUTPUT:                     22,244,507 pairs  (90.6% of input) -> Phase 4 input
+QC-3 STATUS: PASS
+═══════════════════════════════════════════════════════════
+OUTPUT FILES:
+  Final R1: pipeline_run/03_qc_filtered/control_sample/control_sample_R1.final.fastq.gz
+  Final R2: pipeline_run/03_qc_filtered/control_sample/control_sample_R2.final.fastq.gz
+  fastp report: pipeline_run/03_qc_filtered/control_sample/control_sample_fastp.html
+  FastQC: pipeline_run/03_qc_filtered/control_sample/control_sample_R1.final_fastqc.html
+═══════════════════════════════════════════════════════════

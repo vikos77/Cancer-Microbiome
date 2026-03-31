@@ -1,0 +1,54 @@
+═══════════════════════════════════════════════════════════════════
+SAMPLE: CRC_sample (Wirbel et al. 2019 — Stage III CRC)
+PHASE 5 QC — Metagenomic Assembly Statistics
+Generated: 2026-03-02
+═══════════════════════════════════════════════════════════════════
+
+INPUT
+─────
+  Host-depleted QC reads:  7,795,800 pairs
+  Source:  pipeline_run/03_qc_filtered/CRC_sample/
+
+ASSEMBLER RESULTS
+─────────────────
+  Assembler        Contigs(all)  Contigs≥500bp   Total_bp    N50     Max_bp
+  ─────────────────────────────────────────────────────────────────────────
+  metaSPAdes       196,043       61,061          125,547,525  4,466  788,389
+  MEGAHIT          54,461        54,461          115,619,184  5,173  747,104
+  metaviralSPAdes  22            22              292,805      34,365  97,402
+  ─────────────────────────────────────────────────────────────────────────
+  Pre-dedup total: 115,544 contigs ≥500bp, 241,459,514 bp
+
+DEDUPLICATION (CD-HIT-EST: 99% ANI, 85% coverage)
+───────────────────────────────────────────────────
+  Input:  115,544 contigs
+  Output: 72,778 contigs
+  Removed:  42,766 redundant contigs (37.0%)
+  Final:  72,778 contigs, 157,259,718 bp, avg 2,161 bp, N50 5,243 bp, max 788,389 bp
+
+THRESHOLDS
+──────────
+  Min contigs ≥500bp: ≥1,000 → PASS (72,778)
+  N50 ≥500 bp:        → PASS (5,243 bp)
+  Any assembler >0:   → PASS (all 3 produced contigs)
+
+KEY BIOLOGICAL OBSERVATIONS
+────────────────────────────
+  - metaviralSPAdes recovered 22 viral-enriched contigs (N50=34kb, max=97kb)
+    indicating circular/phage-like topology — high-value targets for Phase 7
+  - N50 5,243 bp across merged set suitable for Phase 6 binning and decontam
+  - Max contig 788 kb likely represents a near-complete microbial chromosome
+    (consistent with B. fragilis / Prevotella, dominant Phase 4 taxa)
+  - 37% redundancy between assemblers reflects complementary algorithm strengths
+
+OUTPUT FILES
+────────────
+  pipeline_run/05_assembly/CRC_sample/metaspades/contigs.fasta
+  pipeline_run/05_assembly/CRC_sample/megahit/final.contigs.fa
+  pipeline_run/05_assembly/CRC_sample/metaviralspades/contigs.fasta
+  pipeline_run/05_assembly/CRC_sample/merged/all_contigs.fasta       (115,544 contigs)
+  pipeline_run/05_assembly/CRC_sample/merged/all_contigs_dedup.fasta (72,778 contigs)
+
+═══════════════════════════════════════════════════════════════════
+STATUS: PASS
+═══════════════════════════════════════════════════════════════════
