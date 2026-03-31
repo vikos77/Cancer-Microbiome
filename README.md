@@ -217,6 +217,30 @@ mkdir -p ${PROJECT_DIR}/{
 
 ---
 
+## Repository Structure
+
+```
+Cancer-Microbiome/
+├── docs/
+│   ├── 01_SETUP.md                  # Conda environment setup and database downloads
+│   ├── 02_DATA_ACQUISITION.md       # BAM/CRAM extraction walkthrough
+│   └── sops/                        # Step-by-step execution records for all 11 phases
+├── envs/                            # Conda environment YAML files (9 environments)
+├── pipeline_run/
+│   ├── scripts/                     # Python and bash scripts used across phases
+│   ├── qc_checkpoints/              # QC output files for each phase and sample
+│   └── integration/
+│       ├── Wirbel_CRC/              # CRC cohort integration results (anonymised)
+│       └── virome_validation/       # Virome validation run integration results
+├── README.md                        # This file
+├── RESULTS_SUMMARY.md               # Biological findings and key metrics
+└── TROUBLESHOOTING_public.md        # Issues encountered during development and fixes
+```
+
+Raw sequencing data, pipeline intermediates, and databases are not included. The numbered directories inside `pipeline_run/` (e.g. `00_raw/`, `05_assembly/`) are created locally when running the pipeline and are listed in the Directory Structure section under Requirements above.
+
+---
+
 ## Usage
 
 Each phase has a dedicated SOP file in `docs/sops/` with step-by-step commands, expected outputs, QC thresholds, and troubleshooting notes. Read the relevant SOP before executing each phase.
