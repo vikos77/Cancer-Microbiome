@@ -1,0 +1,43 @@
+==============================================================================
+CLAUDE PIPELINE — QC DASHBOARD
+Sample: SRR15090802 (Wahida et al. gut virome, VLP-enriched healthy child)
+Generated: Phase 10 Integration
+==============================================================================
+
+ID      Phase                                Status                Key metric
+------------------------------------------------------------------------------
+QC1     Data Acquisition                     PASS (WARN: chimeric reads only)  Read pairs extracted (chimeric)
+QC2     Host Depletion                       PASS                  393 pairs after host depletion
+QC3     Read QC                              PASS (with test-data caveat documented)  391 pairs after quality filtering
+QC4     Taxonomic Profiling                  PASS                  0 microbial taxa (Kraken2 + KrakenUniq)
+QC5a    Assembly (NA12878)                   PASS (no contigs expected from test data)  0 contigs (391 reads insufficient)
+QC5b    Assembly (SRR15090802)               PASS                  20,548 contigs | N50=1,110bp | max=101kb
+QC6     Decontam + MAG Binning               PASS                  20,547 clean contigs | 0 human | 1 vector removed
+QC7     Viral ID (2-tool consensus)          PASS                  119 viral contigs (geNomad+DVF) | 1 complete phage (101kb)
+QC8     Phage Annotation (Pharokka)          PASS                  674 CDS | 32.1% known function | 0 ARG | 0 virulence
+QC10    Prophage Concordance                 PASS                  1 dormant provirus (metaspades_100, CohenD=0.062)
+QC11    Host Prediction + Annotation         PASS                  82.4% Pharokka | iPHoP: 5/119 predicted (Bacteroidota, test DB)
+QC12    Mobilome Detection                   COMPLETE (mobileOG-db pending server recovery)  124 plasmids | 16 IS | 0 integrons | mobileOG pending
+------------------------------------------------------------------------------
+SUMMARY: 11 PASS | 1 PARTIAL | 0 FAIL | 0 MISSING
+
+Notes:
+  QC11 upgraded PARTIAL→PASS (2026-02-28): iPHoP 1.4.2 completed with test DB
+    5/119 contigs predicted; all hosts Bacteroidota (Bacteroides/Phocaeicola) —
+    biologically coherent for healthy child gut phageome.
+    RaFAH R model (16 GB) skipped on laptop; production DB run needed on server.
+    Output: pipeline_run/10_prophages/virome/iphop/Host_prediction_to_genus_m90.csv
+
+Pending items (not blocking pipeline):
+  - PHASTEST: batch IDs saved; retry when cluster recovers
+    Cmd: python3 pipeline_run/scripts/phastest_submit.py \
+           --batch_ids BB_3288ee5236,BB_51980fe431,BB_6f5e98c05f,BB_3ba4ff53bf \
+           --out_dir pipeline_run/10_prophages/virome/phastest_results
+  - iPHoP production run: 278 GB Jun25 chunks intact at databases/iphop_chunks/
+    Needs server with ≥500 GB free + ≥64 GB RAM. RaFAH stub NOT needed on server.
+    Cmd: conda run -n iphop_env iphop predict \
+           --fa_file pipeline_run/08_viral_contigs/virome/consensus_viral_contigs_2tool.fasta \
+           --db_dir databases/iphop/ --out_dir pipeline_run/10_prophages/virome/iphop_production -t 16
+  - mobileOG-db DIAMOND: proteins pre-computed (4,848); run when server recovers
+    URL: https://mobileogdb.flsi.cloud.vt.edu/entries/mobileOG-db_beatrix-1.6.All.faa
+==============================================================================

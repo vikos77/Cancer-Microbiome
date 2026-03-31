@@ -1,0 +1,94 @@
+bin	total_IS	IS_top_fam	IS_families
+bin.1	0	none	
+bin.2	12	total	total:6;IS607:2;IS21:2;IS1634:1;IS256:1
+bin.3	0	none	
+bin.4	8	total	total:4;IS200/IS605:2;IS21:2
+bin.5	12	total	total:6;IS110:3;IS3:2;IS21:1
+bin.6	26	total	total:13;IS3:6;IS21:2;IS1182:1;IS1595:1;ISL3:1;IS30:1;IS66:1
+bin.7	8	IS200/IS605	IS200/IS605:4;total:4
+bin.8	4	IS21	IS21:2;total:2
+bin.9	2	IS1182	IS1182:1;total:1
+bin.10	18	total	total:9;IS21:3;IS200/IS605:2;IS110:1;IS1634:1;IS5:1;IS66:1
+bin.11	8	total	total:4;IS256:2;IS3:2
+bin.12	2	IS3	IS3:1;total:1
+bin.13	0	none	
+bin.14	0	none	
+bin.15	0	none	
+bin.16	0	none	
+bin.17	0	none	
+bin.18	0	none	
+bin.19	2	IS21	IS21:1;total:1
+bin.20	0	none	
+bin.21	2	ISNCY	ISNCY:1;total:1
+bin.22	4	IS21	IS21:2;total:2
+bin.23	0	none	
+bin.24	36	total	total:18;IS21:9;IS30:3;IS3:3;IS66:2;IS630:1
+bin.25	4	IS21	IS21:2;total:2
+bin.26	36	total	total:18;IS66:4;IS1182:2;IS4:2;IS110:2;IS1595:2;IS21:1;ISL3:1;IS3:1;IS1380:1;IS30:1;IS630:1
+bin.27	0	none	
+bin.28	6	total	total:3;IS256:1;IS481:1;IS200/IS605:1
+bin.29	10	total	total:5;IS21:2;IS30:2;IS110:1
+bin.30	6	total	total:3;IS21:2;IS110:1
+bin.31	0	none	
+bin.32	4	total	total:2;IS256:1;IS1182:1
+bin.33	6	total	total:3;IS256:1;IS982:1;ISL3:1
+bin.34	12	total	total:6;IS21:3;IS200/IS605:2;IS256:1
+bin.35	6	total	total:3;IS21:2;IS110:1
+bin.36	0	none	
+bin.37	4	total	total:2;IS30:1;IS21:1
+bin.38	0	none	
+bin.39	14	total	total:7;IS607:2;IS30:2;IS110:2;IS1182:1
+bin.40	18	total	total:9;IS66:3;IS21:2;IS3:2;IS200/IS605:1;IS110:1
+bin.41	2	IS3	IS3:1;total:1
+bin.42	10	total	total:5;IS1182:2;IS3:2;IS21:1
+bin.43	14	total	total:7;IS200/IS605:3;IS1182:1;IS66:1;IS30:1;IS21:1
+bin.44	8	total	total:4;IS21:2;IS200/IS605:1;IS1182:1
+bin.45	2	IS21	IS21:1;total:1
+bin.46	76	total	total:38;IS66:8;IS21:8;IS110:3;IS256:3;IS1182:3;IS982:3;IS3:2;IS1380:2;IS1595:2;IS30:1;IS4:1;ISL3:1;ISAS1:1
+bin.47	6	IS110	IS110:3;total:3
+bin.48	4	total	total:2;IS3:1;IS21:1
+bin.49	0	none	
+bin.50	0	none	
+bin.51	2	IS21	IS21:1;total:1
+bin.52	6	total	total:3;IS66:2;IS91:1
+bin.53	6	total	total:3;IS66:2;IS200/IS605:1
+bin.54	8	total	total:4;IS21:2;IS630:1;IS5:1
+bin.55	8	total	total:4;IS21:2;new:1;IS200/IS605:1
+bin.56	2	IS110	IS110:1;total:1
+bin.57	0	none	
+bin.58	2	IS30	IS30:1;total:1
+bin.59	0	none	
+bin.60	0	none	
+bin.61	10	total	total:5;IS66:2;ISAS1:1;IS256:1;IS21:1
+bin.62	6	total	total:3;IS1182:1;IS4:1;IS66:1
+bin.63	8	total	total:4;IS21:2;IS110:1;IS1380:1
+bin.64	4	total	total:2;IS110:1;IS3:1
+bin.65	0	none	
+bin.66	6	total	total:3;IS21:2;IS200/IS605:1
+bin.67	0	none	
+bin.68	0	none	
+bin.69	32	total	total:16;IS200/IS605:4;IS1634:3;IS21:2;IS256:2;IS3:2;IS91:1;ISL3:1;IS701:1
+bin.70	0	none	
+bin.71	0	none	
+bin.72	2	IS3	IS3:1;total:1
+bin.73	2	IS21	IS21:1;total:1
+bin.74	4	total	total:2;IS4:1;IS21:1
+bin.75	14	total	total:7;IS1182:4;IS21:2;IS66:1
+bin.76	2	IS1182	IS1182:1;total:1
+bin.77	10	total	total:5;IS4:3;IS1380:1;IS1182:1
+bin.78	4	total	total:2;IS1182:1;IS21:1
+bin.79	10	total	total:5;ISL3:1;IS21:1;IS256:1;IS3:1;IS30:1
+bin.80	100	total	total:50;IS21:9;IS66:9;IS110:6;IS256:4;IS200/IS605:3;IS1182:3;IS1595:2;IS4:2;IS3:2;ISL3:2;IS982:2;IS1380:1;ISAS1:1;IS607:1;IS91:1;ISNCY:1;IS481:1
+bin.81	12	total	total:6;IS200/IS605:2;IS21:2;IS110:1;IS66:1
+bin.82	0	none	
+bin.83	18	total	total:9;IS30:3;IS3:2;IS256:2;IS66:1;IS21:1
+bin.84	10	total	total:5;IS21:2;IS66:2;IS110:1
+bin.85	0	none	
+bin.86	10	total	total:5;IS21:4;IS200/IS605:1
+bin.87	0	none	
+bin.88	4	IS66	IS66:2;total:2
+bin.89	2	IS3	IS3:1;total:1
+bin.90	0	none	
+bin.91	0	none	
+bin.92	16	total	total:8;IS200/IS605:2;IS3:2;IS110:1;IS30:1;IS1182:1;IS630:1
+ALL_CONTIGS		plasmids=1294	mobileOG_hits=9615 (Bakta MAG bins); classes={'replication/recombination/repair': 3294, 'stability/transfer/defense': 678, 'phage': 1043, 'integration/excision': 998, 'transfer': 1827}

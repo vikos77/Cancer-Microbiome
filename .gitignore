@@ -119,11 +119,12 @@ pipeline_run/13_integration/**/*.tsv
 pipeline_run/13_integration/**/*.csv
 pipeline_run/qc_checkpoints/
 
-# Keep these integration outputs (whitelisted)
-!pipeline_run/13_integration/**/qc_dashboard*.txt
-!pipeline_run/13_integration/**/pipeline_summary*.md
-!pipeline_run/13_integration/**/master_viral_table*.tsv
-!pipeline_run/13_integration/**/iphop_fullDB_results*.md
+# Integration outputs — only include anonymised public subdirs
+pipeline_run/13_integration/*
+!pipeline_run/13_integration/Wirbel_CRC_public/
+!pipeline_run/13_integration/Wirbel_CRC_public/**
+!pipeline_run/13_integration/virome_public/
+!pipeline_run/13_integration/virome_public/**
 
 # QC checkpoints — use anonymised public copies only
 pipeline_run/qc_checkpoints/

@@ -1,0 +1,31 @@
+bin	df_total	df_top_type	df_types	padloc_total	padloc_top_type	padloc_types	crispr_arrays
+bin.1	4	Kiwa	Kiwa:2;RloC:1;RM:1	12	PDC-S07	PDC-S07:2;PDC-S01:2;kiwa:2;PDC-S02:1;VSPR:1	0
+bin.2	8	Wadjet	Wadjet:3;RM:2;SspBCDE:1;SanaTA:1;AbiQ:1	15	DMS_other	DMS_other:2;wadjet_type_I:2;PDC-S01:2;PDC-S22:2;AbiQ:1	1
+bin.3	4	Cas	Cas:3;AbiE:1	8	cas_type_other	cas_type_other:3;PDC-S23:2;PDC-S01:2;AbiE:1	6
+bin.4	8	RM	RM:4;Shango:2;Lamassu-Fam:2	16	gabija	gabija:3;PDC-S01:3;Shango:2;Lamassu_Family:2;PDC-S07:2	0
+bin.5	8	RM	RM:3;Paris:2;MazEF:1;HEC-05:1;CBASS:1	17	PDC-S05	PDC-S05:3;Paris:2;PDC-S27:2;SoFic:1;Mokosh_TypeII:1	2
+bin.6	4	Shango	Shango:2;RM:2	14	PDC-S01	PDC-S01:6;PDC-S02:2;Shango:2;RM_type_II:2;PDC-S27:1	6
+bin.7	10	Cas	Cas:3;RM:3;Paris:1;BREX:1;SanaTA:1	20	RM_type_II	RM_type_II:3;SoFic:2;PDC-S01:2;cas_type_III-D:2;PDC-S04:1	6
+bin.8	5	RM	RM:1;Wadjet:1;DS-27:1;AbiQ:1;Mokosh:1	11	PDC-S04	PDC-S04:2;wadjet_other:2;Mokosh_TypeII:1;wadjet_type_I:1;AbiQ:1	1
+bin.9	2	Abi2	Abi2:1;Wadjet:1	10	PDC-S01	PDC-S01:2;PDC-S03:1;cas_type_other:1;Mokosh_TypeII:1;wadjet_other:1	7
+bin.10	0	none		2	cas_type_other	cas_type_other:1;PDC-S02:1	3
+bin.11	4	Nhi	Nhi:1;RM:1;Wadjet:1;PrrC:1	14	PDC-S01	PDC-S01:4;AbiL:2;AbiE:1;RM_type_I:1;AbiO-Nhi_family:1	2
+bin.12	3	Hachiman	Hachiman:1;RM:1;CoCoNut:1	19	PDC-S01	PDC-S01:8;PDC-S27:4;PDC-S04:1;PDC-S08:1;RM_type_II:1	0
+bin.13	6	SanaTA	SanaTA:2;RM:2;pAgo:1;Prometheus:1	10	PDC-S05	PDC-S05:3;AbiE:2;PDC-M29:1;PDC-S37:1;argonaute_solo:1	0
+bin.14	4	RM	RM:2;DS-8:1;Paris:1	11	PDC-S01	PDC-S01:3;Paris:1;PD-T4-6:1;HEC-01:1;VSPR:1	3
+bin.15	3	Menshen	Menshen:1;DS-35:1;Septu:1	13	HEC-01	HEC-01:2;PDC-M29:2;PDC-S05:2;PDC-S13:1;SoFic:1	2
+bin.16	0	none		0	none		0
+bin.17	0	none		1	SoFic	SoFic:1	0
+bin.18	2	Cas	Cas:2	4	cas_type_II-A	cas_type_II-A:2;PD-T4-6:2	2
+bin.19	101	RM	RM:35;Paris:8;AbiH:4;Prometheus:4;Septu:3	241	PDC-S01	PDC-S01:32;PDC-S05:22;DMS_other:16;PDC-S02:16;AbiL:10	10
+bin.20	0	none		4	DMS_other	DMS_other:2;Uzume:2	0
+bin.21	1	SoFIC	SoFIC:1	6	SoFic	SoFic:2;PDC-S01:1;PDC-S27:1;PD-T4-6:1;PDC-S25:1	4
+bin.22	4	RM	RM:2;AbiV:1;CBASS:1	10	DMS_other	DMS_other:2;RM_type_I:1;PDC-S01:1;SoFic:1;AbiV:1	0
+bin.23	0	none		2	PD-T4-6	PD-T4-6:1;PDC-S23:1	0
+bin.24	21	Cas	Cas:4;RM:4;SanaTA:2;AbiD:2;BREX:1	32	PDC-S01	PDC-S01:3;AbiE:2;AbiD:2;PDC-S02:2;cas_type_other:2	11
+bin.25	0	none		0	none		1
+bin.26	0	none		0	none		0
+bin.27	0	none		2	PDC-S01	PDC-S01:2	0
+bin.28	4	DRT	DRT:1;PrrC:1;Kiwa:1;RM:1	10	RM_type_I	RM_type_I:2;SoFic:1;viperin_solo:1;DRT_class_I:1;PrrC:1	1
+bin.29	1	Wadjet	Wadjet:1	3	wadjet_other	wadjet_other:2;PDC-S03:1	2
+bin.30	1	RM	RM:1	4	PDC-S04	PDC-S04:1;PD-T4-6:1;PDC-M04:1;PDC-S01:1	0

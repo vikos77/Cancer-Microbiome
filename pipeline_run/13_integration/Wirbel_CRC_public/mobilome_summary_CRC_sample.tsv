@@ -1,0 +1,32 @@
+bin	total_IS	IS_top_fam	IS_families
+bin.1	12	total	total:6;IS21:4;IS256:1;IS5:1
+bin.2	34	total	total:17;IS3:3;IS200/IS605:2;IS66:2;IS30:2;IS701:2;IS21:2;IS982:1;IS1634:1;IS256:1;IS1182:1
+bin.3	0	none	
+bin.4	0	none	
+bin.5	6	IS66	IS66:3;total:3
+bin.6	4	IS110	IS110:2;total:2
+bin.7	18	total	total:9;IS4:3;IS256:2;IS21:1;IS982:1;IS30:1;IS5:1
+bin.8	16	total	total:8;IS1182:2;IS5:2;IS110:2;ISNCY:1;IS21:1
+bin.9	14	total	total:7;IS1380:1;IS701:1;IS66:1;IS3:1;IS1182:1;IS21:1;IS200/IS605:1
+bin.10	4	total	total:2;IS3:1;IS21:1
+bin.11	8	total	total:4;IS200/IS605:2;IS21:1;IS607:1
+bin.12	28	total	total:14;IS3:5;IS200/IS605:4;IS1634:2;IS4:1;IS630:1;IS21:1
+bin.13	0	none	
+bin.14	6	total	total:3;IS256:2;IS982:1
+bin.15	14	total	total:7;IS66:3;IS21:2;ISAS1:1;IS256:1
+bin.16	2	IS256	IS256:1;total:1
+bin.17	0	none	
+bin.18	0	none	
+bin.19	0	none	
+bin.20	0	none	
+bin.21	16	total	total:8;IS110:4;IS3:3;IS21:1
+bin.22	26	total	total:13;IS30:3;ISL3:2;IS3:2;IS21:2;IS481:1;IS110:1;IS1182:1;IS200/IS605:1
+bin.23	16	total	total:8;IS21:2;IS66:1;ISL3:1;IS91:1;IS110:1;IS4:1;IS200/IS605:1
+bin.24	44	total	total:22;IS1182:6;IS200/IS605:3;IS3:3;ISL3:3;IS607:2;IS21:2;IS256:1;IS6:1;IS110:1
+bin.25	2	IS30	IS30:1;total:1
+bin.26	0	none	
+bin.27	0	none	
+bin.28	4	total	total:2;IS1182:1;IS21:1
+bin.29	6	total	total:3;IS21:2;IS1182:1
+bin.30	0	none	
+ALL_CONTIGS		plasmids=607	mobileOG_hits=4980 (Bakta MAG bins); classes={'replication/recombination/repair': 1502, 'stability/transfer/defense': 283, 'phage': 460, 'integration/excision': 612, 'transfer': 928}

@@ -1,0 +1,40 @@
+bin	element_type	contig_id	family	n_copies	pct_genome	bp_covered	contig_len	notes
+bin.1	insertion_sequence	megahit_11094	IS256	1	13.19	1019	7725	
+bin.1	insertion_sequence	megahit_11698	IS256	1	16.54	463	2799	
+bin.1	insertion_sequence	megahit_2083	IS110	1	25.84	1856	7182	
+bin.1	insertion_sequence	megahit_4323	IS30	1	13.54	923	6816	
+bin.1	insertion_sequence	megahit_5559	IS3	1	9.71	1313	13527	
+bin.1	insertion_sequence	metaspades_181	IS3	1	13.28	910	6850	
+bin.1	insertion_sequence	metaspades_542	IS3	1	7.88	283	3590	
+bin.1	insertion_sequence	metaviralspades_16	IS481	1	4.76	1108	23287	
+bin.1	insertion_sequence	metaviralspades_46	IS256	1	12.96	1685	13002	
+bin.1	insertion_sequence	bin.1.fa	total	9	0.29	9560	3344851	
+bin.2	insertion_sequence	megahit_14183	IS4	1	56.44	1311	2323	
+bin.2	insertion_sequence	metaspades_1335	IS91	1	42.59	868	2038	
+bin.2	insertion_sequence	metaspades_1370	IS4	1	81.33	1629	2003	
+bin.2	insertion_sequence	bin.2.fa	total	3	0.47	3808	805084	
+bin.4	insertion_sequence	megahit_5279	IS630	1	44.62	963	2158	
+bin.4	insertion_sequence	metaspades_1312	IS630	1	60.93	1257	2063	
+bin.4	insertion_sequence	metaspades_545	IS481	1	8.51	303	3560	
+bin.4	insertion_sequence	metaspades_840	IS256	1	12.09	325	2689	
+bin.4	insertion_sequence	bin.4.fa	total	4	1.35	2848	211509	
+all_contigs	plasmid	metaspades_392	MOBV	1	NA	4429	4429	score=0.9958 topology=No terminal repeats
+all_contigs	plasmid	metaspades_165	NA	1	NA	7266	7266	score=0.9956 topology=No terminal repeats
+all_contigs	plasmid	megahit_1934	MOBP1	1	NA	3472	3472	score=0.9953 topology=No terminal repeats
+all_contigs	plasmid	metaspades_971	MOBB	1	NA	2439	2439	score=0.9951 topology=No terminal repeats
+all_contigs	plasmid	metaspades_725	NA	1	NA	2957	2957	score=0.9949 topology=No terminal repeats
+all_contigs	plasmid	megahit_1581	MOBV	1	NA	5666	5666	score=0.9947 topology=No terminal repeats
+all_contigs	plasmid	metaspades_103	F_traW;F_traU;F_trbC;F_trbC;F_traF;F_traH;F_traG	1	NA	9069	9069	score=0.9945 topology=No terminal repeats
+all_contigs	plasmid	metaviralspades_2	NA	1	NA	4225	4225	score=0.9944 topology=DTR
+all_contigs	plasmid	metaspades_338	F_traV;F_traK;F_traE;F_traL	1	NA	4838	4838	score=0.9942 topology=No terminal repeats
+all_contigs	plasmid	metaspades_927	NA	1	NA	2513	2513	score=0.9938 topology=No terminal repeats
+all_contigs	plasmid	megahit_14926	NA	1	NA	4289	4289	score=0.9937 topology=DTR
+all_contigs	plasmid	metaspades_382	NA	1	NA	4493	4493	score=0.9932 topology=No terminal repeats
+all_contigs	plasmid	metaspades_936	F_traL;F_traE;F_traK	1	NA	2491	2491	score=0.9925 topology=No terminal repeats
+all_contigs	plasmid	metaspades_368	F_traL;F_traE;F_traK;F_traV	1	NA	4600	4600	score=0.9921 topology=No terminal repeats
+all_contigs	plasmid	metaspades_266	NA	1	NA	5565	5565	score=0.9919 topology=No terminal repeats
+all_contigs	plasmid	megahit_12694	NA	1	NA	3866	3866	score=0.9918 topology=No terminal repeats
+all_contigs	plasmid	megahit_4090	NA	1	NA	1930	1930	score=0.9918 topology=No terminal repeats
+all_contigs	plasmid	megahit_14804	NA	1	NA	3931	3931	score=0.9912 topology=DTR
+all_contigs	plasmid	megahit_1080	NA	1	NA	5155	5155	score=0.9911 topology=No terminal repeats
+all_contigs	plasmid	megahit_3985	MOBQ	1	NA	658	658	score=0.9909 topology=No terminal repeats

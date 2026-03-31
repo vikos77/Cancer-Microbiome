@@ -1,0 +1,79 @@
+================================================================================
+CLAUDE PIPELINE — QC DASHBOARD (Wirbel CRC Production Run)
+CRC:     CRC_sample (Stage III CRC, F.nucleatum 2.30%)
+Control: control_sample (healthy, depth-matched)
+================================================================================
+
+ID          Phase                           Status
+--------------------------------------------------------------------------------
+QC2-CRC     Host Depletion (CRC)            QC-2  PASS
+QC2-CTL     Host Depletion (Control)        QC-2  PASS
+QC3-CRC     Read QC (CRC)                   QC-3  PASS
+QC3-CTL     Read QC (Control)               QC-3  PASS
+QC4-CRC     Tax Profiling (CRC)             QC-4  PASS
+QC4-CTL     Tax Profiling (Control)         QC-4  PASS
+QC5-CRC     Assembly (CRC)                  PASS
+QC5-CTL     Assembly (Control)              PASS
+QC6-CRC     Decontam+Binning (CRC)          PASS
+QC6-CTL     Decontam+Binning (Control)      PASS
+QC6B-CRC    Bakta MAG Annotation (CRC)      QC-6B PASS
+QC6B-CTL    Bakta MAG Annotation (Control)  QC-6B PASS
+QC7-CRC     Viral ID (CRC)                  QC-7  PASS
+QC7-CTL     Viral ID (Control)              QC-7  PASS
+QC8-CRC     Phage Annotation (CRC)          QC-8  PASS
+QC8-CTL     Phage Annotation (Control)      PASS
+QC10-CRC    Prophage Activity (CRC)         PASS
+QC10-CTL    Prophage Activity (Control)     PASS
+QC11-CRC    Host Prediction (CRC)           PASS (full DB: 189/335 56.4%; RaFAH+AAI pending Ubuntu re-run)
+QC11-CTL    Host Prediction (Control)       PASS (full DB: 289/542 53.3%; RaFAH+AAI pending Ubuntu re-run)
+QC12-CRC    Mobilome (CRC)                  QC-12  PASS
+QC12-CTL    Mobilome (Control)              QC-12  PASS
+QC14        Defence Systems (both)          QC-14  PASS ✅
+--------------------------------------------------------------------------------
+SUMMARY: 23 PASS | 0 PARTIAL | 0 FAIL | 0 MISSING
+
+KEY FINDINGS SUMMARY
+--------------------------------------------------------------------------------
+CRC (CRC_sample):
+  Viral contigs (CheckV): 335
+  HQ/MQ contigs: 0/3
+  Active prophages: 0
+  DefenseFinder systems: 208
+  PADLOC systems: 511
+  CRISPR arrays: 70 (CRISPR spacers: 218 from Bakta MAGs)
+  Plasmids: 607
+  IS elements: 280
+  mobileOG hits (Bakta MAGs): 4,980
+    replication/recombination/repair: 1,502
+    transfer (conjugation): 928
+    integration/excision: 612
+    phage-associated: 460
+    stability/transfer/defense: 283
+  Bakta MAGs (30 bins): 141,148 CDS, 5.3% hypothetical, 5 oriC
+  Bakta AMR-related (bin.8): Beta-lactamase, Metallo-beta-lactamase,
+    NorM multidrug resistance, Aminoglycoside phosphotransferase
+  iPHoP full DB: 189/335 predicted (56.4%); top hosts: Bacteroides(69), Phocaeicola(23), Escherichia(12)
+  KEY: 6 Fusobacterium phages (CRC-only), 12 Escherichia phages (CRC-only)
+
+Control (control_sample):
+  Viral contigs (CheckV): 542
+  HQ/MQ contigs: 9/6
+  Active prophages: 0
+  DefenseFinder systems: 371
+  PADLOC systems: 913
+  CRISPR arrays: 202 (CRISPR spacers: 528 from Bakta MAGs)
+  Plasmids: 1294
+  IS elements: 712
+  mobileOG hits (Bakta MAGs): 9,615
+    replication/recombination/repair: 3,294
+    transfer (conjugation): 1,827
+    integration/excision: 998
+    phage-associated: 1,043
+    stability/transfer/defense: 678
+  Bakta MAGs (92 bins): 242,796 CDS, 6.7% hypothetical, 9 oriC
+  Bakta resistance-related (bin.8): MdtA multidrug resistance,
+    CzcA cobalt-zinc-cadmium resistance, DrrA daunorubicin/doxorubicin resistance
+  iPHoP full DB: 289/542 predicted (53.3%); top hosts: Bacteroides(48), Lachnospira(32), Phocaeicola(27)
+  KEY: Bifidobacterium(11), Faecalibacterium(19), Lachnospira(32) phages — all depleted/absent in CRC
+
+================================================================================
