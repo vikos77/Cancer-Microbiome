@@ -1,6 +1,6 @@
 # CLAUDE Pipeline — Part 02: Data Acquisition
 
-> **Navigation:** [01_SETUP](01_SETUP.md) → 02_DATA_ACQUISITION → [03_HOST_DEPLETION](03_HOST_DEPLETION.md)
+> **Navigation:** [01_SETUP](01_SETUP.md) → 02_DATA_ACQUISITION → [Phase 1-2 SOPs](sops/phase_1_sop.md)
 
 ---
 

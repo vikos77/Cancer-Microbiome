@@ -1,6 +1,6 @@
 # CLAUDE Pipeline — Part 01: Setup & Architecture
 
-> **Navigation:** 01_SETUP → [02_DATA_ACQUISITION](02_DATA_ACQUISITION.md) → [03_HOST_DEPLETION](03_HOST_DEPLETION.md) → [04_READ_QC_PROFILING](04_READ_QC_PROFILING.md) → [05_ASSEMBLY](05_ASSEMBLY.md) → [06_DECONTAM_MAGS](06_DECONTAM_MAGS.md) → [07_VIRAL_ID](07_VIRAL_ID.md) → [08_PROPHAGE_ANNOTATION](08_PROPHAGE_ANNOTATION.md) → [09_MOBILOME](09_MOBILOME.md) → [10_INTEGRATION](10_INTEGRATION.md)
+> **Navigation:** 01_SETUP → [02_DATA_ACQUISITION](02_DATA_ACQUISITION.md) → [Phase 1-2 SOPs](sops/phase_1_sop.md) → [Phase 3-4 SOPs](sops/phase_3_sop.md) → [Phase 5 SOP](sops/phase_5_sop.md) → [Phase 6 SOP](sops/phase_6_sop.md) → [Phase 7 SOP](sops/phase_7_sop.md) → [Phase 8 SOP](sops/phase_8_sop.md) → [Phase 9 SOP](sops/phase_9_sop.md) → [Phase 10-11 SOPs](sops/phase_10_sop.md)
 
 ---
 
