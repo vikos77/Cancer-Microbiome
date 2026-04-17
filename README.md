@@ -18,13 +18,13 @@ The full pipeline covers everything from raw read acquisition through to an inte
 
 Three principles underpin every decision in this pipeline, derived directly from the TCGA microbiome controversy:
 
-**Principle 1 — Decontaminate first, ask questions later.**
+**Principle 1 - Decontaminate first, ask questions later.**
 Every signal must survive multi-layer decontamination before it is considered real. False positives in low-biomass settings (tumour WGS: ~0.35% microbial reads) are far more damaging than false negatives.
 
-**Principle 2 — Consensus over any single tool.**
+**Principle 2 - Consensus over any single tool.**
 No single phage detection tool is sufficient. We require agreement from at least two independent methods with orthogonal algorithms before calling a contig as viral.
 
-**Principle 3 — Every step must be auditable.**
+**Principle 3 - Every step must be auditable.**
 Each phase produces a QC checkpoint file. If a checkpoint fails, the pipeline halts with a diagnostic message. No silent failures.
 
 ---
