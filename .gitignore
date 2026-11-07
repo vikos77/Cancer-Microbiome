@@ -1,0 +1,7 @@
+output/
+published_tables/
+Rplots.pdf
+.Rhistory
+.RData
+.Rproj.user/
+.DS_Store

@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite it as below."
+title: "Artefact or Ecology? Leveraging bacteria–phage defence and mobilome signatures to distinguish human-associated MAGs from probable contaminants in cancer metagenomes: analysis code"
+authors:
+  - family-names: Muthuraman
+    given-names: Vigneshwaran
+    affiliation: University of Cambridge
+    orcid: "https://orcid.org/0009-0000-4858-0321"
+  - family-names: Rand
+    given-names: Vikki
+  - family-names: Shehreen
+    given-names: Saadlee
+version: 1.0.0
+license: MIT
+repository-code: "https://github.com/vikos77/Cancer-Microbiome"
+keywords:
+  - metagenomics
+  - bacterial defence systems
+  - insertion sequences
+  - bacteriophage
+  - metastatic cancer
