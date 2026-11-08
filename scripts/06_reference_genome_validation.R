@@ -474,7 +474,7 @@ build_prevalence6 <- function(genus, type_col) {
   top_of <- function(col) wide %>% slice_max(.data[[col]], n = TOP_N, with_ties = FALSE) %>% pull(.data[[type_col]])
   top_mag <- top_of("prev_MAG")
 
-  list(data = wide %>% filter(.data[[type_col]] %in% top_mag) %>% rename(type = .data[[type_col]]) %>%
+  list(data = wide %>% filter(.data[[type_col]] %in% top_mag) %>% rename(type = all_of(type_col)) %>%
          arrange(desc(prev_MAG)),
        n_mag = dn$n_mag, n_human = dn$Human, n_nonhuman = dn$NonHuman_shown, genus = genus,
        overlap_mag_human    = length(intersect(top_mag, top_of("prev_Human"))),

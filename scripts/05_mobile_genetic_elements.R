@@ -238,6 +238,8 @@ wirbel_mapped <- read_tsv(file.path(WBASE, "pharokka_cds_wirbel.tsv"), show_col_
              by = c("sample_id", "bin_id", "contig" = "contig_id")) %>%
   mutate(group = factor("Wirbel CRC", levels = GROUP3_LEVELS),
          category_clean = if_else(is.na(category) | category == "", "unknown function", category))
+# Contigs are grouped by name below, which is safe only while proviral contig names are unique
+stopifnot(n_distinct(wirbel_mapped$contig) == n_distinct(paste(wirbel_mapped$sample_id, wirbel_mapped$contig)))
 
 # A contig is temperate if Pharokka annotates any integration/excision gene on it
 per_contig <- function(mapped, ...) mapped %>% group_by(contig, group) %>% summarise(..., .groups = "drop")

@@ -8,7 +8,7 @@
 #   3. Figure 3
 #      A  Hartwig defence, human-associated vs probable contaminant
 #      B  Wirbel CRC, top 20 defence systems
-#      C  Defence systems shared between Hartwig human-associated and Wirbel CRC
+#      C  Top 20 defence systems of Hartwig human-associated or Wirbel CRC, side by side
 #      D  Hartwig anti-defence, human-associated vs probable contaminant
 #      E  Wirbel CRC, top 10 anti-defence systems
 #      F  Anti-defence systems shared between Hartwig human-associated and Wirbel CRC

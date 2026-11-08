@@ -7,7 +7,8 @@ colorectal cancer (CRC) stool cohort (Zeller et al., 2014; Wirbel et al., 2019) 
 for comparison.
 
 The scripts start from the compiled outputs of the annotation tools (in `data/`) and reproduce
-all figures, Tables 3 and S4 to S6, and the MAG classifications behind Tables S1 to S3.
+Figures 2 to 6, S1 and S2, Tables 3 and S4 to S6, and the MAG classifications behind Tables S1
+to S3. Figure 1 is a schematic of the workflow and is not generated from data.
 
 ## Repository layout
 
@@ -35,12 +36,11 @@ Rscript scripts/04_insertion_sequences.R
 Rscript scripts/05_mobile_genetic_elements.R
 Rscript scripts/06_reference_genome_validation.R
 Rscript scripts/07_phage_host_prediction.R
-Rscript scripts/workflow_schematic.R
 ```
 
 Scripts 00 and 01 classify the MAGs and must run first. Scripts 02 to 07 read their output
-and can run in any order. Each script checks its results against the values reported in the
-manuscript and stops if any of them differ.
+and can run in any order. The scripts check key results against the values reported in the
+manuscript and stop if any of them differ.
 
 | Script | Produces |
 |---|---|
@@ -52,7 +52,6 @@ manuscript and stops if any of them differ.
 | `05_mobile_genetic_elements.R` | Figure 5 |
 | `06_reference_genome_validation.R` | Figure 6, Figure S2 |
 | `07_phage_host_prediction.R` | Figure S1 |
-| `workflow_schematic.R` | Figure 1 |
 
 Figures are written to `output/figures/` (PDF and 600 dpi PNG), the data behind each panel to
 `output/figure_data/`, tables to `output/tables/` and the MAG classifications to
@@ -65,16 +64,10 @@ folder at the repository root, named as in the scripts. Without them the compari
 
 ### Requirements
 
-R 4.5.3 with tidyverse 2.0.0, ggplot2 4.0.2, patchwork 1.3.2, scales 1.4.0 and
-systemfonts 1.3.2. `workflow_schematic.R` also needs `rsvg-convert` (librsvg) on the path and the
-Helvetica font. On macOS:
-
-```sh
-brew install librsvg
-```
+R 4.5.3 with tidyverse 2.0.0, ggplot2 4.0.2, patchwork 1.3.2 and scales 1.4.0.
 
 ```r
-install.packages(c("tidyverse", "patchwork", "scales", "systemfonts"))
+install.packages(c("tidyverse", "patchwork", "scales"))
 ```
 
 Running all scripts takes a few minutes on a laptop.

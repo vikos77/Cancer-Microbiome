@@ -125,7 +125,8 @@ ENVIRONMENTAL_GENERA <- c("Ralstonia", "Bradyrhizobium", "Pelomonas", "Novosphin
 # Two Caulobacterales MAGs with no GTDB genus, called environmental at order level
 ENVIRONMENTAL_MAGS <- c("S508C470", "S3891C470")
 
-# The other two flagged MAGs (S79C1114, S3591C1867) have no environmental evidence and are retained.
+# The literature does not place the other two flagged MAGs (S79C1114, S3591C1867) in an
+# environmental lineage, so they are retained.
 
 # -----------------------------------------------------------------------------
 # Final classification
