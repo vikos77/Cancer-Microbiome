@@ -11,6 +11,8 @@ authors:
   - family-names: Shehreen
     given-names: Saadlee
 version: 1.0.0
+doi: 10.5281/zenodo.24060765
+date-released: 2026-11-08
 license: MIT
 repository-code: "https://github.com/vikos77/Cancer-Microbiome"
 keywords:

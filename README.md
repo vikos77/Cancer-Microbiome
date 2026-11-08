@@ -1,5 +1,7 @@
 # Artefact or Ecology? Leveraging bacteria–phage defence and mobilome signatures to distinguish human-associated MAGs from probable contaminants in cancer metagenomes
 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24060765.svg)](https://doi.org/10.5281/zenodo.24060765)
+
 Analysis code for our study of bacterial defence systems, anti-defence systems, insertion
 sequences and phages in metagenome-assembled genomes (MAGs) recovered from metastatic tumour
 biopsies of the Hartwig Medical Foundation cohort (Battaglia et al., 2024), with an independent
@@ -88,8 +90,9 @@ are those tools' outputs, compiled across MAGs.
 
 ## Citation
 
-If you use this code, please cite the paper (citation to follow) and this repository (see
-`CITATION.cff`).
+If you use this code, please cite the paper (citation to follow) and this repository,
+archived on Zenodo at [10.5281/zenodo.24060765](https://doi.org/10.5281/zenodo.24060765)
+(see `CITATION.cff`).
 
 Battaglia TW, Mimpen IL, Traets JJH, et al. A pan-cancer analysis of the microbiome in
 metastatic cancer. *Cell* 2024;187(9):2324-2335.e19. https://doi.org/10.1016/j.cell.2024.03.021
